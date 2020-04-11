@@ -20,10 +20,9 @@
 
                         {{-- Cedula --}}
                             <div class="form-group row">
-                                <label for="cedula" class="col-md-4 col-form-label text-md-right">{{ __('Cedula') }}</label>
-
+                                <label for="codigo" class="col-md-4 col-form-label text-md-right">{{ __('Cedula') }}</label>
                                 <div class="col-md-6">
-                                    <input id="cedula" type="text" pattern="[0-9]{10}" placeholder="{{ $cliente->cedula }}" class="form-control @error('cedula') is-invalid @enderror" disabled name="cedula" value="{{ $cliente->cedula }}" required autocomplete="cedula" autofocus>
+                                    <input type="input" disabled value="{{ $cliente->cedula }}" class="form-control @error('cedula') is-invalid @enderror" placeholder="{{ $cliente->cedula }}" autocomplete="cedula" autofocus>
 
                                     @error('cedula')
                                         <span class="invalid-feedback" role="alert">
@@ -35,12 +34,11 @@
 
                         {{-- Nombre --}}
                             <div class="form-group row">
-                                <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Nombre') }}</label>
-
+                                <label for="codigo" class="col-md-4 col-form-label text-md-right">{{ __('Nombre') }}</label>
                                 <div class="col-md-6">
-                                    <input id="name" type="text" pattern="[A-Za-z]{1,25}" class="form-control @error('name') is-invalid @enderror" placeholder="{{ $cliente->name }}" name="name" value="{{ $cliente->name }}" required autocomplete="name" autofocus>
+                                    <input type="input" value="{{ $cliente->name }}" onkeyup="mayus(this);" class="form-control @error('nombre') is-invalid @enderror" placeholder="{{ $cliente->name }}" disabled autocomplete="nombre" autofocus>
 
-                                    @error('name')
+                                    @error('nombre')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
@@ -50,12 +48,11 @@
 
                         {{-- Apellido Paterno --}}
                             <div class="form-group row">
-                                <label for="apellido_pater" class="col-md-4 col-form-label text-md-right">{{ __('Apellido Paterno') }}</label>
-
+                                <label for="codigo" class="col-md-4 col-form-label text-md-right">{{ __('Apellido Paterno') }}</label>
                                 <div class="col-md-6">
-                                    <input id="apellido_pater" type="text" pattern="[A-Za-z]{1,25}" class="form-control @error('apellido_pater') is-invalid @enderror" placeholder="{{ $cliente->apellido_pater }}" name="apellido_pater" value="{{ $cliente->apellido_pater }}" required autocomplete="apellido_pater" autofocus>
+                                    <input type="input" value="{{ $cliente->apellido_pater }}" onkeyup="mayus(this);" class="form-control @error('apellido_paterno') is-invalid @enderror" placeholder="{{ $cliente->apellido_pater }}" disabled autocomplete="apellido_paterno" autofocus>
 
-                                    @error('apellido_pater')
+                                    @error('apellido_paterno')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
@@ -65,13 +62,11 @@
 
                         {{-- Apellido Materno --}}
                             <div class="form-group row">
-
-                                <label for="apellido_mater" class="col-md-4 col-form-label text-md-right">{{ __('Apellido Materno') }}</label>
-
+                                <label for="codigo" class="col-md-4 col-form-label text-md-right">{{ __('Apellido Materno') }}</label>
                                 <div class="col-md-6">
-                                    <input id="apellido_mater" type="text" pattern="[A-Za-z]{1,25}" class="form-control @error('apellido_mater') is-invalid @enderror" placeholder="{{ $cliente->apellido_mater }}" name="apellido_mater" value="{{ $cliente->apellido_mater }}" required autocomplete="apellido_mater" autofocus>
+                                    <input type="input" value="{{ $cliente->apellido_mater }}" onkeyup="mayus(this);" class="form-control @error('apellido_materno') is-invalid @enderror" placeholder="{{ $cliente->apellido_mater }}" disabled autocomplete="apellido_materno" autofocus>
 
-                                    @error('apellido_mater')
+                                    @error('apellido_materno')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
@@ -81,12 +76,11 @@
 
                         {{-- Direccion --}}
                             <div class="form-group row">
-                                <label for="direc" class="col-md-4 col-form-label text-md-right">{{ __('Direccion') }}</label>
-
+                                <label for="codigo" class="col-md-4 col-form-label text-md-right">{{ __('Direccion') }}</label>
                                 <div class="col-md-6">
-                                    <input id="direc" type="text" class="form-control @error('direc') is-invalid @enderror" placeholder="{{ $cliente->direc }}" name="direc" value="{{ $cliente->direc }}" required autocomplete="direc" autofocus>
+                                    <input type="input" name="direccion" value="{{ $cliente->direc }}" class="form-control @error('direccion') is-invalid @enderror" placeholder="{{ $cliente->direc }}" autocomplete="direccion" autofocus>
 
-                                    @error('direc')
+                                    @error('direccion')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
@@ -96,12 +90,11 @@
 
                         {{-- Telefono --}}
                             <div class="form-group row">
-                                <label for="tlf" class="col-md-4 col-form-label text-md-right">{{ __('Telefono') }}</label>
-
+                                <label for="codigo" class="col-md-4 col-form-label text-md-right">{{ __('Telefono') }}</label>
                                 <div class="col-md-6">
-                                    <input id="tlf" type="text" pattern="[0-9]{7,10}" class="form-control @error('tlf') is-invalid @enderror" placeholder="{{ $cliente->tlf }}" name="tlf" value="{{ $cliente->tlf }}" required autocomplete="tlf" autofocus>
+                                    <input type="input" name="telefono" value="{{ $cliente->tlf }}" class="form-control @error('telefono') is-invalid @enderror" placeholder="{{ $cliente->tlf }}" autocomplete="telefono" autofocus>
 
-                                    @error('tlf')
+                                    @error('telefono')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
@@ -111,10 +104,9 @@
 
                         {{-- Email --}}
                             <div class="form-group row">
-                                <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
-
+                                <label for="codigo" class="col-md-4 col-form-label text-md-right">{{ __('Email') }}</label>
                                 <div class="col-md-6">
-                                    <input id="email" type="email" class="form-control" placeholder="{{ $cliente->email }}" name="email" value="{{ $cliente->email }}" required autocomplete="email">
+                                    <input type="input" name="email" value="{{ $cliente->email }}" class="form-control @error('email') is-invalid @enderror" placeholder="{{ $cliente->email }}" autocomplete="email" autofocus>
 
                                     @error('email')
                                         <span class="invalid-feedback" role="alert">
@@ -126,7 +118,7 @@
 
                         {{-- btn--}}
                             <div class="form-group row mb-0">
-                                <div class="col-md-6 offset-md-5">
+                                <div class="col-md-6 offset-md-6">
                                     <button type="submit" class="btn btn-primary">Actualizar</button>
                                 </div>
                             </div>

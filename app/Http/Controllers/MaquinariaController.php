@@ -6,6 +6,8 @@ use App\Tarea;
 use App\Maquinaria;
 use App\MaquinariaTarea;
 use Illuminate\Http\Request;
+use App\Http\Requests\CreateMaquinaria;
+use App\Http\Requests\EditMaquinaria;
 use Barryvdh\DomPDF\Facade as PDF;
 use Vinkla\Hashids\Facades\Hashids;
 
@@ -47,7 +49,7 @@ class MaquinariaController extends Controller
      */
     public function create()
     {
-        //
+        return view('maquinarias.create');
     }
 
     /**
@@ -56,43 +58,23 @@ class MaquinariaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateMaquinaria $request)
     {
-        if ($request->marca) {
-            if ($maquinarias = Maquinaria::where('codigo_nro_gad', $request->codigo)->first()) {
+        $maquinarias = new Maquinaria();
 
-                return redirect()->route('maquinarias.index')
-                        ->with('danger', 'Error, el Codigo del Vehiculo ya existe');
+        $maquinarias->codigo_nro_gad = $request->codigo;
+        $maquinarias->placa = $request->placa;
+        $maquinarias->marca_id = $request->marca;
+        $maquinarias->modelo = $request->modelo;
+        $maquinarias->anio = $request->anio;
+        $maquinarias->kilometraje = $request->kilometraje;
+        $maquinarias->tipo_vehiculo = $request->tipo;
+        $maquinarias->observacion = $request->observacion;
 
-            } else {
+        $maquinarias->save();
 
-                if ($maquinarias = Maquinaria::where('placa', $request->placa)->first()) {
-
-                    return redirect()->route('maquinarias.index')
-                            ->with('danger', 'Error, el Vehiculo ya existe');
-
-                } else {
-
-                    $maquinarias = new Maquinaria();
-
-                    $maquinarias->codigo_nro_gad = $request->codigo;
-                    $maquinarias->placa = $request->placa;
-                    $maquinarias->marca_id = $request->marca;
-                    $maquinarias->modelo = $request->modelo;
-                    $maquinarias->anio = $request->anio;
-                    $maquinarias->kilometraje = $request->kilometraje;
-                    $maquinarias->tipo_vehiculo = $request->tipo;
-                    $maquinarias->observacion = $request->observacion;
-
-                    $maquinarias->save();
-
-                    return redirect()->route('maquinarias.index')
-                            ->with('info', 'Vehiculo agregado');
-                }
-            }
-        } else {
-            return back()->with('danger', 'Error, no se proporciono una marca');
-        }
+        return redirect()->route('maquinarias.show', Hashids::encode(Maquinaria::where('placa', $request->placa)->first()->id))
+                ->with('info', 'Vehiculo agregado');
     }
 
     /**
@@ -120,21 +102,21 @@ class MaquinariaController extends Controller
             if ($codM = Maquinaria::where('codigo_nro_gad', $request->codigo_maquinaria)->first()) {
                 $tarea = Tarea::where('fake_id', $request->codigo_tarea)->first();
                 $maquinaria = Maquinaria::where('codigo_nro_gad', $request->codigo_maquinaria)->first();
-                
+
                 if($tarea->estado == 'Finalizada'){
                     return back()->with('danger', 'Error, la tarea seleccionada ha finalizado');
                 }else{
                     if ($tarea->maquinarias()->sync($maquinaria)) {
                         $tarea->maquinarias()->sync($maquinaria);
-    
+
                         return redirect()->route('tareas.show', Hashids::encode($tarea->id))
                                     ->with('info', 'Vehiculos asignados');
-    
+
                     } else {
                         return back()->with('danger', 'Error, no se pudo asignar los vehiculos');
                     }
                 }
-                
+
             } else {
                 return back()->with('danger', 'Error, no se pudo encontrar el vehiculo');
             }
@@ -202,14 +184,11 @@ class MaquinariaController extends Controller
      * @param  \App\Maquinaria  $maquinaria
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $maquinaria)
+    public function update(EditMaquinaria $request, $maquinaria)
     {
         if ($maquinarias = Maquinaria::findOrFail($maquinaria)) {
             $maquinarias = Maquinaria::findOrFail($maquinaria);
 
-            $maquinarias->marca_id = $request->marca;
-            $maquinarias->modelo = $request->modelo;
-            $maquinarias->anio = $request->anio;
             $maquinarias->kilometraje = $request->kilometraje;
             $maquinarias->tipo_vehiculo = $request->tipo;
             $maquinarias->observacion = $request->observacion;
@@ -220,9 +199,7 @@ class MaquinariaController extends Controller
                     ->with('info', 'Vehiculo actualizado');
 
         } else {
-
             return back()->with('daner', 'No se encontro el Vehiculo');
-
         }
     }
 

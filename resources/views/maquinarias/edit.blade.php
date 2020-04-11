@@ -22,7 +22,7 @@
                             <div class="form-group row">
                                 <label for="codigo" class="col-md-4 col-form-label text-md-right">Codigo GAD</label>
                                 <div class="col-md-6">
-                                    <input type="input" disabled id="codigo" name="codigo" value="{{$maquinaria->codigo_nro_gad}}" placeholder="{{$maquinaria->codigo_nro_gad}}" class="form-control" required autocomplete="codigo" autofocus>
+                                    <input type="input" disabled id="codigo" value="{{$maquinaria->codigo_nro_gad}}" placeholder="{{$maquinaria->codigo_nro_gad}}" class="form-control" required autocomplete="codigo" autofocus>
                                 </div>
                             </div>
 
@@ -30,7 +30,7 @@
                             <div class="form-group row">
                                 <label for="codigo" class="col-md-4 col-form-label text-md-right">Placa</label>
                                 <div class="col-md-6">
-                                    <input type="input" disabled id="placa" name="placa" value="{{$maquinaria->placa}}" placeholder="{{$maquinaria->placa}}" class="form-control" required autocomplete="placa" autofocus>
+                                    <input type="input" disabled id="placa" value="{{$maquinaria->placa}}" placeholder="{{$maquinaria->placa}}" class="form-control" required autocomplete="placa" autofocus>
                                 </div>
                             </div>
 
@@ -38,12 +38,11 @@
                             <div class="form-group row">
                                 <label for="codigo" class="col-md-4 col-form-label text-md-right">Marca</label>
                                 <div class="col-md-6">
-                                    <select id="marca" class="form-control" name="marca">
-                                        <option value="{{ $maquinaria->marcas->id }}" selected='true'>{{$maquinaria->marcas->marca }}</option>
-                                        @foreach(App\Marca::all() as $marcas)
-                                            <option value="{{ $marcas->id }}">  {{ $marcas->marca }}  </option>
-                                        @endforeach
-                                    </select>
+                                    @if ($maquinaria->marca_id)
+                                        <input type="input" disabled value="{{ $maquinaria->marcas->marca }}" class="form-control" required autocomplete="Fecha fin" autofocus>
+                                    @else
+                                        <input type="input" disabled value="N/A" class="form-control" required autocomplete="Fecha fin" autofocus>
+                                    @endif
                                 </div>
                             </div>
 
@@ -51,39 +50,52 @@
                             <div class="form-group row">
                                 <label for="codigo" class="col-md-4 col-form-label text-md-right">Modelo</label>
                                 <div class="col-md-6">
-                                    <input type="input" id="modelo" name="modelo" value="{{$maquinaria->modelo}}" placeholder="{{$maquinaria->modelo}}" class="form-control" required autocomplete="modelo" autofocus>
-                                </div>
-                            </div>
-
-                        {{-- Año --}}
-                            <div class="form-group row">
-                                <label for="codigo" class="col-md-4 col-form-label text-md-right">Año</label>
-                                <div class="col-md-6">
-                                    <input type="input" id="anio" name="anio" value="{{$maquinaria->anio}}" placeholder="{{$maquinaria->anio}}" class="form-control" required autocomplete="anio" autofocus>
+                                    <input type="input" disabled value="{{$maquinaria->modelo}} || {{ $maquinaria->anio }}" placeholder="{{$maquinaria->modelo}} || {{ $maquinaria->anio }}" class="form-control" required autocomplete="modelo" autofocus>
                                 </div>
                             </div>
 
                         {{-- Kilometraje --}}
                             <div class="form-group row">
-                                <label for="codigo" class="col-md-4 col-form-label text-md-right">Kilometraje</label>
+                                <label for="kilometraje" class="col-md-4 col-form-label text-md-right">{{ __('Kilometraje') }}</label>
+
                                 <div class="col-md-6">
-                                    <input type="number" name="kilometraje" value="{{ $maquinaria->kilometraje }}" class="form-control" required autocomplete="Fecha inicio" autofocus>
+                                    <input id="kilometraje" type="text" placeholder="{{ $maquinaria->kilometraje }}" class="form-control @error('kilometraje') is-invalid @enderror" name="kilometraje" value="{{ $maquinaria->kilometraje }}" autocomplete="kilometraje" autofocus>
+
+                                    @error('kilometraje')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
                             </div>
 
                         {{-- Tipo --}}
                             <div class="form-group row">
-                                <label for="codigo" class="col-md-4 col-form-label text-md-right">Tipo</label>
+
+                                <label for="tipo" class="col-md-4 col-form-label text-md-right">{{ __('Tipo') }}</label>
+
                                 <div class="col-md-6">
-                                    <input type="input" id="tipo" name="tipo" value="{{$maquinaria->tipo_vehiculo}}" placeholder="{{$maquinaria->tipo_vehiculo}}" class="form-control" required autocomplete="tipo" autofocus>
+                                    <input placeholder="{{ $maquinaria->tipo_vehiculo }}" type="text" class="form-control @error('tipo') is-invalid @enderror" name="tipo" value="{{ $maquinaria->tipo_vehiculo }}" autocomplete="tipo" autofocus>
+
+                                    @error('tipo')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
                             </div>
 
                         {{-- Observacion --}}
                             <div class="form-group row">
-                                <label for="detalle" class="col-md-4 col-form-label text-md-right">Observacion</label>
+                                <label for="detalle" class="col-md-4 col-form-label text-md-right">{{ __('Observacion') }}</label>
                                 <div class="col-md-6">
-                                    <textarea type="text" id="observacion" name="observacion" class="form-control" autocomplete="observacion" autofocus>{{$maquinaria->observacion}}</textarea>
+                                    <textarea type="text" name="observacion" class="form-control @error('observacion') is-invalid @enderror" autocomplete="Observacion" autofocus>{{ $maquinaria->observacion }}</textarea>
+
+                                    @error('observacion')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
                             </div>
 

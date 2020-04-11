@@ -88,7 +88,7 @@
 
                                     {{-- btn--}}
                                         <div class="form-group row mb-0">
-                                            <div class="align-maquinarias-center col-md-6 offset-md-5">
+                                            <div class="align-maquinarias-center col-md-6 offset-md-6">
                                                 @can('maquinarias.edit')
                                                     <a href="{{ route('maquinarias.edit', Hashids::encode($maquinaria->id)) }}" class="btn btn-sm btn-warning">
                                                         <i class="fas fa-fw fa-pen"></i>

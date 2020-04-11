@@ -20,55 +20,85 @@
 
                         {{-- Cedula --}}
                             <div class="form-group row">
-                                <label for="cedula" class="col-md-4 col-form-label text-md-right">{{ __('Cedula') }}</label>
-
+                                <label for="codigo" class="col-md-4 col-form-label text-md-right">{{ __('Cedula') }}</label>
                                 <div class="col-md-6">
-                                    <input id="cedula" type="text" pattern="[0-9]{10}" placeholder="{{ $operario->cedula }}" class="form-control" disabled name="cedula" value="{{ $operario->cedula }}" required autocomplete="cedula" autofocus>
+                                    <input type="input" disabled value="{{ $operario->cedula }}" class="form-control @error('cedula') is-invalid @enderror" placeholder="{{ $operario->cedula }}" autocomplete="cedula" autofocus>
+
+                                    @error('cedula')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
                             </div>
 
                         {{-- Nombre --}}
                             <div class="form-group row">
-                                <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Nombre') }}</label>
-
+                                <label for="codigo" class="col-md-4 col-form-label text-md-right">{{ __('Nombre') }}</label>
                                 <div class="col-md-6">
-                                    <input id="name" type="text" placeholder="{{ $operario->name }}" pattern="[A-Za-z]{1,25}" class="form-control" name="name" value="{{ $operario->name }}" required autocomplete="name" autofocus>
+                                    <input type="input" value="{{ $operario->name }}" onkeyup="mayus(this);" class="form-control @error('nombre') is-invalid @enderror" placeholder="{{ $operario->name }}" disabled autocomplete="nombre" autofocus>
+
+                                    @error('nombre')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
                             </div>
 
                         {{-- Apellido Paterno --}}
                             <div class="form-group row">
-                                <label for="apellido_pater" class="col-md-4 col-form-label text-md-right">{{ __('Apellido Paterno') }}</label>
-
+                                <label for="codigo" class="col-md-4 col-form-label text-md-right">{{ __('Apellido Paterno') }}</label>
                                 <div class="col-md-6">
-                                    <input id="apellido_pater" type="text" placeholder="{{ $operario->apellido_pater }}" pattern="[A-Za-z]{1,25}" class="form-control" name="apellido_pater" value="{{ $operario->apellido_pater }}" required autocomplete="apellido_pater" autofocus>
+                                    <input type="input" value="{{ $operario->apellido_pater }}" onkeyup="mayus(this);" class="form-control @error('apellido_paterno') is-invalid @enderror" placeholder="{{ $operario->apellido_pater }}" disabled autocomplete="apellido_paterno" autofocus>
+
+                                    @error('apellido_paterno')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
                             </div>
 
                         {{-- Apellido Materno --}}
                             <div class="form-group row">
-                                <label for="apellido_mater" class="col-md-4 col-form-label text-md-right">{{ __('Apellido Materno') }}</label>
-
+                                <label for="codigo" class="col-md-4 col-form-label text-md-right">{{ __('Apellido Materno') }}</label>
                                 <div class="col-md-6">
-                                    <input id="apellido_mater" type="text" placeholder="{{ $operario->apellido_mater }}" pattern="[A-Za-z]{1,25}" class="form-control" name="apellido_mater" value="{{ $operario->apellido_mater }}" required autocomplete="apellido_mater" autofocus>
+                                    <input type="input" value="{{ $operario->apellido_mater }}" onkeyup="mayus(this);" class="form-control @error('apellido_materno') is-invalid @enderror" placeholder="{{ $operario->apellido_mater }}" disabled autocomplete="apellido_materno" autofocus>
+
+                                    @error('apellido_materno')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
                             </div>
 
                         {{-- Direccion --}}
                             <div class="form-group row">
-                                <label for="direc" class="col-md-4 col-form-label text-md-right">{{ __('Direccion') }}</label>
-
+                                <label for="codigo" class="col-md-4 col-form-label text-md-right">{{ __('Direccion') }}</label>
                                 <div class="col-md-6">
-                                    <input id="direc" type="text" placeholder="{{ $operario->direc }}" class="form-control" name="direc" value="{{ $operario->direc }}" required autocomplete="name" autofocus>
+                                    <input type="input" name="direccion" value="{{ $operario->direc }}" class="form-control @error('direccion') is-invalid @enderror" placeholder="{{ $operario->direc }}" autocomplete="direccion" autofocus>
+
+                                    @error('direccion')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
                             </div>
 
                         {{-- Telefono --}}
                             <div class="form-group row">
-                                <label for="tlf" class="col-md-4 col-form-label text-md-right">{{ __('Telefono') }}</label>
-
+                                <label for="codigo" class="col-md-4 col-form-label text-md-right">{{ __('Telefono') }}</label>
                                 <div class="col-md-6">
-                                    <input id="tlf" type="text" pattern="[0-9]{7,10}" placeholder="{{ $operario->tlf }}" class="form-control" name="tlf" value="{{ $operario->tlf }}" required autocomplete="name" autofocus>
+                                    <input type="input" name="telefono" value="{{ $operario->tlf }}" class="form-control @error('telefono') is-invalid @enderror" placeholder="{{ $operario->tlf }}" autocomplete="telefono" autofocus>
+
+                                    @error('telefono')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
                             </div>
 
@@ -78,7 +108,7 @@
 
                                 <div class="col-md-6">
 
-                                    <select id="tipo_contrato" class="form-control" name="tipo_contrato">
+                                    <select id="tipo_contrato" class="form-control @error('tipo_contrato') is-invalid @enderror" name="tipo_contrato">
                                         <option disabled>Seleccione un Contrato</option>
                                         <option selected='true'>{{ $operario->tipo_contrato }}</option>
                                         @foreach(App\Operario::getEnumValues('operarios', 'tipo_contrato') as $operarios)
@@ -86,6 +116,11 @@
                                         @endforeach
                                     </select>
 
+                                    @error('tipo_contrato')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
                             </div>
 
@@ -95,7 +130,7 @@
 
                                 <div class="col-md-6">
 
-                                    <select id="tipo_licencia" class="form-control" name="tipo_licencia">
+                                    <select id="tipo_licencia" class="form-control @error('tipo_licencia') is-invalid @enderror" name="tipo_licencia">
                                         <option disabled>Seleccione una Licencia</option>
                                         <option selected='true'>{{ $operario->tipo_licencia }}</option>
                                         @foreach(App\Operario::getEnumValues('operarios', 'tipo_licencia') as $operarios)
@@ -103,6 +138,11 @@
                                         @endforeach
                                     </select>
 
+                                    @error('tipo_licencia')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
                             </div>
 

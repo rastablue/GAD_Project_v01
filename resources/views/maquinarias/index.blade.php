@@ -7,10 +7,10 @@
             <span><h4 class="m-0 font-weight-bold text-primary">Vehiculos</h4></span>
             <div class="group">
                 @can('maquinarias.create')
-                    <button type="button" id="btnCrearMaquinaria" class="btn btn-success btn-sm">
-                        <i class="fas fa-plus"></i>
+                    <a href="{{ route('maquinarias.create') }}" class="btn btn-sm btn-success">
+                        <i class="fas fa-fw fa-plus"></i>
                         Nuevo Vehiculo
-                    </button>
+                    </a>
                 @endcan
                 @can('maquinarias.show')
                     <a href="{{ route('maquinarias.reportes') }}" class="btn btn-sm btn-info">

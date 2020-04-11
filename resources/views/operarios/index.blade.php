@@ -7,10 +7,10 @@
             <span><h4 class="m-0 font-weight-bold text-primary">Operarios</h4></span>
             <div class="group">
                 @can('operarios.create')
-                    <button type="button" id="btnCrearOperario" class="btn btn-success btn-sm">
-                        <i class="fas fa-plus"></i>
+                    <a href=" {{ route('operarios.create') }} " class="btn btn-sm btn-success">
+                        <i class="fas fa-fw fa-plus"></i>
                         Nuevo Operario
-                    </button>
+                    </a>
                 @endcan
                 @can('operarios.show')
                     <a href=" {{ route('operarios.reportes') }} " class="btn btn-sm btn-info">

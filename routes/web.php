@@ -263,7 +263,7 @@ Route::middleware(['auth'])->group(function(){
         Route::get('get-maquinarias', 'MaquinariaController@maquinariaData')->name('datatables.maquinarias')
                         ->middleware('can:maquinarias.index');
 
-        Route::get('maquinarias/create/{maquinaria}', 'MaquinariaController@create')->name('maquinarias.create')
+        Route::get('maquinarias/create', 'MaquinariaController@create')->name('maquinarias.create')
                         ->middleware('can:maquinarias.create');
 
         Route::put('maquinarias/{maquinaria}', 'MaquinariaController@update')->name('maquinarias.update')

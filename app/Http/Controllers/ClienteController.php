@@ -6,6 +6,8 @@ use App\Providers\RouteServiceProvider;
 use Vinkla\Hashids\Facades\Hashids;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Http\Request;
+use App\Http\Requests\CreateCliente;
+use App\Http\Requests\EditCliente;
 use App\Cliente;
 
 
@@ -60,53 +62,22 @@ class ClienteController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateCliente $request)
     {
+        $clientes = new Cliente();
 
-        $ced = $request->cedula;
+        $clientes->cedula = $request->cedula;
+        $clientes->name = $request->nombre;
+        $clientes->apellido_pater = $request->apellido_paterno;
+        $clientes->apellido_mater = $request->apellido_materno;
+        $clientes->direc = $request->direccion;
+        $clientes->tlf = $request->telefono;
+        $clientes->email = $request->email;
 
-        if ($id_clientes = Cliente::where('cedula', $ced)->first()) {
+        $clientes->save();
 
-            return back() ->with('danger', 'Error, el cliente ya existe');
-
-        } else {
-
-            $clientes = new Cliente();
-
-            $clientes->cedula = $request->cedula;
-            $clientes->name = $request->name;
-            $clientes->apellido_pater = $request->apellido_pater;
-            $clientes->apellido_mater = $request->apellido_mater;
-            $clientes->direc = $request->direc;
-            $clientes->tlf = $request->tlf;
-            $clientes->email = $request->email;
-
-            $clientes->save();
-
-            return redirect()->route('clientes.index')
-                    ->with('info', 'Cliente creado con exito');
-
-        }
-
-        /*$user = User::where('cedula', $request->cedula)->first();
-
-        if ($user) {
-
-            if ($aaa = Cliente::where('user_id', $user->id)->first()){
-                return redirect()->route('clientes.index')
-                    ->with('info', 'El usuario ya es cliente');
-            }else {
-                    $cliente = New Cliente();
-                    $cliente->user_id = $user->id;
-                    $cliente->save();
-                    return redirect()->route('clientes.index')
-                        ->with('info', 'Cliente agregado con exito');
-                }
-            }
-
-        else{
-            return back()->with('info', 'El Usuario no existe');
-        }*/
+        return redirect()->route('clientes.show', Hashids::encode(Cliente::where('cedula', $request->cedula)->first()->id))
+                ->with('info', 'Cliente creado con exito');
     }
 
     /**
@@ -142,25 +113,22 @@ class ClienteController extends Controller
      * @param  \App\Cliente  $cliente
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $cliente)
+    public function update(EditCliente $request, $cliente)
     {
 
         $clientes = Cliente::findOrFail($cliente);
 
-        $clientes->name = $request->name;
-        $clientes->apellido_pater = $request->apellido_pater;
-        $clientes->apellido_mater = $request->apellido_mater;
-        $clientes->direc = $request->direc;
-        $clientes->tlf = $request->tlf;
+        $clientes->direc = $request->direccion;
+        $clientes->tlf = $request->telefono;
         $clientes->email = $request->email;
 
         $clientes->save();
 
         if ($clientes->save()) {
-            return redirect()->route('clientes.index')
+            return redirect()->route('clientes.show', Hashids::encode($clientes->id))
                 ->with('info', 'Cliente actualizado con exito');
         } else {
-            return redirect()->route('clientes.index')
+            return redirect()->route('clientes.show', Hashids::encode($clientes->id))
                 ->with('danger', 'Error al actualizar al cliente');
         }
 

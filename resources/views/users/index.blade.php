@@ -37,7 +37,6 @@
         </div>
     </div>
 
-
 <!-- Modal Crear-->
     <div class="modal fade" id="creaUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -173,10 +172,10 @@
     <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
 <!-- Bootstrap JavaScript -->
     <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
- <script>
-    $(function() {
-        $(document).ready(function(){
-            // initializing Datatable
+<script>
+   $(function() {
+       $(document).ready(function(){
+           // initializing Datatable
                 var table = $("#users-table").DataTable({
                     serverSide: true,
                     pageLength: 10,
@@ -211,7 +210,7 @@
                     }
                 });
 
-            // modal crear
+           // modal crear
                 $("#btnCrearUser").click(function(e) {
                     e.preventDefault();
                     $("#alertModal").addClass("display-none").removeClass("alert-danger")
@@ -219,12 +218,12 @@
                     $("#creaUserModal").modal("show");
                 });
 
-            // Resetear modal crear una vez que se cierra
+           // Resetear modal crear una vez que se cierra
                 $('#creaUserModal').on('hidden.bs.modal', function() {
                         $('#formUser')[0].reset();
                     });
 
-            // Eliminar Ajax request.
+           // Eliminar Ajax request.
                 var deleteID;
                 $('body').on('click', '#getDeleteId', function(){
                     deleteID = $(this).data('id');
@@ -251,10 +250,8 @@
                     });
                 });
 
-        });
-
-    });
-
+       });
+   });
 </script>
 @endpush
 @push('charts')

@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Operario;
 use App\Maquinaria;
 use Illuminate\Http\Request;
+use App\Http\Requests\CreateOperario;
+use App\Http\Requests\EditOperario;
+
 use Vinkla\Hashids\Facades\Hashids;
 use Barryvdh\DomPDF\Facade as PDF;
 
@@ -64,7 +67,7 @@ class OperarioController extends Controller
      */
     public function create()
     {
-        //
+        return view('operarios.create');
     }
 
     /**
@@ -73,33 +76,23 @@ class OperarioController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateOperario $request)
     {
-        $ced = $request->cedula;
+        $operarios = new Operario();
 
-        if ($id_operarios = Operario::where('cedula', $ced)->first()) {
+        $operarios->cedula = $request->cedula;
+        $operarios->name = $request->nombre;
+        $operarios->apellido_pater = $request->apellido_paterno;
+        $operarios->apellido_mater = $request->apellido_materno;
+        $operarios->direc = $request->direccion;
+        $operarios->tlf = $request->telefono;
+        $operarios->tipo_contrato = $request->tipo_contrato;
+        $operarios->tipo_licencia = $request->tipo_licencia;
 
-            return back() ->with('danger', 'Error, el Operario ya existe');
+        $operarios->save();
 
-        } else {
-
-            $operarios = new Operario();
-
-            $operarios->cedula = $request->cedula;
-            $operarios->name = $request->name;
-            $operarios->apellido_pater = $request->apellido_pater;
-            $operarios->apellido_mater = $request->apellido_mater;
-            $operarios->direc = $request->direc;
-            $operarios->tlf = $request->tlf;
-            $operarios->tipo_contrato = $request->tipo_contrato;
-            $operarios->tipo_licencia = $request->tipo_licencia;
-
-            $operarios->save();
-
-            return redirect()->route('operarios.index')
-                    ->with('info', 'Operarios creado con exito');
-
-        }
+        return redirect()->route('operarios.show', Hashids::encode(Operario::where('cedula', $request->cedula)->first()->id))
+                ->with('info', 'Operarios creado con exito');
     }
 
     /**
@@ -229,25 +222,22 @@ class OperarioController extends Controller
      * @param  \App\Operario  $operario
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $operario)
+    public function update(EditOperario $request, $operario)
     {
         $operarios = Operario::findOrFail($operario);
 
-        $operarios->name = $request->name;
-        $operarios->apellido_pater = $request->apellido_pater;
-        $operarios->apellido_mater = $request->apellido_mater;
-        $operarios->direc = $request->direc;
-        $operarios->tlf = $request->tlf;
+        $operarios->direc = $request->direccion;
+        $operarios->tlf = $request->telefono;
         $operarios->tipo_contrato = $request->tipo_contrato;
         $operarios->tipo_licencia = $request->tipo_licencia;
 
         $operarios->save();
 
         if ($operarios->save()) {
-            return redirect()->route('operarios.index')
+            return redirect()->route('operarios.show', Hashids::encode($operarios->id))
                 ->with('info', 'Operario actualizado con exito');
         } else {
-            return redirect()->route('operarios.index')
+            return redirect()->route('operarios.show', Hashids::encode($operarios->id))
                 ->with('danger', 'Error al actualizar al Operario');
         }
     }

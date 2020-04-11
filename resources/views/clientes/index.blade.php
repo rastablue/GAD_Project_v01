@@ -7,10 +7,10 @@
             <span><h4 class="m-0 font-weight-bold text-primary">Clientes</h4></span>
             <div class="group">
                 @can('clientes.create')
-                    <button type="button" id="btnCrearCliente" class="btn btn-success btn-sm">
+                    <a href=" {{ route('clientes.create') }} " class="btn btn-sm btn-success">
                         <i class="fas fa-fw fa-plus"></i>
                         Nuevo Cliente
-                    </button>
+                    </a>
                 @endcan
                 @can('clientes.show')
                     <a href=" {{ route('clientes.reportes') }} " class="btn btn-sm btn-info">
@@ -27,10 +27,9 @@
                         <tr>
                             <th width="75px">Cedula</th>
                             <th>Nombre</th>
-                            <th>Apellido</th>
                             <th>Telefono</th>
-                            <th width="180px">E-mail</th>
-                            <th width="260px">Acciones</th>
+                            <th>E-mail</th>
+                            <th width="255">Acciones</th>
                         </tr>
                     </thead>
                 </table>
@@ -164,8 +163,7 @@
                     ajax: '{!! route('datatables.clientes') !!}',
                     columns: [
                         { data: 'cedula', name: 'cedula' },
-                        { data: 'name', name: 'name' },
-                        { data: 'apellido_pater', name: 'apellido_pater' },
+                        { data: 'apellido_pater', render: function(data, type, row, meta){return row.name + ' ' + row.apellido_pater}},
                         { data: 'tlf', name: 'tlf'  },
                         { data: 'email', name: 'email'  },
                         { data: 'btn', name: 'btn',orderable:false,serachable:false,sClass:'text-center' }

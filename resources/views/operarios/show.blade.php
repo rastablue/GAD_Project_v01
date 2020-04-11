@@ -76,7 +76,7 @@
 
                                     {{-- btn--}}
                                         <div class="form-group row mb-0">
-                                            <div class="col-md-6 offset-md-5">
+                                            <div class="col-md-6 offset-md-6">
                                                 @can('operarios.show')
                                                     <a href="{{ route('operarios.pdf', Hashids::encode($operario->id)) }}" class="btn btn-sm btn-info">
                                                         <i class="fas fa-fw fa-file-alt"></i>
