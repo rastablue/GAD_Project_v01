@@ -71,11 +71,11 @@
                     pageLength: 10,
                     ajax: '{!! route('datatables.trabajos') !!}',
                     columns: [
-                        { data: 'fake_id', name: 'fake_id' },
-                        { data: 'nro_ficha', name: 'nro_ficha' },
-                        { data: 'codigogad', name: 'codigogad' },
-                        { data: 'estado', name: 'estado' },
-                        { data: 'tipo', name: 'tipo' },
+                        { data: 'fake_id', name: 'trabajos.fake_id' },
+                        { data: 'codigo', name: 'mantenimientos.codigo' },
+                        { data: 'codigo_nro_gad', name: 'maquinarias.codigo_nro_gad' },
+                        { data: 'estado', name: 'trabajos.estado' },
+                        { data: 'tipo', name: 'trabajos.tipo' },
                         { data: 'btn', name: 'btn',orderable:false,serachable:false,sClass:'text-center' }
                     ],
                     "language":{

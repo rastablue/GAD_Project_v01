@@ -10,6 +10,7 @@ use App\Http\Requests\CreateMantenimiento;
 use App\Http\Requests\EditMantenimiento;
 use Vinkla\Hashids\Facades\Hashids;
 use Barryvdh\DomPDF\Facade as PDF;
+use Yajra\Datatables\Datatables;
 
 class MantenimientoController extends Controller
 {
@@ -26,13 +27,11 @@ class MantenimientoController extends Controller
 
     public function mantenimientoData()
     {
-        $placa = Mantenimiento::all();
+        $mantenimientos = Mantenimiento::join('maquinarias', 'maquinarias.id', 'mantenimientos.maquinaria_id')
+                                        ->select('mantenimientos.codigo', 'mantenimientos.fecha_ingreso',
+                                                'mantenimientos.estado', 'mantenimientos.id', 'maquinarias.placa');
 
-        return Datatables()
-                ->eloquent(Mantenimiento::query())
-                ->addColumn('placa', function($placa){
-                    return $placa->maquinarias->placa;
-                })
+        return Datatables::of($mantenimientos)
                 ->addColumn('btn', 'mantenimientos.actions')
                 ->rawColumns(['btn'])
                 ->make(true);

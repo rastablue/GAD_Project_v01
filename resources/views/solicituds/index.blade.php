@@ -31,9 +31,9 @@
                     <thead>
                         <tr>
                             <th>Codigo</th>
-                            <th width="90px">Fecha de Emision</th>
-                            <th width="90px">Fecha de Revision</th>
-                            <th>Solicitante</th>
+                            <th>Fecha de Emision</th>
+                            <th width="90px">Nombre Solicitante</th>
+                            <th width="90px">Apellido Solicitante</th>
                             <th>Estado</th>
                             <th>Acciones</th>
                         </tr>
@@ -182,11 +182,11 @@
                     pageLength: 10,
                     ajax: '{!! route('datatables.solicituds') !!}',
                     columns: [
-                        { data: 'codigo_solicitud', name: 'codigo_solicitud' },
-                        { data: 'fecha_emision', name: 'fecha_emision' },
-                        { data: 'fecha_revision', name: 'fecha_revision' },
-                        { data: 'cliente', name: 'cliente'  },
-                        { data: 'estado', name: 'estado'  },
+                        { data: 'codigo_solicitud', name: 'solicituds.codigo_solicitud' },
+                        { data: 'fecha_emision', name: 'solicituds.fecha_emision' },
+                        { data: 'name', name: 'clientes.name' },
+                        { data: 'apellido_pater', name: 'clientes.apellido_pater' },
+                        { data: 'estado', name: 'solicituds.estado'  },
                         { data: 'btn', name: 'btn',orderable:false,serachable:false,sClass:'text-center' }
                     ],
                     "language":{

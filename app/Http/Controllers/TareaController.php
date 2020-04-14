@@ -11,6 +11,7 @@ use App\Http\Requests\CreateTarea;
 use App\Http\Requests\EditTarea;
 use Illuminate\Support\Str;
 use Barryvdh\DomPDF\Facade as PDF;
+use Yajra\Datatables\Datatables;
 
 class TareaController extends Controller
 {
@@ -27,13 +28,11 @@ class TareaController extends Controller
 
     public function tareaData()
     {
-        $tarea = Tarea::all();
+        $tareas = Tarea::join('solicituds', 'solicituds.id', '=', 'tareas.solicitud_id')
+                        ->select('tareas.id', 'solicituds.codigo_solicitud', 'tareas.fake_id',
+                                'tareas.fecha_inicio', 'tareas.estado');
 
-        return Datatables()
-                ->eloquent(Tarea::query())
-                ->addcolumn('codigo', function($tarea){
-                    return $tarea->solicituds->codigo_solicitud;
-                })
+        return Datatables::of($tareas)
                 ->addColumn('btn', 'tareas.actions')
                 ->rawColumns(['btn'])
                 ->make(true);
@@ -97,7 +96,7 @@ class TareaController extends Controller
                     $solicitud->estado = 'Aprobado';
                     $solicitud->save();
                 }
-                
+
                 $tarea->estado = $request->estado;
                 $tarea->solicitud_id = $solicitud->id;
 

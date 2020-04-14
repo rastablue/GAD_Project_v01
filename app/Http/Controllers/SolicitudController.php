@@ -10,6 +10,7 @@ use App\Http\Requests\EditSolicitud;
 use Carbon\Carbon;
 use Vinkla\Hashids\Facades\Hashids;
 use Barryvdh\DomPDF\Facade as PDF;
+use Yajra\Datatables\Datatables;
 
 class SolicitudController extends Controller
 {
@@ -26,13 +27,12 @@ class SolicitudController extends Controller
 
     public function solicitudData()
     {
-        $cliente = Solicitud::all();
+        $solicitudes = Solicitud::join('clientes', 'clientes.id', '=', 'solicituds.cliente_id')
+                                ->select('solicituds.id', 'solicituds.codigo_solicitud', 'solicituds.fecha_emision',
+                                        'solicituds.fecha_revision', 'clientes.name',
+                                        'clientes.apellido_pater', 'solicituds.estado');
 
-        return Datatables()
-                ->eloquent(Solicitud::query())
-                ->addcolumn('cliente', function($cliente){
-                    return $cliente->clientes->name.' '.$cliente->clientes->apellido_pater;
-                })
+        return Datatables::of($solicitudes)
                 ->addColumn('btn', 'solicituds.actions')
                 ->rawColumns(['btn'])
                 ->make(true);
@@ -212,15 +212,15 @@ class SolicitudController extends Controller
 
                 $solicitud->estado = 'Reprobado';
                 $solicitud->fecha_revision = $date;
-    
+
                 $solicitud->save();
-    
+
                 foreach ($solicitud->tareas->all() as $key) {
                     $key->estado = 'Finalizada';
-    
+
                     $key->save();
                 }
-    
+
             }
 
             if ($request->hasFile('file')) {

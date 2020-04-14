@@ -145,10 +145,10 @@
                     pageLength: 10,
                     ajax: '{!! route('datatables.mantenimientos') !!}',
                     columns: [
-                        { data: 'codigo', name: 'codigo' },
-                        { data: 'placa', name: 'placa' },
-                        { data: 'fecha_ingreso', name: 'fecha_ingreso' },
-                        { data: 'estado', name: 'estado'  },
+                        { data: 'codigo', name: 'mantenimientos.codigo' },
+                        { data: 'placa', name: 'maquinarias.placa' },
+                        { data: 'fecha_ingreso', name: 'mantenimientos.fecha_ingreso' },
+                        { data: 'estado', name: 'mantenimientos.estado'  },
                         { data: 'btn', name: 'btn',orderable:false,serachable:false,sClass:'text-center' }
                     ],
                     "language":{

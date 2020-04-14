@@ -146,7 +146,7 @@ class HomeController extends Controller
 
 
         $maquinarias = Maquinaria::all();
-
+        $tareaf = Tarea::where('estado', 'Finalizada');
 
         foreach (@$maquinarias as $key) {
             $end = 0;
@@ -156,12 +156,11 @@ class HomeController extends Controller
         }
 
 
-
         $maquinariaChart = new InfoChart;
 
         $maquinariaChart->labels(['Maquinarias', 'Tareas Finalizadas.']);
         $maquinariaChart->minimalist(true);
-        $maquinariaChart->dataset('Total', 'doughnut', [$maquinarias->count(), @$end])
+        $maquinariaChart->dataset('Total', 'doughnut', [$maquinarias->count(), @$tareaf->count()])
             ->backgroundcolor($fillColors);
 
         return view('home', compact('pendientesChart', 'personasChart', 'personaChart', 'maquinariaChart') );

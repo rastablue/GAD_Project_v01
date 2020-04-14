@@ -25,10 +25,9 @@
                 <table class="table table-bordered" id="tareas-table" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th width="75px">Codigo Tarea</th>
-                            <th width="75px">Codigo Solicitud</th>
+                            <th>Codigo Tarea</th>
+                            <th>Codigo Solicitud</th>
                             <th>Fecha de Inicio</th>
-                            <th>Fecha de Fin</th>
                             <th>Estado</th>
                             <th width="255">Acciones</th>
                         </tr>
@@ -149,11 +148,10 @@
                     pageLength: 10,
                     ajax: '{!! route('datatables.tareas') !!}',
                     columns: [
-                        { data: 'fake_id', name: 'fake_id' },
-                        { data: 'codigo', name: 'codigo' },
-                        { data: 'fecha_inicio', name: 'fecha_inicio' },
-                        { data: 'fecha_fin', name: 'fecha_fin' },
-                        { data: 'estado', name: 'estado'  },
+                        { data: 'fake_id', name: 'tareas.fake_id' },
+                        { data: 'codigo_solicitud', name: 'solicituds.codigo_solicitud' },
+                        { data: 'fecha_inicio', name: 'tareas.fecha_inicio' },
+                        { data: 'estado', name: 'tareas.estado'  },
                         { data: 'btn', name: 'btn',orderable:false,serachable:false,sClass:'text-center' }
                     ],
                     "language":{

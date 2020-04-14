@@ -10,6 +10,7 @@ use App\Http\Requests\CreateTrabajo;
 use App\Http\Requests\EditTrabajo;
 use Vinkla\Hashids\Facades\Hashids;
 use Barryvdh\DomPDF\Facade as PDF;
+use Yajra\Datatables\Datatables;
 
 class TrabajoController extends Controller
 {
@@ -26,16 +27,12 @@ class TrabajoController extends Controller
 
     public function trabajoData()
     {
-        $consultas = Trabajo::all();
+        $trabajos = Trabajo::join('mantenimientos', 'mantenimientos.id', '=', 'trabajos.mantenimiento_id')
+                            ->join('maquinarias', 'maquinarias.id', '=', 'mantenimientos.maquinaria_id')
+                            ->select('maquinarias.codigo_nro_gad', 'mantenimientos.codigo',
+                                    'trabajos.fake_id', 'trabajos.estado', 'trabajos.tipo', 'trabajos.id');
 
-        return Datatables()
-                ->eloquent(Trabajo::query())
-                ->addColumn('nro_ficha', function($consultas){
-                    return $consultas->mantenimientos->codigo;
-                })
-                ->addColumn('codigogad', function($consultas){
-                    return $consultas->mantenimientos->maquinarias->codigo_nro_gad;
-                })
+        return Datatables::of($trabajos)
                 ->addColumn('btn', 'trabajos.actions')
                 ->rawColumns(['btn'])
                 ->make(true);
