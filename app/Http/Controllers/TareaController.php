@@ -91,13 +91,7 @@ class TareaController extends Controller
                 $tarea->fecha_fin = $request->fecha_fin;
                 $tarea->direc_tarea = $request->direccion;
                 $tarea->detalle = $request->detalle;
-
-                if($request->estado == 'En Proceso'){
-                    $solicitud->estado = 'Aprobado';
-                    $solicitud->save();
-                }
-
-                $tarea->estado = $request->estado;
+                $tarea->estado = 'Pendiente';
                 $tarea->solicitud_id = $solicitud->id;
 
                 $tarea->save();
@@ -118,7 +112,7 @@ class TareaController extends Controller
             $solicitud = Solicitud::where('codigo_solicitud', $request->codigo)->first();
 
             if($solicitud->estado == 'Reprobado'){
-                return redirct()->route('solicituds.show', Hashids::encode($solicitud->id))
+                return redirect()->route('solicituds.show', Hashids::encode($solicitud->id))
                         ->with('danger', 'La solicitud esta reprobada, no pueden agregarse tareas');
             }else{
                 $tarea = new Tarea();
@@ -128,13 +122,7 @@ class TareaController extends Controller
                 $tarea->fecha_fin = $request->fecha_fin;
                 $tarea->direc_tarea = $request->direccion;
                 $tarea->detalle = $request->detalle;
-
-                if($request->estado == 'En Proceso'){
-                    $solicitud->estado = 'Aprobado';
-                    $solicitud->save();
-                }
-
-                $tarea->estado = $request->estado;
+                $tarea->estado = 'Pendiente';
                 $tarea->solicitud_id = $solicitud->id;
 
                 $tarea->save();
@@ -207,6 +195,48 @@ class TareaController extends Controller
 
             return redirect()->route('tareas.show', Hashids::encode($tarea->id))
                 ->with('info', 'Tarea actualizada');
+
+        }
+    }
+
+    public function abandonar(request $request, $id)
+    {
+
+        $tarea = Tarea::findOrFail($id);
+
+        if ($tarea->estado != 'Abandonado') {
+
+            $tarea->estado = 'Abandonado';
+
+            $tarea->save();
+
+        }
+    }
+
+    public function proceso(request $request, $id)
+    {
+
+        $tarea = Tarea::findOrFail($id);
+
+        if ($tarea->estado != 'En Proceso') {
+
+            $tarea->estado = 'En Proceso';
+
+            $tarea->save();
+            
+        }
+    }
+
+    public function finalizar(request $request, $id)
+    {
+
+        $tarea = Tarea::findOrFail($id);
+
+        if ($tarea->estado != 'Finalizada') {
+
+            $tarea->estado = 'Finalizada';
+
+            $tarea->save();
 
         }
     }

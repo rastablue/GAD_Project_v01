@@ -40,6 +40,7 @@ class PermissionsTableSeeder extends Seeder
             //Solicitudes
                 Permission::create(['name' => 'solicitudes.index']);
                 Permission::create(['name' => 'solicitudes.edit']);
+                Permission::create(['name' => 'solicitudes.revision']);
                 Permission::create(['name' => 'solicitudes.show']);
                 Permission::create(['name' => 'solicitudes.create']);
                 Permission::create(['name' => 'solicitudes.destroy']);
@@ -47,6 +48,7 @@ class PermissionsTableSeeder extends Seeder
             //Tareas
                 Permission::create(['name' => 'tareas.index']);
                 Permission::create(['name' => 'tareas.edit']);
+                Permission::create(['name' => 'tareas.revision']);
                 Permission::create(['name' => 'tareas.show']);
                 Permission::create(['name' => 'tareas.create']);
                 Permission::create(['name' => 'tareas.destroy']);
@@ -168,14 +170,12 @@ class PermissionsTableSeeder extends Seeder
                     'trabajos.show',
                     'trabajos.create',
                     'trabajos.destroy',
-
                 //Marcas
                     'marcas.index',
                     'marcas.edit',
                     'marcas.show',
                     'marcas.create',
                     'marcas.destroy',
-
                 //Otros
                     'actividades',
                     'actividades.encargos',
@@ -279,13 +279,79 @@ class PermissionsTableSeeder extends Seeder
                     'tareas.edit',
                     'tareas.show',
                     'tareas.create',
-                    'tareas.destroy',
                 //Maquinarias
                     'maquinarias.index',
                     'maquinarias.show',
                 //Operarios
                     'operarios.index',
                     'operarios.show',
+                //Mantenimientos
+                    'mantenimientos.index',
+                    'mantenimientos.edit',
+                    'mantenimientos.show',
+                    'mantenimientos.create',
+                //Trabajos
+                    'trabajos.index',
+                    'trabajos.edit',
+                    'trabajos.show',
+                    'trabajos.create',
+                //Otros
+                    'actividades',
+                    'actividades.encargos',
+                    'actividades.encargos.general',
+                    'actividades.encargos.general.solicitudes',
+                    'actividades.encargos.general.tareas',
+                    'actividades.encargos.asignaciones',
+                    'actividades.mantenimientos',
+                    'actividades.mantenimientos.general',
+                    'actividades.mantenimientos.general.mantenimientos',
+                    'actividades.mantenimientos.general.trabajos',
+                    'admin',
+                    'admin.personas',
+                    'admin.personas.administrativo',
+                    'admin.personas.administrativo.operarios',
+                    'admin.personas.general',
+                    'admin.personas.general.clientes',
+                    'admin.vehiculos',
+                    'admin.vehiculos.administrativo',
+                    'admin.vehiculos.administrativo.maquinarias',
+            ]);
+
+        //Supervisor
+            $supervisor = Role::create(['name' => 'Supervisor']);
+
+            $supervisor->givePermissionTo([
+                //Usuarios
+                    'users.index',
+                    'users.show',
+                    'users.create',
+                //Clientes
+                    'clientes.index',
+                    'clientes.edit',
+                    'clientes.show',
+                    'clientes.create',
+                //Solicitudes
+                    'solicitudes.index',
+                    'solicitudes.edit',
+                    'solicitudes.show',
+                    'solicitudes.create',
+                    'solicitudes.revision',
+                //Tareas
+                    'tareas.index',
+                    'tareas.edit',
+                    'tareas.show',
+                    'tareas.create',
+                    'tareas.revision',
+                //Maquinarias
+                    'maquinarias.index',
+                    'maquinarias.show',
+                    'maquinarias.create',
+                    'maquinarias.edit',
+                //Operarios
+                    'operarios.index',
+                    'operarios.show',
+                    'operarios.edit',
+                    'operarios.create',
                 //Mantenimientos
                     'mantenimientos.index',
                     'mantenimientos.edit',

@@ -4,12 +4,12 @@
 <!-- Tabla -->
     <div class="card shadow mb-4">
         <div class="card-header d-flex justify-content-between align-items-center">
-            <span><h4 class="m-0 font-weight-bold text-primary">Tareas</h4></span>
+            <span><h4 class="m-0 font-weight-bold text-primary">Requerimientos</h4></span>
             <div class="group">
                 @can('tareas.create')
                     <a href=" {{ route('tareas.create') }} " class="btn btn-sm btn-success">
                         <i class="fas fa-fw fa-plus"></i>
-                        Nueva Tarea
+                        Nuevo Requerimiento
                     </a>
                 @endcan
                 @can('tareas.show')
@@ -25,8 +25,8 @@
                 <table class="table table-bordered" id="tareas-table" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th>Codigo Tarea</th>
-                            <th>Codigo Solicitud</th>
+                            <th>Codigo</th>
+                            <th>Solicitud</th>
                             <th>Fecha de Inicio</th>
                             <th>Estado</th>
                             <th width="255">Acciones</th>
@@ -112,6 +112,35 @@
         </div>
     </div>
 
+<!-- Revisar Tarea Modal -->
+    <div class="modal fade" id="RevisaTareaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                    <div class="modal-header bg-warning text-light">
+                        <h5>Revision de estado del rsequerimiento</h5>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                <!-- Modal body -->
+                    <div class="modal-body">
+                        <h6 align="center">
+                            <button type="button" class="btn btn-success" id="SubmitProcesoTareaForm">
+                                <i class="fas fa-fw fa-spinner"></i>
+                                En Proceso
+                            </button>
+                            <button type="button" class="btn btn-warning" id="SubmitAbandonarTareaForm">
+                                <i class="fas fa-fw fa-check-circle"></i>
+                                Abandonado
+                            </button>
+                            <button type="button" class="btn btn-danger" id="SubmitFinalizarTareaForm">
+                                <i class="fas fa-fw fa-times-circle"></i>
+                                Finalizada
+                            </button>
+                    </div>
+            </div>
+        </div>
+    </div>
+
 <!-- Delete Product Modal -->
     <div class="modal fade" id="DeleteProductModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog">
@@ -184,6 +213,87 @@
                     $("#inputId").val(null)
                     $("#creaTareaModal").modal("show");
                 });
+
+            // Abandonar Tarea.
+                var abandonarID;
+                    $('body').on('click', '#getActualizaId', function(){
+                        abandonarID = $(this).data('id');
+                    })
+                    $('#SubmitAbandonarTareaForm').click(function(e) {
+                        e.preventDefault();
+                        $("#alertModal").addClass("display-none").removeClass("alert-danger")
+                        $("#inputId").val(null)
+                        var id = abandonarID;
+                        $.ajaxSetup({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            }
+                        });
+                        $.ajax({
+                            url: "tareas/abandonar/"+id,
+                            method: 'PUT',
+                            success: function(result) {
+                                setImmediate(function(){
+                                    $('#tareas-table').DataTable().ajax.reload();
+                                    $('#RevisaTareaModal').modal('hide');
+                                });
+                            }
+                        });
+                    });
+
+            // En Proceso Tarea.
+                var procesoID;
+                    $('body').on('click', '#getActualizaId', function(){
+                        procesoID = $(this).data('id');
+                    })
+                    $('#SubmitProcesoTareaForm').click(function(e) {
+                        e.preventDefault();
+                        $("#alertModal").addClass("display-none").removeClass("alert-danger")
+                        $("#inputId").val(null)
+                        var id = procesoID;
+                        $.ajaxSetup({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            }
+                        });
+                        $.ajax({
+                            url: "tareas/proceso/"+id,
+                            method: 'PUT',
+                            success: function(result) {
+                                setImmediate(function(){
+                                    $('#tareas-table').DataTable().ajax.reload();
+                                    $('#RevisaTareaModal').modal('hide');
+                                });
+                            }
+                        });
+                    });
+
+            // Finalizar Tarea.
+                var finalizarID;
+                    $('body').on('click', '#getActualizaId', function(){
+                        finalizarID = $(this).data('id');
+                    })
+                    $('#SubmitFinalizarTareaForm').click(function(e) {
+                        e.preventDefault();
+                        $("#alertModal").addClass("display-none").removeClass("alert-danger")
+                        $("#inputId").val(null)
+                        var id = finalizarID;
+                        $.ajaxSetup({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            }
+                        });
+                        $.ajax({
+                            url: "tareas/finalizar/"+id,
+                            method: 'PUT',
+                            success: function(result) {
+                                setImmediate(function(){
+                                    $('#tareas-table').DataTable().ajax.reload();
+                                    $('#RevisaTareaModal').modal('hide');
+                                });
+                            }
+                        });
+                    });
 
             // Resetear modal crear una vez que se cierra
                 $('#creaTareaModal').on('hidden.bs.modal', function() {

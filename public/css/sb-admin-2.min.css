@@ -77,7 +77,7 @@ body {
     line-height: 1.5;
     color: #858796;
     text-align: left;
-    background-color: #fff
+    background-color: #e0e1e9b2
 }
 
 [tabindex="-1"]:focus {
@@ -9780,8 +9780,8 @@ a.text-dark:hover {
 
 @media print {
     *,
-    ::after,
-    ::before {
+     ::after,
+     ::before {
         text-shadow: none!important;
         box-shadow: none!important
     }
@@ -9875,7 +9875,7 @@ a:focus {
 }
 
 #wrapper #content-wrapper {
-    background-color: #f8f9fc;
+    background-color: #c8c9cc2a;
     width: 100%;
     overflow-x: hidden
 }

@@ -62,6 +62,14 @@
                                             </div>
                                         </div>
 
+                                    {{-- Observacion --}}
+                                        <div class="form-group row">
+                                            <label for="detalle" class="col-md-4 col-form-label text-md-right">Observacion</label>
+                                            <div class="col-md-6">
+                                                <textarea id="obsservacion" type="text" class="form-control" disabled placeholder=" {{ $solicitud->observacion }}" name="observacion"></textarea>
+                                            </div>
+                                        </div>
+
                                     {{-- Estado --}}
                                         <div class="form-group row">
                                             <label for="codigo" class="col-md-4 col-form-label text-md-right">Estado Solicitud</label>
@@ -109,7 +117,7 @@
                 <!-- Formulario Cliente -->
                     <!-- Divider -->
                         <div class="sidebar-heading text-center">
-                            Clientes
+                            Solicitante
                         </div>
                         <hr class="sidebar-divider">
                     <div class="card shadow mb-4">
@@ -195,7 +203,7 @@
 
                     <!-- Divider -->
                         <div class="sidebar-heading text-center">
-                            Tareas
+                            Requerimientos
                         </div>
                         <hr class="sidebar-divider">
 
@@ -209,7 +217,7 @@
                                         <!-- Card Header - Accordion -->
                                                 <a href="#collapseCardTareas{{ $loop->iteration}}" class="d-block card-header py-3 border-left-info" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardExample">
                                                     <h6 class="font-weight-bold text-primary">
-                                                        Datos de la Tarea:
+                                                        Datos del Requerimiento:
                                                         <h6 class="m-0 font-weight-bold text-dark">
                                                             <i>{{ $item->fake_id}}</i>
                                                         </h6>
@@ -221,7 +229,7 @@
 
                                                         {{-- Codigo Tarea --}}
                                                             <div class="form-group row">
-                                                                <label for="codigo" class="col-md-4 col-form-label text-md-right">Codigo Tarea</label>
+                                                                <label for="codigo" class="col-md-4 col-form-label text-md-right">Codigo Requerimiento</label>
                                                                 <div class="col-md-6">
                                                                     <input type="input" disabled value="{{ $item->fake_id }}" class="form-control" required autocomplete="Fecha inicio" autofocus>
                                                                 </div>
@@ -317,7 +325,7 @@
                                     <div class="row justify-content-center">
                                         @can('tareas.create')
                                             <a href="{{ route('tareas.createfrom', Hashids::encode($solicitud->id)) }}">
-                                                <img class="img-responsive img-rounded float-left" src="{{ asset('images/plus.png') }}" title="Agregar Tarea">
+                                                <img class="img-responsive img-rounded float-left" src="{{ asset('images/plus.png') }}" title="Agregar Requerimiento">
                                             </a>
                                         @endcan
                                     </div>
@@ -326,8 +334,94 @@
                         
                     </div>
             @endcan
+            @can('tareas.show')
+                <!-- Formulario Tareas -->
+                    <!-- Tabla -->
+                        <div class="card shadow mb-4">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <span><h4 class="m-0 font-weight-bold text-primary">Tareas</h4></span>
+                                <div class="group">
+                                    @can('tareas.create')
+                                        <a href=" {{ route('tareas.create') }} " class="btn btn-sm btn-success">
+                                            <i class="fas fa-fw fa-plus"></i>
+                                            Nueva Tarea
+                                        </a>
+                                    @endcan
+                                    @can('tareas.show')
+                                        <a href=" {{ route('tareas.reportes') }} " class="btn btn-sm btn-info">
+                                            <i class="fas fa-fw fa-file-alt"></i>
+                                            Reporte
+                                        </a>
+                                    @endcan
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered" id="tareas-table" width="100%" cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                                <th>Codigo Tarea</th>
+                                                <th>Codigo Solicitud</th>
+                                                <th>Fecha de Inicio</th>
+                                                <th>Estado</th>
+                                                <th width="255">Acciones</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+            @endcan
         </div>
     </div>
 </form>
 
-@endsection
+@stop
+@push('scripts')
+<!-- DataTables -->
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<!-- Bootstrap JavaScript -->
+    <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+<script>
+    $(function() {
+        $(document).ready(function(){
+            // initializing Datatable
+                var table = $("#tareas-table").DataTable({
+                    serverSide: true,
+                    pageLength: 10,
+                    ajax: '{!! route('datatables.tareas') !!}',
+                    columns: [
+                        { data: 'fake_id', name: 'tareas.fake_id' },
+                        { data: 'codigo_solicitud', name: 'solicituds.codigo_solicitud' },
+                        { data: 'fecha_inicio', name: 'tareas.fecha_inicio' },
+                        { data: 'estado', name: 'tareas.estado'  },
+                        { data: 'btn', name: 'btn',orderable:false,serachable:false,sClass:'text-center' }
+                    ],
+                    "language":{
+                        "info": "_TOTAL_ registros",
+                        "search": "Buscar:",
+                        "paginate": {
+                            "next": ">>",
+                            "previous": "<<"
+                        },
+                        "lengthMenu": 'Mostrar <select>'+
+                                    '<option value="5">5</option>'+
+                                    '<option value="10">10</option>'+
+                                    '<option value="20">20</option>'+
+                                    '<option value="40">40</option>'+
+                                    '<option value="-1">Todos</option>'+
+                                    '</select> registros',
+                        "loadingRecords": "Cargando...",
+                        "processing": "Procesando...",
+                        "emptyTable": "No hay datos",
+                        "zeroRecords": "No hay coincidencias",
+                        "infoEmpty": "",
+                        "infoFiltered": ""
+                    }
+                });
+
+        });
+
+    });
+</script>
+@endpush

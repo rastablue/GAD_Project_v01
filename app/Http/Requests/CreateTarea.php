@@ -31,7 +31,6 @@ class CreateTarea extends FormRequest
             "fecha_fin" => "required|date_format:Y-m-d",
             "direccion" => "required|string|max:500",
             "detalle" => "required|string|max:500",
-            "estado" => "required|in:Abandonado,En Proceso,Finalizada,Pendiente",
         ];
     }
 }

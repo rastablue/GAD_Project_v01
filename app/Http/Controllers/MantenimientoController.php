@@ -183,8 +183,8 @@ class MantenimientoController extends Controller
                 }
             }
 
-            if ($request->hasFile('file')) {
-                $image = $request->file->store('public');
+            if ($request->hasFile('foto')) {
+                $image = $request->foto->store('public');
                 $mantenimiento->path = $image;
             }
 

@@ -10,11 +10,11 @@
         Ver
     </a>
 @endcan
-@can('solicitudes.edit')
-    <a href="{{ route('solicituds.edit', Hashids::encode($id)) }}" class="btn btn-sm btn-warning">
-        <i class="fas fa-fw fa-pen"></i>
-        Editar
-    </a>
+@can('solicitudes.revision')
+    <button type="button" data-id="{{ $id }}" data-toggle="modal" data-target="#RevisaSolicitudModal" class="btn btn-warning btn-sm" id="getActualizaId">
+        <i class="fas fa-fw fa-check-circle"></i>
+        Revisar
+    </button>
 @endcan
 @can('solicitudes.destroy')
     <button type="button" data-id="{{ $id }}" data-toggle="modal" data-target="#DeleteProductModal" class="btn btn-danger btn-sm" id="getDeleteId"><i class="fas fa-fw fa-trash"></i>Eliminar</button>

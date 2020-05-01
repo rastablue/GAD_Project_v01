@@ -14,12 +14,13 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('auth.login');
+    return view('welcome');
 });
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::post('consultas', 'LogoutController@consulta')->name('consultas');
 
 Route::middleware(['auth'])->group(function(){
 
@@ -170,11 +171,17 @@ Route::middleware(['auth'])->group(function(){
         Route::post('solicituds/store', 'SolicitudController@store')->name('solicituds.store')
                         ->middleware('can:solicitudes.create');
 
+        Route::post('solicituds/clientestore', 'SolicitudController@clienteStore')->name('solicituds.clientestore')
+                        ->middleware('can:solicitudes.create');
+
         Route::get('solicituds', 'SolicitudController@index')->name('solicituds.index')
                         ->middleware('can:solicitudes.index');
 
         Route::get('get-solicituds', 'SolicitudController@solicitudData')->name('datatables.solicituds')
                         ->middleware('can:solicitudes.index');
+
+        Route::get('solicituds/createcliente', 'SolicitudController@createCliente')->name('solicituds.createcliente')
+                        ->middleware('can:solicitudes.create');
 
         Route::get('solicituds/create', 'SolicitudController@create')->name('solicituds.create')
                         ->middleware('can:solicitudes.create');
@@ -189,6 +196,13 @@ Route::middleware(['auth'])->group(function(){
                         ->middleware('can:solicitudes.destroy');
 
         Route::get('solicituds/{solicitud}/edit', 'SolicitudController@edit')->name('solicituds.edit')
+                        ->middleware('can:solicitudes.edit');
+
+        ///Aprobar o Reprobar solicitudes
+        Route::put('solicituds/aprobar/{solicitud}', 'SolicitudController@aprobar')->name('solicituds.aprobar')
+                        ->middleware('can:solicitudes.edit');
+
+        Route::put('solicituds/reprobar/{solicitud}', 'SolicitudController@reprobar')->name('solicituds.reprobar')
                         ->middleware('can:solicitudes.edit');
 
     //Tareas
@@ -225,6 +239,16 @@ Route::middleware(['auth'])->group(function(){
                         ->middleware('can:tareas.destroy');
 
         Route::get('tareas/{tarea}/edit', 'TareaController@edit')->name('tareas.edit')
+                        ->middleware('can:tareas.edit');
+
+        ///Aprobar o Reprobar solicitudes
+        Route::put('tareas/abandonar/{tarea}', 'TareaController@abandonar')->name('tareas.aabandonar')
+                        ->middleware('can:tareas.edit');
+
+        Route::put('tareas/proceso/{tarea}', 'TareaController@proceso')->name('tareas.proceso')
+                        ->middleware('can:tareas.edit');
+
+        Route::put('tareas/finalizar/{tarea}', 'TareaController@finalizar')->name('tareas.finalizar')
                         ->middleware('can:tareas.edit');
 
     //Maquinarias

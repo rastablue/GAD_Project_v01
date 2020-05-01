@@ -111,7 +111,7 @@
                                 </div>
                             </div>
 
-                        {{-- Estado --}}
+                        {{-- Estado 
                             <div class="form-group row">
                                 <label for="tipo_contrato" class="col-md-4 col-form-label text-md-right">Estado</label>
 
@@ -130,7 +130,7 @@
                                         </span>
                                     @enderror
                                 </div>
-                            </div>
+                            </div>--}}
 
                         {{-- btn--}}
                             <div class="form-group row mb-0">

@@ -1,4 +1,4 @@
-{!! Form::model($role, ['route' => ['users.update', $role->id]]) !!}
+{!! Form::model($role, ['route' => ['roles.update', $role->id]]) !!}
 
 <div class="form-group">
     {{ Form::label('name', 'Nombre') }}

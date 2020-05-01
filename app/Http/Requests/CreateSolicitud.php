@@ -29,12 +29,6 @@ class CreateSolicitud extends FormRequest
             "codigo3" => "required|alpha_num|size:1",
             "detalle" => "string|max:500",
             "cedula" => "required|digits:10",
-            "nombre" => "required|string|max:25",
-            "apellido_paterno" => "required|string|max:25",
-            "apellido_materno" => "required|string|max:25",
-            "direccion" => "required|string|max:250",
-            "telefono" => "required|digits_between:7,10",
-            "email" => "required|email",
         ];
     }
 }

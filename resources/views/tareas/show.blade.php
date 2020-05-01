@@ -12,7 +12,7 @@
                         <!-- Card Header - Accordion -->
                             <a href="#collapseCardTarea" class="d-block card-header py-3 border-left-info" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardExample">
                                 <h6 class="font-weight-bold text-primary">
-                                    Datos de la Tarea:
+                                    Datos del Requerimiento:
                                     <h6 class="m-0 font-weight-bold text-dark">
                                         {{ $tarea->fake_id }}
                                     </h6>
@@ -24,7 +24,7 @@
 
                                     {{-- Codigo Tarea --}}
                                         <div class="form-group row">
-                                            <label for="codigo" class="col-md-4 col-form-label text-md-right">Codigo Tarea</label>
+                                            <label for="codigo" class="col-md-4 col-form-label text-md-right">Codigo</label>
                                             <div class="col-md-6">
                                                 <input type="input" disabled value="{{ $tarea->fake_id }}" class="form-control" required autocomplete="Fecha inicio" autofocus>
                                             </div>

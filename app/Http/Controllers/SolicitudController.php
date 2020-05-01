@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Solicitud;
 use App\Cliente;
+use App\Http\Requests\CreateCliente;
 use Illuminate\Http\Request;
 use App\Http\Requests\CreateSolicitud;
+use App\Http\Requests\CreateClienteFrom;
 use App\Http\Requests\EditSolicitud;
 use Carbon\Carbon;
 use Vinkla\Hashids\Facades\Hashids;
@@ -67,6 +69,11 @@ class SolicitudController extends Controller
         return view('solicituds.create');
     }
 
+    public function createCliente(Request $request)
+    {
+        return view('solicituds.createcliente', compact('request'));
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -91,6 +98,7 @@ class SolicitudController extends Controller
                 $solicitud->codigo_solicitud = $request->codigo1.'-'.$request->codigo2.'-'.$request->codigo3;
                 $solicitud->fecha_emision = $date;
                 $solicitud->detalle = $request->detalle;
+                $solicitud->observacion = $request->observacion;
                 $solicitud->estado = 'Pendiente';
                 $solicitud->user_id = $request->user_id;
                 $solicitud->cliente_id = $cliente->id;
@@ -109,43 +117,54 @@ class SolicitudController extends Controller
 
             }else{
 
-                $clientes = new Cliente();
-
-                $clientes->cedula = $request->cedula;
-                $clientes->name = $request->nombre;
-                $clientes->apellido_pater = $request->apellido_paterno;
-                $clientes->apellido_mater = $request->apellido_materno;
-                $clientes->direc = $request->direccion;
-                $clientes->tlf = $request->telefono;
-                $clientes->email = $request->email;
-
-                $clientes->save();
-
-                $cliente = Cliente::where('cedula', $request->cedula)->first();
-
-                $solicitud = new Solicitud();
-                $solicitud->codigo_solicitud = $request->codigo1.'-'.$request->codigo2.'-'.$request->codigo3;
-                $solicitud->fecha_emision = $date;
-                $solicitud->detalle = $request->detalle;
-                $solicitud->estado = 'Pendiente';
-                $solicitud->user_id = $request->user_id;
-                $solicitud->cliente_id = $cliente->id;
-
-
-                if ($request->hasFile('file')) {
-                    $image = $request->file->store('public');
-                    $solicitud->path = $image;
-                }
-                $solicitud->save();
-
-                $codigo = Solicitud::where('codigo_solicitud', $request->codigo1.'-'.$request->codigo2.'-'.$request->codigo3)->first();
-
-                return redirect()->route('solicituds.show', Hashids::encode($codigo->id))
-                        ->with('info', 'Solicitud agregada');
+                return view('solicituds.confirmacion', compact('request'));
 
             }
 
         }
+
+    }
+
+    public function clienteStore(CreateClienteFrom $request)
+    {
+
+        $date = Carbon::now();
+
+        $clientes = new Cliente();
+
+        $clientes->cedula = $request->cedula;
+        $clientes->name = $request->nombre;
+        $clientes->apellido_pater = $request->apellido_paterno;
+        $clientes->apellido_mater = $request->apellido_materno;
+        $clientes->direc = $request->direccion;
+        $clientes->tlf = $request->telefono;
+        $clientes->email = $request->email;
+
+        $clientes->save();
+
+        $cliente = Cliente::where('cedula', $request->cedula)->first();
+
+        $solicitud = new Solicitud();
+        $solicitud->codigo_solicitud = $request->codigo1.'-'.$request->codigo2.'-'.$request->codigo3;
+        $solicitud->fecha_emision = $date;
+        $solicitud->detalle = $request->detalle;
+        $solicitud->observacion = $request->observacion;
+        $solicitud->estado = 'Pendiente';
+        $solicitud->user_id = $request->user_id;
+        $solicitud->cliente_id = $cliente->id;
+
+
+        if ($request->hasFile('file')) {
+            $image = $request->file->store('public');
+            $solicitud->path = $image;
+        }
+
+        $solicitud->save();
+
+        $codigo = Solicitud::where('codigo_solicitud', $request->codigo1.'-'.$request->codigo2.'-'.$request->codigo3)->first();
+
+        return redirect()->route('solicituds.show', Hashids::encode($codigo->id))
+                ->with('info', 'Solicitud agregada');
 
     }
 
@@ -235,6 +254,52 @@ class SolicitudController extends Controller
 
         }
 
+    }
+
+    public function aprobar(request $request, $id)
+    {
+
+        $date = Carbon::now();
+
+        $solicitud = Solicitud::findOrFail($id);
+
+        if ($solicitud->estado != 'Aprobado') {
+
+            $solicitud->estado = 'Aprobado';
+            $solicitud->fecha_revision = $date;
+
+            $solicitud->save();
+
+            foreach ($solicitud->tareas->all() as $key) {
+                $key->estado = 'En Proceso';
+
+                $key->save();
+            }
+
+        }
+    }
+
+    public function reprobar(request $request, $id)
+    {
+
+        $date = Carbon::now();
+
+        $solicitud = Solicitud::findOrFail($id);
+
+        if ($solicitud->estado != 'Reprobado') {
+
+            $solicitud->estado = 'Reprobado';
+            $solicitud->fecha_revision = $date;
+
+            $solicitud->save();
+
+            foreach ($solicitud->tareas->all() as $key) {
+                $key->estado = 'Abandonado';
+
+                $key->save();
+            }
+
+        }
     }
 
     /**

@@ -20,6 +20,7 @@ class CreateTareasTable extends Migration
             $table->datetime('fecha_fin')->nullable();
             $table->string('direc_tarea');
             $table->text('detalle')->nullable();
+            $table->text('observacion')->nullable();
             $table->enum('estado', ['En Proceso', 'Pendiente', 'Abandonado', 'Finalizada']);
             $table->foreignId('solicitud_id')->constrained()
                 ->onDelete('cascade')

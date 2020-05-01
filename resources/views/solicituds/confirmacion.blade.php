@@ -1,0 +1,115 @@
+@extends('layouts.app')
+
+@section('content')
+
+<form id="formAgregarCliente" method="GET" action="{{ route('solicituds.createcliente') }}">
+    @csrf
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <!-- Formulario Cliente -->
+                <div class="card shadow mb-4">
+
+                    <!-- Card Header - Accordion -->
+                        <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardExample">
+                            <h6 class="m-0 font-weight-bold text-primary">Datos del Solicitante</h6>
+                        </a>
+
+                    <!-- Card Content - Collapse -->
+                        <div class="collapse show" id="collapseCardExample">
+                            <div class="card-body">
+                                <div class="text-center">
+                                    <em>La cedula proporcionada ({{ $request->cedula }}), no pertenece a ningun solicitante registrado, desea registrar al solicitante y crear la Solicitud<br><br></em>
+                                </div>
+
+                                <a href="javascript:history.back()" class="btn btn-secondary">Volver</a>
+                                <button type="submit" form="formAgregarCliente" id="submitBtn" class="btn btn-primary">Agregar</button>
+
+                            </div>
+                        </div>
+
+                </div>
+
+            <!-- Formulario Solicitudes -->
+                <div class="card shadow mb-4">
+                    <!-- Card Header - Accordion -->
+                        <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardExample">
+                            <h6 class="m-0 font-weight-bold text-primary">Datos de la Solicitud</h6>
+                        </a>
+                    <!-- Card Content - Collapse -->
+                        <div class="collapse hide" id="collapseCardExample">
+                            <div class="card-body">
+                                {{-- Codigo --}}
+                                    <div class="row">
+                                        <div class="form-group row">
+                                            <label for="codigo" class="col-md-3 col-form-label text-md-right">Codigo</label>
+                                            <div class="col-md-2">
+                                                <input id="codigo1" disabled onkeyup="mayus(this);" type="text" class="form-control" name="codigo1" value="{{ $request->codigo1 ?? old('codigo1') }}" autocomplete="Codigo" autofocus>
+                                                
+                                                <input type="hidden" name="codigo1" value="{{ $request->codigo1 }}">
+                                            </div>
+
+                                            <label for="codigo" class="col-form-label">-</label>
+                                            <div class="col-md-2">
+                                                <input id="codigo2" disabled onkeyup="mayus(this);" type="text" class="form-control" name="codigo2" value="{{ $request->codigo2 ?? old('codigo2') }}" autocomplete="Codigo" autofocus>
+
+                                                <input type="hidden" name="codigo2" value="{{ $request->codigo2 }}">
+                                            </div>
+
+                                            <label for="codigo" class="col-form-label">-</label>
+                                            <div class="col-md-2">
+                                                <input id="codigo3" disabled onkeyup="mayus(this);" type="text" class="form-control" name="codigo3" value="{{ $request->codigo3 ?? old('codigo3') }}" autocomplete="Codigo" autofocus>
+
+                                                <input type="hidden" name="codigo3" value="{{ $request->codigo3 }}">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                {{-- cedula --}}
+                                    <div class="form-group row">
+                                        <label for="cedula" class="col-md-3 col-form-label text-md-right">Cedula</label>
+                                        <div class="col-md-6">
+                                            <input type="text" disabled class="form-control @error('cedula') is-invalid @enderror" value="{{ $request->cedula }}" autofocus>
+                                        
+                                            @error('cedula')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+                                    <input type="hidden" name="cedula" value="{{ $request->cedula }}">
+
+                                {{-- Detalle --}}
+                                    <div class="form-group row">
+                                        <label for="detalle" class="col-md-3 col-form-label text-md-right">Detalle</label>
+                                        <div class="col-md-6">
+                                            <textarea type="text" disabled class="form-control" name="detalle" autofocus>{{ $request->detalle ?? old('detalle') }}</textarea>
+
+                                            <input type="hidden" name="detalle" value="{{ $request->detalle }}">
+
+                                        </div>
+                                    </div>
+
+                                {{-- Observacion --}}
+                                    <div class="form-group row">
+                                        <label for="observacion" class="col-md-3 col-form-label text-md-right">Observacion</label>
+                                        <div class="col-md-6">
+                                            <textarea type="text" disabled class="form-control" name="observacion" autofocus>{{ $request->observacion ?? old('observacion') }}</textarea>
+
+                                            <input type="hidden" name="observacion" value="{{ $request->observacion }}">
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>
+                </div>
+
+        </div>
+    </div>
+</form>
+<script>
+    function mayus(e) {
+        e.value = e.value.toUpperCase();
+    }
+</script>
+@endsection

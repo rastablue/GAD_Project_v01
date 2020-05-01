@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateTareaFromSolicitud extends FormRequest
+class CreateClienteFrom extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,11 +24,12 @@ class CreateTareaFromSolicitud extends FormRequest
     public function rules()
     {
         return [
-            "codigo" => "required|string|size:10|exists:solicituds,codigo_solicitud",
-            "fecha_inicio" => "required|date_format:Y-m-d",
-            "fecha_fin" => "required|date_format:Y-m-d",
-            "direccion" => "required|string|max:500",
-            "detalle" => "required|string|max:500",
+            "cedula" => "required|digits:10|unique:clientes,cedula",
+            "nombre" => "required|string|max:25",
+            "apellido_paterno" => "required|string|max:25",
+            "apellido_materno" => "required|string|max:25",
+            "direccion" => "required|string|max:250",
+            "telefono" => "required|digits_between:7,10"
         ];
     }
 }

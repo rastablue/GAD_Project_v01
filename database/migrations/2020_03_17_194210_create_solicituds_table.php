@@ -19,6 +19,7 @@ class CreateSolicitudsTable extends Migration
             $table->datetime('fecha_emision');
             $table->datetime('fecha_revision')->nullable();
             $table->text('detalle')->nullable();
+            $table->text('observacion')->nullable();
             $table->enum('estado', ['Aprobado', 'Reprobado', 'Pendiente'])->nullable();
             $table->foreignId('user_id')->constrained()
                 ->onDelete('cascade')

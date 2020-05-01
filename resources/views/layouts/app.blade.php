@@ -43,22 +43,24 @@
                 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
                     <!-- SB Admin -->
-                        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
-                            <div class="sidebar-brand-icon rotate-n-15">
-                                <i class="fas fa-laugh-wink"></i>
+                        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('home') }}">
+                            <!--Para rotar un icono en fontAwesome se usa: rotate-n-15 en una etiqueta div que encierre la i-->
+                            <div class="sidebar-brand-icon">
+                                <i class="fas fa-landmark"></i>
                             </div>
-                            <div class="sidebar-brand-text mx-3">{{ config('app.name', 'Laravel') }} <sup>{{ @Auth::user()->roles->first()->name }}</sup></div>
+                            <br>
+                            <div class="sidebar-brand-text mx-3">{{ config('app.name', 'Laravel') }}</div>
                         </a>
 
-                    <!-- Divider -->
-                        <hr class="sidebar-divider my-0">
+                    <!-- Divider 
+                        <hr class="sidebar-divider my-0">-->
 
-                    <!-- Dashboard -->
+                    <!-- Dashboard 
                         <li class="nav-item active">
                             <a class="nav-link" href="{{ route('home') }}">
                                 <i class="fas fa-fw fa-tachometer-alt"></i>
                                 <span>Dashboard</span></a>
-                        </li>
+                        </li>-->
 
                     <!-- Divider -->
                         <hr class="sidebar-divider">
@@ -84,7 +86,7 @@
                                                         <a class="collapse-item" href="{{ route('solicituds.index') }}"><i class="fas fa-fw fa-folder"></i>  Solicitudes</a>
                                                     @endcan
                                                     @can('actividades.encargos.general.tareas')
-                                                        <a class="collapse-item" href="{{ route('tareas.index') }}"><i class="fas fa-fw fa-file-alt"></i>  Tareas</a>
+                                                        <a class="collapse-item" href="{{ route('tareas.index') }}"><i class="fas fa-fw fa-file-alt"></i>  Requerimientos</a>
                                                     @endcan
                                                 @endcan
                                                 @can('actividades.encargos.asignaciones')
@@ -313,7 +315,7 @@
                     <!-- Fin del Contenido Principal -->
 
                     <!-- Footer -->
-                        <footer class="sticky-footer bg-white">
+                        <footer class="sticky-footer">
                             <div class="container my-auto">
                                 <div class="copyright text-center my-auto">
                                     <span>Copyright &copy; GAD MUNICIPAL LAS NAVES 2020</span>
