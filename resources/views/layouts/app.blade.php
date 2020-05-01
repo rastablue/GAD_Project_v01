@@ -92,8 +92,8 @@
                                                 @can('actividades.encargos.asignaciones')
                                                     <div class="collapse-divider"></div>
                                                     <h6 class="collapse-header">Asignaciones:</h6>
-                                                    <a class="collapse-item" href="{{ route('asigna.create') }}"><i class="fas fa-fw fa-link"></i>  Asignacion: <br> Vehiculos->Tareas</a>
-                                                    <a class="collapse-item" href="{{ route('asignavehi.create') }}"><i class="fas fa-fw fa-link"></i>  Asignacion: <br> Operarios->Vehiculos</a>
+                                                    <a class="collapse-item" href="{{ route('asigna.create') }}"><i class="fas fa-fw fa-link"></i>  Asignar: Vehiculos</a>
+                                                    <a class="collapse-item" href="{{ route('asignavehi.create') }}"><i class="fas fa-fw fa-link"></i>  Asignar: Operarios</a>
                                                 @endcan
                                             </div>
                                         </div>

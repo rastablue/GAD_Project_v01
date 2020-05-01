@@ -113,6 +113,7 @@ class OperarioController extends Controller
         return view('asignaciones.createvehi');
     }
 
+    //Asigna Operario a una maquinaria
     public function asignaStoreCode(Request $request)
     {
         if ($request->operario) {
@@ -124,6 +125,11 @@ class OperarioController extends Controller
                 $maquinaria->operario_id = $request->operario;
 
                 $maquinaria->save();
+
+                foreach ($maquinaria->tareas as $key) {
+                    $key->pivot->operador_id = $maquinaria->operario_id;
+                    $key->pivot->save();
+                }
 
                 return redirect()->route('operarios.show', Hashids::encode($request->operario))
                         ->with('info', 'Vehiculo asignado');
@@ -159,6 +165,11 @@ class OperarioController extends Controller
 
             $maquinaria->operario_id = $operario->id;
             $maquinaria->save();
+        }
+
+        foreach ($maquinaria->tareas as $key) {
+            $key->pivot->operador_id = $maquinaria->operario_id;
+            $key->pivot->save();
         }
 
         return redirect()->route('operarios.show', Hashids::encode($operario->id));

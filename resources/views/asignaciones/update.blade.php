@@ -4,7 +4,7 @@
 
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h5 class="m-0 font-weight-bold text-primary">Asignar vehiculos a la tarea:
+            <h5 class="m-0 font-weight-bold text-primary">Asignar Maquinarias al Requerimiento:
                 <a href="javascript:history.back()">
                     <img class="img-responsive img-rounded float-right" src="{{ asset('images/retroceder.png') }}">
                 </a>

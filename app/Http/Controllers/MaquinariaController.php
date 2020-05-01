@@ -89,12 +89,14 @@ class MaquinariaController extends Controller
         $maquinaria = Maquinaria::findOrfail($id)->first();
         return view('maquinarias.show', compact('maquinaria'));
     }
-
+    
+    //Redireccion de asignacion de maquinarias desde el manu lateral
     public function asignaCreate()
     {
         return view('asignaciones.create');
     }
 
+    //Asignar maquinarias desde el menu lateral
     public function asignaStoreCode(Request $request)
     {
         if ($codT = Tarea::where('fake_id', $request->codigo_tarea)->first()) {
@@ -108,6 +110,16 @@ class MaquinariaController extends Controller
                 }else{
                     if ($tarea->maquinarias()->sync($maquinaria)) {
                         $tarea->maquinarias()->sync($maquinaria);
+
+                        foreach ($tarea->maquinarias as $key) {
+                            $key->pivot->operador_id = $key->operario_id;
+                            $key->pivot->save();
+                        }
+        
+                        foreach ($tarea->maquinarias as $key) {
+                            $key->pivot->estado_tarea = $tarea->estado;
+                            $key->pivot->save();
+                        }
 
                         return redirect()->route('tareas.show', Hashids::encode($tarea->id))
                                     ->with('info', 'Vehiculos asignados');
@@ -126,6 +138,7 @@ class MaquinariaController extends Controller
         }
     }
 
+    //Redireccion a la vista de asignacion de maquinarias desde el show de requerimientos
     public function asigna($tarea)
     {
         $id = Hashids::decode($tarea);
@@ -139,6 +152,7 @@ class MaquinariaController extends Controller
         }
     }
 
+    //Almacenar la asignacion de maquinarias desde la vista del requerimiento
     public function asignaStore(Request $request, $tarea)
     {
         $id = Hashids::decode($tarea);
@@ -152,10 +166,20 @@ class MaquinariaController extends Controller
 
             $tarea->maquinarias()->sync($request->get('maquinarias'));
             if ($tarea->maquinarias()->sync($request->get('maquinarias'))) {
-                $tarea->maquinarias()->sync($request->get('maquinarias'));
+                
+                //Actualizar las tablas pivote desde la asignacion de maquinarias
+                foreach ($tarea->maquinarias as $key) {
+                    $key->pivot->operador_id = $key->operario_id;
+                    $key->pivot->save();
+                }
+
+                foreach ($tarea->maquinarias as $key) {
+                    $key->pivot->estado_tarea = $tarea->estado;
+                    $key->pivot->save();
+                }
 
                 return redirect()->route('tareas.show', Hashids::encode($tarea->id))
-                            ->with('info', 'Vehiculos asignados');
+                            ->with('info', 'Maquinarias asignadas');
 
             } else {
                 return redirect()->route('tareas.show', Hashids::encode($tarea->id))
@@ -194,6 +218,11 @@ class MaquinariaController extends Controller
             $maquinarias->observacion = $request->observacion;
 
             $maquinarias->save();
+
+            foreach ($maquinarias->tareas as $key) {
+                $key->pivot->operador_id = $maquinarias->operario_id;
+                $key->pivot->save();
+            }
 
             return redirect()->route('maquinarias.show', Hashids::encode($maquinarias->id))
                     ->with('info', 'Vehiculo actualizado');

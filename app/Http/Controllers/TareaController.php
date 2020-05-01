@@ -193,6 +193,11 @@ class TareaController extends Controller
 
             $tarea->save();
 
+            foreach ($tarea->maquinarias as $key) {
+                $key->pivot->estado_tarea = $tarea->estado;
+                $key->pivot->save();
+            }
+
             return redirect()->route('tareas.show', Hashids::encode($tarea->id))
                 ->with('info', 'Tarea actualizada');
 
@@ -210,6 +215,11 @@ class TareaController extends Controller
 
             $tarea->save();
 
+            foreach ($tarea->maquinarias as $key) {
+                $key->pivot->estado_tarea = $tarea->estado;
+                $key->pivot->save();
+            }
+
         }
     }
 
@@ -223,6 +233,11 @@ class TareaController extends Controller
             $tarea->estado = 'En Proceso';
 
             $tarea->save();
+
+            foreach ($tarea->maquinarias as $key) {
+                $key->pivot->estado_tarea = $tarea->estado;
+                $key->pivot->save();
+            }
             
         }
     }
@@ -237,6 +252,11 @@ class TareaController extends Controller
             $tarea->estado = 'Finalizada';
 
             $tarea->save();
+
+            foreach ($tarea->maquinarias as $key) {
+                $key->pivot->estado_tarea = $tarea->estado;
+                $key->pivot->save();
+            }
 
         }
     }

@@ -208,97 +208,119 @@
                     @if(@$maquinaria->tareas->first())
                         <!-- Divider -->
                             <div class="sidebar-heading text-center">
-                                Tareas
+                                Requerimientos
                             </div>
                             <hr class="sidebar-divider">
                         <!-- Body -->
                             <div class="row">
                                 @foreach (@App\Maquinaria::findOrFail($maquinaria->id)->tareas as $item)
+                                    @if ($item->estado != 'Finalizada' && $item->estado != 'Abandonado')
+                                        
+                                        <div class="col-lg-6">
+                                            <div class="card shadow mb-4">
+                                                <!-- Card Header - Accordion -->
+                                                    @switch($item->estado)
+                                                        @case('En Proceso')
+                                                            <a href="#collapseCardTareas{{$loop->iteration}}" class="d-block card-header py-3 border-left-success" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardExample">
+                                                                <h6 class="m-0 font-weight-bold text-primary">
+                                                                    Datos Del Requerimiento:
+                                                                    <h6 class="m-0 font-weight-bold text-dark"><i>{{ $item->fake_id}}</i></h6>
+                                                                </h6>
+                                                            </a>
+                                                            @break
+                                                        @case('Pendiente')
+                                                            <a href="#collapseCardTareas{{$loop->iteration}}" class="d-block card-header py-3 border-left-info" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardExample">
+                                                                <h6 class="m-0 font-weight-bold text-primary">
+                                                                    Datos Del Requerimiento:
+                                                                    <h6 class="m-0 font-weight-bold text-dark"><i>{{ $item->fake_id}}</i></h6>
+                                                                </h6>
+                                                            </a>
+                                                            @break
+                                                        @default
+                                                            <a href="#collapseCardTareas{{$loop->iteration}}" class="d-block card-header py-3 border-left-secondary" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardExample">
+                                                                <h6 class="m-0 font-weight-bold text-primary">
+                                                                    Datos Del Requerimiento:
+                                                                    <h6 class="m-0 font-weight-bold text-dark"><i>{{ $item->fake_id}}</i></h6>
+                                                                </h6>
+                                                            </a>
+                                                    @endswitch
+                                                        
+                                                <!-- Card Content - Collapse -->
+                                                        <div class="collapse hide" id="collapseCardTareas{{ $loop->iteration}}">
+                                                            <div class="card-body">
 
-                                    <div class="col-lg-6">
-                                        <div class="card shadow mb-4">
-                                            <!-- Card Header - Accordion -->
-                                                    <a href="#collapseCardTareas{{$loop->iteration}}" class="d-block card-header py-3 border-left-info" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardExample">
-                                                        <h6 class="m-0 font-weight-bold text-primary">
-                                                            Datos De La Tarea:
-                                                            <h6 class="m-0 font-weight-bold text-dark"><i>{{ $item->fake_id}}</i></h6>
-                                                        </h6>
-                                                    </a>
-                                            <!-- Card Content - Collapse -->
-                                                    <div class="collapse hide" id="collapseCardTareas{{ $loop->iteration}}">
-                                                        <div class="card-body">
-
-                                                            {{-- Codigo Tarea --}}
-                                                                <div class="form-group row">
-                                                                    <label for="codigo" class="col-md-4 col-form-label text-md-right">Codigo Tarea</label>
-                                                                    <div class="col-md-6">
-                                                                        <input type="input" disabled value="{{ $item->fake_id }}" class="form-control" required autocomplete="Fecha inicio" autofocus>
+                                                                {{-- Codigo Tarea --}}
+                                                                    <div class="form-group row">
+                                                                        <label for="codigo" class="col-md-4 col-form-label text-md-right">Codigo</label>
+                                                                        <div class="col-md-6">
+                                                                            <input type="input" disabled value="{{ $item->fake_id }}" class="form-control" required autocomplete="Fecha inicio" autofocus>
+                                                                        </div>
                                                                     </div>
-                                                                </div>
 
-                                                            {{-- Fecha Inicio --}}
-                                                                <div class="form-group row">
-                                                                    <label for="codigo" class="col-md-4 col-form-label text-md-right">Fecha de Inicio</label>
-                                                                    <div class="col-md-6">
-                                                                        <input type="input" disabled value="{{ $item->fecha_inicio }}" class="form-control" required autocomplete="Fecha inicio" autofocus>
+                                                                {{-- Fecha Inicio --}}
+                                                                    <div class="form-group row">
+                                                                        <label for="codigo" class="col-md-4 col-form-label text-md-right">Fecha de Inicio</label>
+                                                                        <div class="col-md-6">
+                                                                            <input type="input" disabled value="{{ $item->fecha_inicio }}" class="form-control" required autocomplete="Fecha inicio" autofocus>
+                                                                        </div>
                                                                     </div>
-                                                                </div>
 
-                                                            {{-- Fecha Fin --}}
-                                                                <div class="form-group row">
-                                                                    <label for="codigo" class="col-md-4 col-form-label text-md-right">Fecha de Fin</label>
-                                                                    <div class="col-md-6">
-                                                                        <input type="input" disabled value="{{ $item->fecha_fin }}" class="form-control" required autocomplete="Fecha fin" autofocus>
+                                                                {{-- Fecha Fin --}}
+                                                                    <div class="form-group row">
+                                                                        <label for="codigo" class="col-md-4 col-form-label text-md-right">Fecha de Fin</label>
+                                                                        <div class="col-md-6">
+                                                                            <input type="input" disabled value="{{ $item->fecha_fin }}" class="form-control" required autocomplete="Fecha fin" autofocus>
+                                                                        </div>
                                                                     </div>
-                                                                </div>
 
-                                                            {{-- Direccion --}}
-                                                                <div class="form-group row">
-                                                                    <label for="detalle" class="col-md-4 col-form-label text-md-right">Direccion</label>
-                                                                    <div class="col-md-6">
-                                                                        <textarea type="text" disabled class="form-control" required autocomplete="direccion" autofocus> {{ $item->direc_tarea }} </textarea>
+                                                                {{-- Direccion --}}
+                                                                    <div class="form-group row">
+                                                                        <label for="detalle" class="col-md-4 col-form-label text-md-right">Direccion</label>
+                                                                        <div class="col-md-6">
+                                                                            <textarea type="text" disabled class="form-control" required autocomplete="direccion" autofocus> {{ $item->direc_tarea }} </textarea>
+                                                                        </div>
                                                                     </div>
-                                                                </div>
 
-                                                            {{-- Detalle --}}
-                                                                <div class="form-group row">
-                                                                    <label for="detalle" class="col-md-4 col-form-label text-md-right">Detalle</label>
-                                                                    <div class="col-md-6">
-                                                                        <textarea type="text" disabled class="form-control" required autocomplete="detalle" autofocus> {{ $item->detalle }} </textarea>
+                                                                {{-- Detalle --}}
+                                                                    <div class="form-group row">
+                                                                        <label for="detalle" class="col-md-4 col-form-label text-md-right">Detalle</label>
+                                                                        <div class="col-md-6">
+                                                                            <textarea type="text" disabled class="form-control" required autocomplete="detalle" autofocus> {{ $item->detalle }} </textarea>
+                                                                        </div>
                                                                     </div>
-                                                                </div>
 
-                                                            {{-- Estado --}}
-                                                                <div class="form-group row">
-                                                                    <label for="codigo" class="col-md-4 col-form-label text-md-right">Estado</label>
-                                                                    <div class="col-md-6">
-                                                                        <input type="input" disabled value="{{ $item->estado }}" class="form-control" required autocomplete="Fecha fin" autofocus>
+                                                                {{-- Estado --}}
+                                                                    <div class="form-group row">
+                                                                        <label for="codigo" class="col-md-4 col-form-label text-md-right">Estado</label>
+                                                                        <div class="col-md-6">
+                                                                            <input type="input" disabled value="{{ $item->estado }}" class="form-control" required autocomplete="Fecha fin" autofocus>
+                                                                        </div>
                                                                     </div>
-                                                                </div>
 
-                                                            {{-- btn--}}
-                                                                <div class="form-group row mb-0">
-                                                                    <div class="col-md-6 offset-md-5">
-                                                                        @can('tareas.show')
-                                                                            <a href="{{ route('tareas.show', Hashids::encode($item->id)) }}" class="btn btn-sm btn-info">
-                                                                                <i class="fas fa-fw fa-eye"></i>
-                                                                                Ver
-                                                                            </a>
-                                                                        @endcan
-                                                                        @can('tareas.edit')
-                                                                            <a href="{{ route('tareas.edit', Hashids::encode($item->id)) }}" class="btn btn-sm btn-warning">
-                                                                                <i class="fas fa-fw fa-pen"></i>
-                                                                                Editar
-                                                                            </a>
-                                                                        @endcan
+                                                                {{-- btn--}}
+                                                                    <div class="form-group row mb-0">
+                                                                        <div class="col-md-6 offset-md-5">
+                                                                            @can('tareas.show')
+                                                                                <a href="{{ route('tareas.show', Hashids::encode($item->id)) }}" class="btn btn-sm btn-info">
+                                                                                    <i class="fas fa-fw fa-eye"></i>
+                                                                                    Ver
+                                                                                </a>
+                                                                            @endcan
+                                                                            @can('tareas.edit')
+                                                                                <a href="{{ route('tareas.edit', Hashids::encode($item->id)) }}" class="btn btn-sm btn-warning">
+                                                                                    <i class="fas fa-fw fa-pen"></i>
+                                                                                    Editar
+                                                                                </a>
+                                                                            @endcan
+                                                                        </div>
                                                                     </div>
-                                                                </div>
 
+                                                            </div>
                                                         </div>
-                                                    </div>
+                                            </div>
                                         </div>
-                                    </div>
-
+                                        
+                                    @endif
                                 @endforeach
                             </div>
                     @endif

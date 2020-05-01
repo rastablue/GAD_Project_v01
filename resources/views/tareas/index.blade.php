@@ -118,7 +118,7 @@
             <div class="modal-content">
                 <!-- Modal Header -->
                     <div class="modal-header bg-warning text-light">
-                        <h5>Revision de estado del rsequerimiento</h5>
+                        <h5>Revision de estado del requerimiento</h5>
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                     </div>
                 <!-- Modal body -->

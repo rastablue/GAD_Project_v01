@@ -7,7 +7,7 @@
             <div class="card">
 
                 <div class="card-header d-flex justify-content-between align-tareas-center">
-                    <span><h4><b>Asignar Maquinarias a Tareas </b></h4></span>
+                    <span><h4><b>Asignar Maquinarias </b></h4></span>
                     <a href="javascript:history.back()">
                         <img class="img-responsive img-rounded float-left" src="{{ asset('images/retroceder.png') }}">
                     </a>
@@ -19,7 +19,7 @@
 
                         {{-- Codigo Tarea --}}
                             <div class="form-group row">
-                                <label for="codigo" class="col-md-4 col-form-label text-md-right">Codigo Tarea</label>
+                                <label for="codigo" class="col-md-4 col-form-label text-md-right">Codigo Requerimiento</label>
                                 <div class="col-md-6">
                                     <input id="codigo_tarea" name="codigo_tarea" type="text" pattern="{9}" class="form-control" required autocomplete="Codigo" autofocus>
                                 </div>

@@ -229,7 +229,7 @@
 
                                                         {{-- Codigo Tarea --}}
                                                             <div class="form-group row">
-                                                                <label for="codigo" class="col-md-4 col-form-label text-md-right">Codigo Requerimiento</label>
+                                                                <label for="codigo" class="col-md-4 col-form-label text-md-right">Codigo</label>
                                                                 <div class="col-md-6">
                                                                     <input type="input" disabled value="{{ $item->fake_id }}" class="form-control" required autocomplete="Fecha inicio" autofocus>
                                                                 </div>

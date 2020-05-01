@@ -9,7 +9,7 @@ class Maquinaria extends Model
 
     public function tareas(){
 
-        return $this->belongsToMany(Tarea::class);
+        return $this->belongsToMany(Tarea::class)->withPivot('estado_tarea', 'operador_id');
 
     }
 

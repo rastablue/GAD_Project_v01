@@ -208,6 +208,17 @@
                                 <div class="col-lg-6">
                                     <div class="card shadow mb-4">
                                         <!-- Card Header - Accordion -->
+                                            @if (!$item->operario_id)
+                                                <a href="#collapseCardTareas{{ $loop->iteration}}" class="d-block card-header py-3 border-left-danger" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardExample">
+                                                    <em>Esta maquinaria no posee un operador asignado</em>
+                                                    <h6 class="font-weight-bold text-danger">
+                                                        Datos de la Maquinaria:
+                                                        <h6 class="m-0 font-weight-bold text-dark">
+                                                            <i>{{ $item->codigo_nro_gad}}</i>
+                                                        </h6>
+                                                    </h6>
+                                                </a>
+                                            @else
                                                 <a href="#collapseCardTareas{{ $loop->iteration}}" class="d-block card-header py-3 border-left-info" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardExample">
                                                     <h6 class="font-weight-bold text-primary">
                                                         Datos de la Maquinaria:
@@ -216,6 +227,8 @@
                                                         </h6>
                                                     </h6>
                                                 </a>
+                                            @endif
+                                                
                                         <!-- Card Content - Collapse -->
                                                 <div class="collapse hide" id="collapseCardTareas{{ $loop->iteration}}">
                                                     <div class="card-body">

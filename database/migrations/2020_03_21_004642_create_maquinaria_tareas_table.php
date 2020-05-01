@@ -20,6 +20,8 @@ class CreateMaquinariaTareasTable extends Migration
             $table->foreignId('tarea_id')->constrained()
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
+            $table->integer('operador_id')->nullable();
+            $table->enum('estado_tarea', ['Abandonado', 'En Proceso', 'Finalizada', 'Pendiente'])->nullable();
             $table->timestamps();
         });
     }
