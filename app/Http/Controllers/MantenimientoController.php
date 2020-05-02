@@ -199,6 +199,74 @@ class MantenimientoController extends Controller
 
     }
 
+    public function activo(request $request, $id)
+    {
+
+        $mantenimiento = Mantenimiento::findOrFail($id);
+
+        if ($mantenimiento->estado != 'Activo') {
+
+            $mantenimiento->estado = 'Activo';
+
+            $mantenimiento->save();
+
+        }
+    }
+
+    public function espera(request $request, $id)
+    {
+
+        $mantenimiento = Mantenimiento::findOrFail($id);
+
+        if ($mantenimiento->estado != 'En espera') {
+
+            $mantenimiento->estado = 'En espera';
+
+            $mantenimiento->save();
+
+        }
+    }
+
+    public function inactivo(request $request, $id)
+    {
+
+        $mantenimiento = Mantenimiento::findOrFail($id);
+
+        if ($mantenimiento->estado != 'Inactivo') {
+
+            $mantenimiento->estado = 'Inactivo';
+
+            $mantenimiento->save();
+
+            foreach ($mantenimiento->trabajos->all() as $key) {
+                $key->estado = 'Inactivo';
+
+                $key->save();
+            }
+
+        }
+    }
+
+    public function finalizar(request $request, $id)
+    {
+
+        $mantenimiento = Mantenimiento::findOrFail($id);
+
+        if ($mantenimiento->estado != 'Finalizado') {
+
+            $mantenimiento->estado = 'Finalizado';
+
+            $mantenimiento->save();
+
+            foreach ($mantenimiento->trabajos->all() as $key) {
+                $key->estado = 'Finalizado';
+
+                $key->save();
+            }
+
+        }
+    }
+
     /**
      * Remove the specified resource from storage.
      *

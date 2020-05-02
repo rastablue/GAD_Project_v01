@@ -70,6 +70,7 @@ class PermissionsTableSeeder extends Seeder
             //Mantenimientos
                 Permission::create(['name' => 'mantenimientos.index']);
                 Permission::create(['name' => 'mantenimientos.edit']);
+                Permission::create(['name' => 'mantenimientos.revision']);
                 Permission::create(['name' => 'mantenimientos.show']);
                 Permission::create(['name' => 'mantenimientos.create']);
                 Permission::create(['name' => 'mantenimientos.destroy']);
@@ -77,6 +78,7 @@ class PermissionsTableSeeder extends Seeder
             //Trabajos
                 Permission::create(['name' => 'trabajos.index']);
                 Permission::create(['name' => 'trabajos.edit']);
+                Permission::create(['name' => 'trabajos.revision']);
                 Permission::create(['name' => 'trabajos.show']);
                 Permission::create(['name' => 'trabajos.create']);
                 Permission::create(['name' => 'trabajos.destroy']);
@@ -113,7 +115,7 @@ class PermissionsTableSeeder extends Seeder
                 Permission::create(['name' => 'admin.vehiculos.general.marcas']);
 
         //Admin
-            $admin = Role::create(['name' => 'Admin']);
+            $admin = Role::create(['name' => 'Acceso Total']);
 
             $admin->givePermissionTo([
                 //Roles
@@ -161,12 +163,14 @@ class PermissionsTableSeeder extends Seeder
                 //Mantenimientos
                     'mantenimientos.index',
                     'mantenimientos.edit',
+                    'mantenimientos.revision',
                     'mantenimientos.show',
                     'mantenimientos.create',
                     'mantenimientos.destroy',
                 //Trabajos
                     'trabajos.index',
                     'trabajos.edit',
+                    'trabajos.revision',
                     'trabajos.show',
                     'trabajos.create',
                     'trabajos.destroy',
@@ -355,11 +359,13 @@ class PermissionsTableSeeder extends Seeder
                 //Mantenimientos
                     'mantenimientos.index',
                     'mantenimientos.edit',
+                    'mantenimientos.revision',
                     'mantenimientos.show',
                     'mantenimientos.create',
                 //Trabajos
                     'trabajos.index',
                     'trabajos.edit',
+                    'trabajos.revision',
                     'trabajos.show',
                     'trabajos.create',
                     'trabajos.destroy',

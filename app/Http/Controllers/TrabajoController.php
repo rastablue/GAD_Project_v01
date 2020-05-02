@@ -211,6 +211,62 @@ class TrabajoController extends Controller
         }
     }
 
+    public function activo(request $request, $id)
+    {
+
+        $trabajo = Trabajo::findOrFail($id);
+
+        if ($trabajo->estado != 'Activo') {
+
+            $trabajo->estado = 'Activo';
+
+            $trabajo->save();
+
+        }
+    }
+
+    public function espera(request $request, $id)
+    {
+
+        $trabajo = Trabajo::findOrFail($id);
+
+        if ($trabajo->estado != 'En espera') {
+
+            $trabajo->estado = 'En espera';
+
+            $trabajo->save();
+
+        }
+    }
+
+    public function inactivo(request $request, $id)
+    {
+
+        $trabajo = Trabajo::findOrFail($id);
+
+        if ($trabajo->estado != 'Inactivo') {
+
+            $trabajo->estado = 'Inactivo';
+
+            $trabajo->save();
+
+        }
+    }
+
+    public function finalizar(request $request, $id)
+    {
+
+        $trabajo = Trabajo::findOrFail($id);
+
+        if ($trabajo->estado != 'Finalizado') {
+
+            $trabajo->estado = 'Finalizado';
+
+            $trabajo->save();
+
+        }
+    }
+
     /**
      * Remove the specified resource from storage.
      *

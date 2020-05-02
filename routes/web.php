@@ -339,6 +339,19 @@ Route::middleware(['auth'])->group(function(){
         Route::get('mantenimientos/{mantenimiento}/edit', 'MantenimientoController@edit')->name('mantenimientos.edit')
                     ->middleware('can:mantenimientos.edit');
 
+        ///Modificar estados de Mantenimientos
+        Route::put('mantenimientos/activo/{mantenimiento}', 'MantenimientoController@activo')->name('mantenimientos.activo')
+                ->middleware('can:mantenimientos.edit');
+
+        Route::put('mantenimientos/espera/{mantenimiento}', 'MantenimientoController@espera')->name('mantenimientos.espera')
+                ->middleware('can:mantenimientos.edit');
+
+        Route::put('mantenimientos/inactivo/{mantenimiento}', 'MantenimientoController@inactivo')->name('mantenimientos.inactivo')
+                ->middleware('can:mantenimientos.edit');
+
+        Route::put('mantenimientos/finalizar/{mantenimiento}', 'MantenimientoController@finalizar')->name('mantenimientos.finalizar')
+                ->middleware('can:mantenimientos.edit');
+
     //Trabajos
 
         Route::get('descargar-trabajos', 'TrabajoController@reportes')->name('trabajos.reportes')
@@ -371,6 +384,19 @@ Route::middleware(['auth'])->group(function(){
 
         Route::get('trabajos/{trabajo}/edit', 'TrabajoController@edit')->name('trabajos.edit')
                     ->middleware('can:trabajos.edit');
+
+        ///Modificar estados de Mantenimientos
+        Route::put('trabajos/activo/{trabajo}', 'TrabajoController@activo')->name('trabajos.activo')
+                ->middleware('can:trabajos.edit');
+
+        Route::put('trabajos/espera/{trabajo}', 'TrabajoController@espera')->name('trabajos.espera')
+                ->middleware('can:trabajos.edit');
+
+        Route::put('trabajos/inactivo/{trabajo}', 'TrabajoController@inactivo')->name('trabajos.inactivo')
+                ->middleware('can:trabajos.edit');
+
+        Route::put('trabajos/finalizar/{trabajo}', 'TrabajoController@finalizar')->name('trabajos.finalizar')
+                ->middleware('can:trabajos.edit');
 
     //Marcas
 
