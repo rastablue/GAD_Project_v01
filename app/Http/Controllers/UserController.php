@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Barryvdh\DomPDF\Facade as PDF;
+use Illuminate\Support\Facades\Auth;
 use App\User;
 
 class UserController extends Controller
@@ -142,8 +143,18 @@ class UserController extends Controller
     public function updateProfile($user)
     {
         $id = Hashids::decode($user);
-        $user = User::findOrfail($id)->first();
-        return view('users.profile', compact('user'));
+        if ($id != Auth::user()->id) {
+
+            $user = User::findOrfail(Auth::user()->id);
+            return view('users.profile', compact('user'));
+
+        } else {
+
+            $user = User::findOrfail($id);
+            return view('users.profile', compact('user'));
+
+        }
+
     }
 
     public function updatePass(profile $request, $id)

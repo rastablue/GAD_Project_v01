@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Solicitud;
 use App\Cliente;
+use App\Tarea;
 use App\Http\Requests\CreateCliente;
 use Illuminate\Http\Request;
 use App\Http\Requests\CreateSolicitud;
@@ -36,6 +37,18 @@ class SolicitudController extends Controller
 
         return Datatables::of($solicitudes)
                 ->addColumn('btn', 'solicituds.actions')
+                ->rawColumns(['btn'])
+                ->make(true);
+    }
+
+    public function solicitudDatatarea()
+    {
+        $tareas = Tarea::join('solicituds', 'solicituds.id', '=', 'tareas.solicitud_id')
+                                ->select('tareas.id', 'solicituds.codigo_solicitud', 'tareas.fake_id',
+                                        'tareas.fecha_inicio', 'tareas.estado');
+
+        return Datatables::of($tareas)
+                ->addColumn('btn', 'tareas.actions')
                 ->rawColumns(['btn'])
                 ->make(true);
     }
@@ -178,6 +191,12 @@ class SolicitudController extends Controller
     {
         $id = Hashids::decode($solicitud);
         $solicitud = Solicitud::findOrfail($id)->first();
+
+        Datatables::of($solicitud->tareas)
+                ->addColumn('btn', 'tareas.actions')
+                ->rawColumns(['btn'])
+                ->make(true);
+
         return view('solicituds.show', compact('solicitud'));
     }
 

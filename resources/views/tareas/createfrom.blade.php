@@ -7,7 +7,7 @@
             <div class="card">
 
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <span><h4><b>Nueva Tarea</b></h4></span>
+                    <span><h4><b>Nuevo Requerimiento</b></h4></span>
                     <a href="javascript:history.back()">
                         <img class="img-responsive img-rounded float-left" src="{{ asset('images/retroceder.png') }}">
                     </a>

@@ -120,6 +120,29 @@
         </div>
     </div>
 
+<!-- NoOptionModal -->
+    <div class="modal fade" id="NoOptionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                    <div class="modal-header bg-warning text-light">
+                        <h5>Advertencia</h5>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                <!-- Modal body -->
+                    <div class="modal-body">
+                        <h6 align="center">
+                            Esta solicitud fue reprobada por lo que no es posible editar su informacion.
+                        </h6>
+                    </div>
+                <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Aceptar</button>
+                    </div>
+            </div>
+        </div>
+    </div>
+
 <!-- Delete Product Modal -->
     <div class="modal fade" id="DeleteProductModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog">
@@ -226,32 +249,32 @@
                         });
                     });
 
-                // Reprobar Solicitud.
-                    var finalizaID;
-                        $('body').on('click', '#getActualizaId', function(){
-                            finalizaID = $(this).data('id');
-                        })
-                        $('#SubmitReprobarSolicitudForm').click(function(e) {
-                            e.preventDefault();
-                            $("#alertModal").addClass("display-none").removeClass("alert-danger")
-                            $("#inputId").val(null)
-                            var id = finalizaID;
-                            $.ajaxSetup({
-                                headers: {
-                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                                }
-                            });
-                            $.ajax({
-                                url: "solicituds/reprobar/"+id,
-                                method: 'PUT',
-                                success: function(result) {
-                                    setImmediate(function(){
-                                        $('#solicitudes-table').DataTable().ajax.reload();
-                                        $('#RevisaSolicitudModal').modal('hide');
-                                    });
-                                }
-                            });
+            // Reprobar Solicitud.
+                var finalizaID;
+                    $('body').on('click', '#getActualizaId', function(){
+                        finalizaID = $(this).data('id');
+                    })
+                    $('#SubmitReprobarSolicitudForm').click(function(e) {
+                        e.preventDefault();
+                        $("#alertModal").addClass("display-none").removeClass("alert-danger")
+                        $("#inputId").val(null)
+                        var id = finalizaID;
+                        $.ajaxSetup({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            }
                         });
+                        $.ajax({
+                            url: "solicituds/reprobar/"+id,
+                            method: 'PUT',
+                            success: function(result) {
+                                setImmediate(function(){
+                                    $('#solicitudes-table').DataTable().ajax.reload();
+                                    $('#RevisaSolicitudModal').modal('hide');
+                                });
+                            }
+                        });
+                    });
 
             // Eliminar Ajax request.
                 var deleteID;

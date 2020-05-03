@@ -5,10 +5,17 @@
     </a>
 @endcan
 @can('tareas.revision')
-    <button type="button" data-id="{{ $id }}" data-toggle="modal" data-target="#RevisaTareaModal" class="btn btn-warning btn-sm" id="getActualizaId">
-        <i class="fas fa-fw fa-check-circle"></i>
-        Revisar
-    </button>
+    @if ($estado != 'Finalizada')
+        <button type="button" data-id="{{ $id }}" data-toggle="modal" data-target="#RevisaTareaModal" class="btn btn-warning btn-sm" id="getActualizaId">
+            <i class="fas fa-fw fa-check-circle"></i>
+            Revisar
+        </button>
+    @else
+        <button type="button" data-toggle="modal" data-target="#NoOptionModal" class="btn btn-warning btn-sm">
+            <i class="fas fa-fw fa-check-circle"></i>
+            Revisar
+        </button>
+    @endif
 @endcan
 @can('tareas.destroy')
     <button type="button" data-id="{{ $id }}" data-toggle="modal" data-target="#DeleteProductModal" class="btn btn-danger btn-sm" id="getDeleteId"><i class="fas fa-fw fa-trash"></i>Eliminar</button>
