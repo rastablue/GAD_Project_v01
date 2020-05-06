@@ -115,6 +115,14 @@
                                 <i class="fas fa-fw fa-times-circle"></i>
                                 Reprobar
                             </button>
+                            <div class="text-md-left mt-2">
+                                <label for="Detalle">Detalle:</label>
+                                <textarea name="" id="detalle" disabled class="form-control detalle"></textarea>
+                            </div>
+                            <div class="text-md-left mt-2">
+                                <label for="Observacion">Observacion:</label>
+                                <textarea name="" id="observacion" disabled class="form-control observacion"></textarea>
+                            </div>
                     </div>
             </div>
         </div>
@@ -134,6 +142,14 @@
                         <h6 align="center">
                             Esta solicitud fue reprobada por lo que no es posible editar su informacion.
                         </h6>
+                        <div class="text-md-left mt-2">
+                            <label for="Detalle">Detalle:</label>
+                            <textarea name="" id="detalle" disabled class="form-control detalle"></textarea>
+                        </div>
+                        <div class="text-md-left mt-2">
+                            <label for="Observacion">Observacion:</label>
+                            <textarea name="" id="observacion" disabled class="form-control observacion"></textarea>
+                        </div>
                     </div>
                 <!-- Modal footer -->
                     <div class="modal-footer">
@@ -222,10 +238,38 @@
                         $('#formSolicitud')[0].reset();
                     });
                 
+            //Enviar detalle y observacion al modal de revision
+                $('#RevisaSolicitudModal').on('show.bs.modal', function (event) {
+                    var button = $(event.relatedTarget) // Button that triggered the modal
+                    var detalle = button.data('detalle') // Extract info from data-* attributes
+                    var modal = $(this)
+                    modal.find('.modal-body #detalle').val(detalle)
+                    
+                    var button = $(event.relatedTarget) // Button that triggered the modal
+                    var observacion = button.data('observacion') // Extract info from data-* attributes
+                    var modal = $(this)
+                    modal.find('.modal-body #observacion').val(observacion)
+                })
+
+            //Enviar detalle y observacion al modal de advertencia
+                $('#NoOptionModal').on('show.bs.modal', function (event) {
+                    var button = $(event.relatedTarget) // Button that triggered the modal
+                    var detalle = button.data('detalle') // Extract info from data-* attributes
+                    var modal = $(this)
+                    modal.find('.modal-body #detalle').val(detalle)
+                    
+                    var button = $(event.relatedTarget) // Button that triggered the modal
+                    var observacion = button.data('observacion') // Extract info from data-* attributes
+                    var modal = $(this)
+                    modal.find('.modal-body #observacion').val(observacion)
+                })
+
             // Aprobar Solicitud.
                 var aprobarID;
+                var observacion;
                     $('body').on('click', '#getActualizaId', function(){
                         aprobarID = $(this).data('id');
+                        observacion = $(this).data('observacion');
                     })
                     $('#SubmitAprobarSolicitudForm').click(function(e) {
                         e.preventDefault();

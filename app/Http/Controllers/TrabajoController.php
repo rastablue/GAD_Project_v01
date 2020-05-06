@@ -30,7 +30,8 @@ class TrabajoController extends Controller
         $trabajos = Trabajo::join('mantenimientos', 'mantenimientos.id', '=', 'trabajos.mantenimiento_id')
                             ->join('maquinarias', 'maquinarias.id', '=', 'mantenimientos.maquinaria_id')
                             ->select('maquinarias.codigo_nro_gad', 'mantenimientos.codigo',
-                                    'trabajos.fake_id', 'trabajos.estado', 'trabajos.tipo', 'trabajos.id');
+                                    'trabajos.fake_id', 'trabajos.estado', 'trabajos.tipo', 'trabajos.id',
+                                    'trabajos.manobra', 'mantenimientos.diagnostico');
 
         return Datatables::of($trabajos)
                 ->addColumn('btn', 'trabajos.actions')

@@ -14,29 +14,47 @@
                 </div>
 
                 <div class="card-body">
+                    <!--La ruta acontinuacion se encuentra en la ruta de las maquinarias-->
                     <form method="POST" action="{{ route('asigna.storecode') }}">
                         @csrf
 
                         {{-- Codigo Tarea --}}
                             <div class="form-group row">
-                                <label for="codigo" class="col-md-4 col-form-label text-md-right">Codigo Requerimiento</label>
-                                <div class="col-md-6">
-                                    <input id="codigo_tarea" name="codigo_tarea" type="text" pattern="{9}" class="form-control" required autocomplete="Codigo" autofocus>
+                                <label for="codigo" class="col-md-4 col-form-label text-md-right">Requerimientos</label>
+                                <div class="col-md-5">
+                                    <select id="tarea" class="form-control" name="tarea">
+                                        <option disabled selected='true'>Seleccione un Requerimiento</option>
+                                        @foreach(@App\Tarea::all() as $item)
+                                            @if (@$item->estado != 'Finalizada' && @$item->estado != 'Abandonado' && @$item->estado != 'Pendiente')
+                                                <option value="{{ $item->id }}">{{ $item->fake_id }}</option>
+                                            @endif
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
 
                         {{-- Codigo Maquinaria --}}
                             <div class="form-group row">
-                                <label for="codigo" class="col-md-4 col-form-label text-md-right">Codigo Maquinaria</label>
-                                <div class="col-md-6">
-                                    <input id="codigo_maquinaria" name="codigo_maquinaria" type="text" pattern="{9}" class="form-control" required autocomplete="Codigo" autofocus>
+                                <label for="codigo" class="col-md-4 col-form-label text-md-right">Maquinarias</label>
+                                <div class="col-md-5">
+                                    <select id="maquinaria" class="form-control" name="maquinaria">
+                                        <option disabled selected='true'>Seleccione una Maquinaria</option>
+                                        @foreach(@App\maquinaria::all() as $item)
+                                            @if (@$item->mantenimientos->first()->estado == "Finalizado" || @$item->mantenimientos->first()->estado == Null)
+                                                <option value="{{ $item->id }}">  {{ $item->codigo_nro_gad }} <br> {{ $item->placa }}  </option>
+                                            @endif
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
 
                         {{-- btn--}}
                             <div class="form-group row mb-0">
                                 <div class="col-md-6 offset-md-5">
-                                    <button type="submit" class="btn btn-primary"><i class="fas fa-fw fa-link"></i>Asignar</button>
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-fw fa-link"></i>
+                                        Asignar
+                                    </button>
                                 </div>
                             </div>
                     </form>

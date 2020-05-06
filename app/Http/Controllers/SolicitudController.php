@@ -25,30 +25,18 @@ class SolicitudController extends Controller
     public function index()
     {
         $solicituds = Solicitud::all();
-        return view('solicituds.index', compact('$solicituds'));
+        return view('solicituds.index', compact('solicituds'));
     }
 
     public function solicitudData()
     {
         $solicitudes = Solicitud::join('clientes', 'clientes.id', '=', 'solicituds.cliente_id')
                                 ->select('solicituds.id', 'solicituds.codigo_solicitud', 'solicituds.fecha_emision',
-                                        'solicituds.fecha_revision', 'clientes.name',
-                                        'clientes.apellido_pater', 'solicituds.estado');
+                                        'solicituds.fecha_revision', 'clientes.name', 'solicituds.detalle',
+                                        'clientes.apellido_pater', 'solicituds.estado', 'solicituds.observacion');
 
         return Datatables::of($solicitudes)
                 ->addColumn('btn', 'solicituds.actions')
-                ->rawColumns(['btn'])
-                ->make(true);
-    }
-
-    public function solicitudDatatarea()
-    {
-        $tareas = Tarea::join('solicituds', 'solicituds.id', '=', 'tareas.solicitud_id')
-                                ->select('tareas.id', 'solicituds.codigo_solicitud', 'tareas.fake_id',
-                                        'tareas.fecha_inicio', 'tareas.estado');
-
-        return Datatables::of($tareas)
-                ->addColumn('btn', 'tareas.actions')
                 ->rawColumns(['btn'])
                 ->make(true);
     }
@@ -97,8 +85,15 @@ class SolicitudController extends Controller
     {
 
         $date = Carbon::now();
+        $total = Solicitud::get()->last();
 
-        if ($codigo = Solicitud::where('codigo_solicitud', $request->codigo1.'-'.$request->codigo2.'-'.$request->codigo3)->first()) {
+        if ($total->codigo_solicitud == 0 || $total->codigo_solicitud == '0' || empty($total->codigo_solicitud)) {
+            $codigo = '1000001';
+        } else {
+            $codigo = $total->codigo_solicitud + 1;
+        }
+
+        if (Solicitud::where('codigo_solicitud', $codigo)->first()) {
             return back() ->with('danger', 'Error, La solicitud ya existe');
 
         } else {
@@ -108,7 +103,7 @@ class SolicitudController extends Controller
                 $cliente = Cliente::where('cedula', $request->cedula)->first();
 
                 $solicitud = new Solicitud();
-                $solicitud->codigo_solicitud = $request->codigo1.'-'.$request->codigo2.'-'.$request->codigo3;
+                $solicitud->codigo_solicitud = $codigo;
                 $solicitud->fecha_emision = $date;
                 $solicitud->detalle = $request->detalle;
                 $solicitud->observacion = $request->observacion;
@@ -123,9 +118,9 @@ class SolicitudController extends Controller
                 }
                 $solicitud->save();
 
-                $codigo = Solicitud::where('codigo_solicitud', $request->codigo1.'-'.$request->codigo2.'-'.$request->codigo3)->first();
+                $redirect = Solicitud::where('codigo_solicitud', $codigo)->first();
 
-                return redirect()->route('solicituds.show', Hashids::encode($codigo->id))
+                return redirect()->route('solicituds.show', Hashids::encode($redirect->id))
                         ->with('info', 'Solicitud agregada');
 
             }else{
@@ -157,8 +152,16 @@ class SolicitudController extends Controller
 
         $cliente = Cliente::where('cedula', $request->cedula)->first();
 
+        $total = Solicitud::get()->last();
+
+        if ($total->codigo_solicitud == 0 || $total->codigo_solicitud == '0' || empty($total->codigo_solicitud)) {
+            $codigo = '1000001';
+        } else {
+            $codigo = $total->codigo_solicitud + 1;
+        }
+
         $solicitud = new Solicitud();
-        $solicitud->codigo_solicitud = $request->codigo1.'-'.$request->codigo2.'-'.$request->codigo3;
+        $solicitud->codigo_solicitud = $codigo;
         $solicitud->fecha_emision = $date;
         $solicitud->detalle = $request->detalle;
         $solicitud->observacion = $request->observacion;
@@ -174,9 +177,9 @@ class SolicitudController extends Controller
 
         $solicitud->save();
 
-        $codigo = Solicitud::where('codigo_solicitud', $request->codigo1.'-'.$request->codigo2.'-'.$request->codigo3)->first();
+        $redirect = Solicitud::where('codigo_solicitud', $codigo)->first();
 
-        return redirect()->route('solicituds.show', Hashids::encode($codigo->id))
+        return redirect()->route('solicituds.show', Hashids::encode($redirect->id))
                 ->with('info', 'Solicitud agregada');
 
     }
@@ -191,11 +194,6 @@ class SolicitudController extends Controller
     {
         $id = Hashids::decode($solicitud);
         $solicitud = Solicitud::findOrfail($id)->first();
-
-        Datatables::of($solicitud->tareas)
-                ->addColumn('btn', 'tareas.actions')
-                ->rawColumns(['btn'])
-                ->make(true);
 
         return view('solicituds.show', compact('solicitud'));
     }

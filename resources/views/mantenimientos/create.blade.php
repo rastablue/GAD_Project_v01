@@ -15,20 +15,6 @@
                         <div class="collapse show">
                             <div class="card-body">
 
-                                {{-- Codigo --}}
-                                    <div class="form-group row">
-                                        <label for="codigo" class="col-md-4 col-form-label text-md-right">{{ __('Codigo Mantenimiento') }}</label>
-                                        <div class="col-md-6">
-                                            <input type="input" name="codigo" value="{{ old('codigo') }}" class="form-control @error('codigo') is-invalid @enderror" autocomplete="Codigo" autofocus>
-
-                                            @error('codigo')
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                            @enderror
-                                        </div>
-                                    </div>
-
                                 {{-- Fecha Ingreso --}}
                                     <div class="form-group row">
                                         <label for="codigo" class="col-md-4 col-form-label text-md-right">{{ __('Fecha Ingreso') }}</label>

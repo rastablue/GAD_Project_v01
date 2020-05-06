@@ -29,7 +29,8 @@ class MantenimientoController extends Controller
     {
         $mantenimientos = Mantenimiento::join('maquinarias', 'maquinarias.id', 'mantenimientos.maquinaria_id')
                                         ->select('mantenimientos.codigo', 'mantenimientos.fecha_ingreso',
-                                                'mantenimientos.estado', 'mantenimientos.id', 'maquinarias.placa');
+                                                'mantenimientos.estado', 'mantenimientos.id', 'maquinarias.placa',
+                                                'mantenimientos.observacion', 'mantenimientos.diagnostico');
 
         return Datatables::of($mantenimientos)
                 ->addColumn('btn', 'mantenimientos.actions')
@@ -90,9 +91,16 @@ class MantenimientoController extends Controller
     public function store(CreateMantenimiento $request)
     {
         $date = Carbon::now();
+        $total = Mantenimiento::get()->last();
+
+        if ($total->codigo == 0 || $total->codigo == '0' || empty($total->codigo)) {
+            $codigo = '1000000';
+        } else {
+            $codigo = $total->codigo + 1;
+        }
 
         $mantenimiento = new Mantenimiento();
-        $mantenimiento->codigo = $request->codigo;
+        $mantenimiento->codigo = $codigo;
         $mantenimiento->fecha_ingreso = $request->fecha_ingreso;
         $mantenimiento->fecha_egreso = $request->fecha_egreso;
         $mantenimiento->observacion = $request->observacion;
@@ -107,7 +115,7 @@ class MantenimientoController extends Controller
 
         $mantenimiento->save();
 
-        $mantenimiento = Mantenimiento::where('codigo', $request->codigo)->first();
+        $mantenimiento = Mantenimiento::where('codigo', $codigo)->first();
 
         return redirect()->route('mantenimientos.show', Hashids::encode($mantenimiento->id))
                 ->with('info', 'Mantenimiento agregado');

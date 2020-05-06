@@ -24,7 +24,7 @@
                                     <select id="operario" class="form-control" name="operario">
                                         <option disabled selected='true'>Seleccione un Operario</option>
                                         @foreach(@App\Operario::all() as $item)
-                                            <option value="{{ $item->id }}">  {{ $item->cedula }} -|- {{ $item->name }} {{ $item->apellido_pater }}  </option>
+                                            <option value="{{ $item->id }}">{{ $item->name }} {{ $item->apellido_pater }} {{ $item->apellido_mater }}</option>
                                         @endforeach
                                     </select>
                                 </div>

@@ -99,17 +99,16 @@ class MaquinariaController extends Controller
     //Asignar maquinarias desde el menu lateral
     public function asignaStoreCode(Request $request)
     {
-        if ($codT = Tarea::where('fake_id', $request->codigo_tarea)->first()) {
+        if (Tarea::where('id', $request->tarea)->first()) {
 
-            if ($codM = Maquinaria::where('codigo_nro_gad', $request->codigo_maquinaria)->first()) {
-                $tarea = Tarea::where('fake_id', $request->codigo_tarea)->first();
-                $maquinaria = Maquinaria::where('codigo_nro_gad', $request->codigo_maquinaria)->first();
+            if (Maquinaria::where('id', $request->maquinaria)->first()) {
+                $tarea = Tarea::where('id', $request->tarea)->first();
+                $maquinaria = Maquinaria::where('id', $request->maquinaria)->first();
 
                 if($tarea->estado == 'Finalizada'){
                     return back()->with('danger', 'Error, la tarea seleccionada ha finalizado');
                 }else{
-                    if ($tarea->maquinarias()->sync($maquinaria)) {
-                        $tarea->maquinarias()->sync($maquinaria);
+                        $tarea->maquinarias()->attach($maquinaria);
 
                         foreach ($tarea->maquinarias as $key) {
                             $key->pivot->operador_id = $key->operario_id;
@@ -124,9 +123,6 @@ class MaquinariaController extends Controller
                         return redirect()->route('tareas.show', Hashids::encode($tarea->id))
                                     ->with('info', 'Vehiculos asignados');
 
-                    } else {
-                        return back()->with('danger', 'Error, no se pudo asignar los vehiculos');
-                    }
                 }
 
             } else {
@@ -134,7 +130,7 @@ class MaquinariaController extends Controller
             }
 
         } else {
-            return back()->with('danger', 'Error, no se pudo encontrar la tarea');
+            return back()->with('danger', 'Error, no se pudo encontrar el requerimiento');
         }
     }
 

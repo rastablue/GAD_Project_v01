@@ -11,7 +11,7 @@
 
                     <!-- Card Header - Accordion -->
                         <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardExample">
-                            <h6 class="m-0 font-weight-bold text-primary">Datos del Solicitante</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">Confirmacion</h6>
                         </a>
 
                     <!-- Card Content - Collapse -->
@@ -38,32 +38,6 @@
                     <!-- Card Content - Collapse -->
                         <div class="collapse hide" id="collapseCardExample">
                             <div class="card-body">
-                                {{-- Codigo --}}
-                                    <div class="row">
-                                        <div class="form-group row">
-                                            <label for="codigo" class="col-md-3 col-form-label text-md-right">Codigo</label>
-                                            <div class="col-md-2">
-                                                <input id="codigo1" disabled onkeyup="mayus(this);" type="text" class="form-control" name="codigo1" value="{{ $request->codigo1 ?? old('codigo1') }}" autocomplete="Codigo" autofocus>
-                                                
-                                                <input type="hidden" name="codigo1" value="{{ $request->codigo1 }}">
-                                            </div>
-
-                                            <label for="codigo" class="col-form-label">-</label>
-                                            <div class="col-md-2">
-                                                <input id="codigo2" disabled onkeyup="mayus(this);" type="text" class="form-control" name="codigo2" value="{{ $request->codigo2 ?? old('codigo2') }}" autocomplete="Codigo" autofocus>
-
-                                                <input type="hidden" name="codigo2" value="{{ $request->codigo2 }}">
-                                            </div>
-
-                                            <label for="codigo" class="col-form-label">-</label>
-                                            <div class="col-md-2">
-                                                <input id="codigo3" disabled onkeyup="mayus(this);" type="text" class="form-control" name="codigo3" value="{{ $request->codigo3 ?? old('codigo3') }}" autocomplete="Codigo" autofocus>
-
-                                                <input type="hidden" name="codigo3" value="{{ $request->codigo3 }}">
-                                            </div>
-                                        </div>
-                                    </div>
-
                                 {{-- cedula --}}
                                     <div class="form-group row">
                                         <label for="cedula" class="col-md-3 col-form-label text-md-right">Cedula</label>

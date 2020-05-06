@@ -14,43 +14,6 @@
                     <!-- Card Content - Collapse -->
                         <div class="collapse show" id="collapseCardExaple">
                             <div class="card-body">
-                                {{-- Codigo --}}
-                                    <div class="row">
-                                        <div class="form-group row">
-                                            <label for="codigo" class="col-md-3 col-form-label text-md-right">Codigo</label>
-                                            <div class="col-md-2">
-                                                <input id="codigo1" onkeyup="mayus(this);" type="text" class="form-control @error('codigo1') is-invalid @enderror" name="codigo1" value="{{ $codigo1 ?? old('codigo1') }}" autocomplete="Codigo" autofocus>
-
-                                                @error('codigo1')
-                                                    <span class="invalid-feedback" role="alert">
-                                                        <strong>{{ $message }}</strong>
-                                                    </span>
-                                                @enderror
-                                            </div>
-
-                                            <label for="codigo" class="col-form-label">-</label>
-                                            <div class="col-md-2">
-                                                <input id="codigo2" onkeyup="mayus(this);" type="text" class="form-control @error('codigo2') is-invalid @enderror" name="codigo2" value="{{ $codigo2 ?? old('codigo2') }}" autocomplete="Codigo" autofocus>
-
-                                                @error('codigo2')
-                                                    <span class="invalid-feedback" role="alert">
-                                                        <strong>{{ $message }}</strong>
-                                                    </span>
-                                                @enderror
-                                            </div>
-
-                                            <label for="codigo" class="col-form-label">-</label>
-                                            <div class="col-md-2">
-                                                <input id="codigo3" onkeyup="mayus(this);" type="text" class="form-control @error('codigo3') is-invalid @enderror" name="codigo3" value="{{ $codigo3 ?? old('codigo3') }}" autocomplete="Codigo" autofocus>
-
-                                                @error('codigo3')
-                                                    <span class="invalid-feedback" role="alert">
-                                                        <strong>{{ $message }}</strong>
-                                                    </span>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                    </div>
 
                                 {{-- cedula --}}
                                     <div class="form-group row">
@@ -94,9 +57,8 @@
                                         </div>
                                     </div>
 
-                                {{-- Sugerencia de Codigo --}}
+                                {{-- User ID --}}
                                     <input id="user_id" type="hidden" name="user_id" value="{{ Auth::user()->id }}">
-                                    <em>*El codigo de la ficha debe constar de 3 letras y 4 numeros mas un numero o letra final. <br> -Ej. GAD-1547-3*</em>
                             </div>
                         </div>
                 </div>

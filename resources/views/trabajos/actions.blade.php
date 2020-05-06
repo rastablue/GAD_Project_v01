@@ -6,12 +6,12 @@
 @endcan
 @can('trabajos.revision')
     @if ($estado != 'Finalizado')
-        <button type="button" data-id="{{ $id }}" data-toggle="modal" data-target="#RevisaTareaModal" class="btn btn-warning btn-sm" id="getActualizaId">
+        <button type="button" data-id="{{ $id }}" data-manobra="{{ $manobra }}" data-diagnostico="{{ $diagnostico }}" data-toggle="modal" data-target="#RevisaTareaModal" class="btn btn-warning btn-sm" id="getActualizaId">
             <i class="fas fa-fw fa-check-circle"></i>
             Revisar
         </button>
     @else
-        <button type="button" data-toggle="modal" data-target="#NoOptionModal" class="btn btn-warning btn-sm">
+        <button type="button" data-toggle="modal" data-manobra="{{ $manobra }}" data-diagnostico="{{ $diagnostico }}" data-target="#NoOptionModal" class="btn btn-warning btn-sm">
             <i class="fas fa-fw fa-check-circle"></i>
             Revisar
         </button>

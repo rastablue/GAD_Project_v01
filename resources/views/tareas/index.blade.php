@@ -136,6 +136,14 @@
                                 <i class="fas fa-fw fa-flag"></i>
                                 Finalizada
                             </button>
+                            <div class="text-md-left mt-2">
+                                <label for="Detalle">Detalle:</label>
+                                <textarea name="" id="detalle" disabled class="form-control detalle"></textarea>
+                            </div>
+                            <div class="text-md-left mt-2">
+                                <label for="Observacion">Observacion:</label>
+                                <textarea name="" id="observacion" disabled class="form-control observacion"></textarea>
+                            </div>
                     </div>
             </div>
         </div>
@@ -155,6 +163,14 @@
                         <h6 align="center">
                             Este requerimiento ya ha finalizado por lo que no es posible editar su informacion.
                         </h6>
+                        <div class="text-md-left mt-2">
+                            <label for="Detalle">Detalle:</label>
+                            <textarea name="" id="detalle" disabled class="form-control detalle"></textarea>
+                        </div>
+                        <div class="text-md-left mt-2">
+                            <label for="Observacion">Observacion:</label>
+                            <textarea name="" id="observacion" disabled class="form-control observacion"></textarea>
+                        </div>
                     </div>
                 <!-- Modal footer -->
                     <div class="modal-footer">
@@ -236,6 +252,32 @@
                     $("#inputId").val(null)
                     $("#creaTareaModal").modal("show");
                 });
+            
+            //Enviar detalle y observacion de obra al modal de revision
+                $('#RevisaTareaModal').on('show.bs.modal', function (event) {
+                    var button = $(event.relatedTarget) // Button that triggered the modal
+                    var detalle = button.data('detalle') // Extract info from data-* attributes
+                    var modal = $(this)
+                    modal.find('.modal-body #detalle').val(detalle)
+                    
+                    var button = $(event.relatedTarget) // Button that triggered the modal
+                    var observacion = button.data('observacion') // Extract info from data-* attributes
+                    var modal = $(this)
+                    modal.find('.modal-body #observacion').val(observacion)
+                })
+
+            //Enviar detalle y observacion de obra al modal de NoOption
+                $('#NoOptionModal').on('show.bs.modal', function (event) {
+                    var button = $(event.relatedTarget) // Button that triggered the modal
+                    var detalle = button.data('detalle') // Extract info from data-* attributes
+                    var modal = $(this)
+                    modal.find('.modal-body #detalle').val(detalle)
+                    
+                    var button = $(event.relatedTarget) // Button that triggered the modal
+                    var observacion = button.data('observacion') // Extract info from data-* attributes
+                    var modal = $(this)
+                    modal.find('.modal-body #observacion').val(observacion)
+                })
 
             // Abandonar Tarea.
                 var abandonarID;

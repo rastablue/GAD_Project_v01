@@ -64,6 +64,14 @@
                                 <i class="fas fa-fw fa-flag"></i>
                                 Finalizar
                             </button>
+                            <div class="text-md-left mt-2">
+                                <label for="Diagnostico">Diagnostico:</label>
+                                <textarea name="" id="diagnostico" disabled class="form-control diagnostico"></textarea>
+                            </div>
+                            <div class="text-md-left mt-2">
+                                <label for="Manobra">Manobra:</label>
+                                <textarea name="" id="manobra" disabled class="form-control manobra"></textarea>
+                            </div>
                     </div>
             </div>
         </div>
@@ -83,6 +91,14 @@
                         <h6 align="center">
                             Este trabajo ya ha finalizado por lo que no es posible editar su informacion.
                         </h6>
+                        <div class="text-md-left mt-2">
+                            <label for="Diagnostico">Diagnostico:</label>
+                            <textarea name="" id="diagnostico" disabled class="form-control diagnostico"></textarea>
+                        </div>
+                        <div class="text-md-left mt-2">
+                            <label for="Manobra">Manobra:</label>
+                            <textarea name="" id="manobra" disabled class="form-control manobra"></textarea>
+                        </div>
                     </div>
                 <!-- Modal footer -->
                     <div class="modal-footer">
@@ -156,6 +172,31 @@
                         "infoFiltered": ""
                     }
                 });
+            //Enviar diagnostico y mano de obra al modal de revision
+                $('#RevisaTareaModal').on('show.bs.modal', function (event) {
+                    var button = $(event.relatedTarget) // Button that triggered the modal
+                    var diagnostico = button.data('diagnostico') // Extract info from data-* attributes
+                    var modal = $(this)
+                    modal.find('.modal-body #diagnostico').val(diagnostico)
+                    
+                    var button = $(event.relatedTarget) // Button that triggered the modal
+                    var manobra = button.data('manobra') // Extract info from data-* attributes
+                    var modal = $(this)
+                    modal.find('.modal-body #manobra').val(manobra)
+                })
+
+            //Enviar diagnostico y mano de obra al modal de NoOption
+                $('#NoOptionModal').on('show.bs.modal', function (event) {
+                    var button = $(event.relatedTarget) // Button that triggered the modal
+                    var diagnostico = button.data('diagnostico') // Extract info from data-* attributes
+                    var modal = $(this)
+                    modal.find('.modal-body #diagnostico').val(diagnostico)
+                    
+                    var button = $(event.relatedTarget) // Button that triggered the modal
+                    var manobra = button.data('manobra') // Extract info from data-* attributes
+                    var modal = $(this)
+                    modal.find('.modal-body #manobra').val(manobra)
+                })
 
             // Activar Mantenimiento.
                 var activoID;

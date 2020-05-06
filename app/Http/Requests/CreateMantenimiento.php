@@ -24,7 +24,6 @@ class CreateMantenimiento extends FormRequest
     public function rules()
     {
         return [
-            "codigo" => "required|digits:7|unique:mantenimientos,codigo",
             "fecha_ingreso" => "required|date_format:Y-m-d",
             "diagnostico" => "required|string|max:500",
             "observacion" => "string|max:500",

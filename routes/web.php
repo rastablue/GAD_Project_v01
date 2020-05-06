@@ -178,6 +178,8 @@ Route::middleware(['auth'])->group(function(){
                         ->middleware('can:solicitudes.index');
         
         //dataTables
+        Route::get('ajaxdata/fetchdata', 'SolicitudController@fetchdata')->name('ajaxdata.fetchdata');
+        
         Route::get('get-solicituds', 'SolicitudController@solicitudData')->name('datatables.solicituds')
                         ->middleware('can:solicitudes.index');
 

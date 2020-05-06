@@ -30,7 +30,7 @@ class TareaController extends Controller
     {
         $tareas = Tarea::join('solicituds', 'solicituds.id', '=', 'tareas.solicitud_id')
                         ->select('tareas.id', 'solicituds.codigo_solicitud', 'tareas.fake_id',
-                                'tareas.fecha_inicio', 'tareas.estado');
+                                'tareas.fecha_inicio', 'tareas.estado', 'tareas.detalle', 'tareas.observacion');
 
         return Datatables::of($tareas)
                 ->addColumn('btn', 'tareas.actions')
