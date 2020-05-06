@@ -397,6 +397,6 @@ class PermissionsTableSeeder extends Seeder
 
         //User Auditor
             $funcionario = User::find(2);
-            $funcionario->assignRole('funcionario');
+            $funcionario->assignRole('Supervisor');
     }
 }

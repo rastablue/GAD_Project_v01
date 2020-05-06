@@ -33,6 +33,6 @@ class OperarioSeeder extends Seeder
             'tipo_licencia'     => 'C1',
         ]);
 
-        factory(App\Operario::class, 422)->create();
+        factory(App\Operario::class, 12)->create();
     }
 }

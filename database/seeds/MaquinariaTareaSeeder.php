@@ -11,6 +11,7 @@ class MaquinariaTareaSeeder extends Seeder
      */
     public function run()
     {
+        /*
         App\MaquinariaTarea::create([
             'maquinaria_id'      => 2,
             'tarea_id'      => 1,
@@ -30,5 +31,6 @@ class MaquinariaTareaSeeder extends Seeder
             'maquinaria_id'      => 2,
             'tarea_id'      => 3,
         ]);
+        */
     }
 }

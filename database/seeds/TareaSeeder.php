@@ -18,7 +18,8 @@ class TareaSeeder extends Seeder
             'fecha_inicio'      => Carbon::now(),
             'fecha_fin'      => Carbon::now(),
             'direc_tarea'   => 'Las Naves',
-            'detalle'      => 'Nada 1',
+            'detalle'      => 'Detalle 1',
+            'observacion'      => 'Observacion 1',
             'estado'      => 'Pendiente',
             'solicitud_id'      => '1',
         ]);
@@ -28,7 +29,8 @@ class TareaSeeder extends Seeder
             'fecha_inicio'      => Carbon::now(),
             'fecha_fin'      => Carbon::now(),
             'direc_tarea'   => 'Las Naves',
-            'detalle'      => 'Nada 2',
+            'detalle'      => 'Detalle 2',
+            'observacion'      => 'Observacion 2',
             'estado'      => 'Pendiente',
             'solicitud_id'      => '1',
         ]);
@@ -38,7 +40,8 @@ class TareaSeeder extends Seeder
             'fecha_inicio'      => Carbon::now(),
             'fecha_fin'      => Carbon::now(),
             'direc_tarea'   => 'Las Naves',
-            'detalle'      => 'Nada 3',
+            'detalle'      => 'Detalle 3',
+            'observacion'      => 'Observacion 3',
             'estado'      => 'Pendiente',
             'solicitud_id'      => '1',
         ]);

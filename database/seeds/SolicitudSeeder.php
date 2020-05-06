@@ -13,10 +13,11 @@ class SolicitudSeeder extends Seeder
     public function run()
     {
         App\Solicitud::create([
-            'codigo_solicitud'      => 'GAD-2020-1',
+            'codigo_solicitud'      => '1000000',
             'fecha_emision'      => Carbon::now(),
             'fecha_revision'      => Carbon::now(),
-            'detalle'      => 'Nada 1',
+            'detalle'      => 'Detalle 1',
+            'Observacion'      => 'Observacion 1',
             'estado'      => 'Pendiente',
             'user_id'      => '1',
             'cliente_id'     => '2',

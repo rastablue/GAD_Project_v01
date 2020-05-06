@@ -31,6 +31,6 @@ class ClienteSeeder extends Seeder
             'email'     => 'mariana@gmail.com',
         ]);
 
-        factory(App\Cliente::class, 422)->create();
+        factory(App\Cliente::class, 12)->create();
     }
 }
