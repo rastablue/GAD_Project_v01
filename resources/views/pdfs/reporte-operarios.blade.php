@@ -9,7 +9,7 @@
 
 <table class="table">
     <thead>
-        <tr class="table-secondary">
+        <tr class="table-secondary" style="font-size: 9">
             <th scope="col" width="90px"><div class="text-center font-weight-bold text-info">Cedula</th>
             <th scope="col" width="150px"><div class="text-center font-weight-bold text-info">Nombre</th>
             <th scope="col" width="80px"><div class="text-center font-weight-bold text-info">Telefono</th>
@@ -19,7 +19,7 @@
     </thead>
     <tbody>
         @foreach ($operario as $operarios)
-            <tr>
+            <tr style="font-size: 8">
                 <td><div class="text-center">{{ $operarios->cedula }}</td>
                 <td><div class="text-center">{{ $operarios->name }} {{ $operarios->apellido_pater }}</td>
                 <td><div class="text-center">{{ $operarios->tlf }}</td>

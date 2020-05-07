@@ -13,7 +13,7 @@
                     </a>
                 @endcan
                 @can('clientes.show')
-                    <a href=" {{ route('clientes.reportes') }} " class="btn btn-sm btn-info">
+                    <a href=" {{ route('clientes.reportes') }} " class="btn btn-sm btn-info" target="_blank">
                         <i class="fas fa-fw fa-file-alt"></i>
                         Reporte
                     </a>
@@ -27,6 +27,7 @@
                         <tr>
                             <th width="75px">Cedula</th>
                             <th>Nombre</th>
+                            <th>Apellido</th>
                             <th>Telefono</th>
                             <th>E-mail</th>
                             <th width="255">Acciones</th>
@@ -125,7 +126,7 @@
         </div>
     </div>
 
-<!-- Delete Product Modal -->
+<!-- Delete Modal -->
     <div class="modal fade" id="DeleteProductModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -163,7 +164,9 @@
                     ajax: '{!! route('datatables.clientes') !!}',
                     columns: [
                         { data: 'cedula', name: 'cedula' },
-                        { data: 'apellido_pater', render: function(data, type, row, meta){return row.name + ' ' + row.apellido_pater}},
+                        { data: 'name', name: 'name' },
+                        { data: 'apellido_pater', name: 'apellido_pater' },
+                        //{ data: 'apellido_pater', render: function(data, type, row, meta){return row.name + ' ' + row.apellido_pater}},
                         { data: 'tlf', name: 'tlf'  },
                         { data: 'email', name: 'email'  },
                         { data: 'btn', name: 'btn',orderable:false,serachable:false,sClass:'text-center' }

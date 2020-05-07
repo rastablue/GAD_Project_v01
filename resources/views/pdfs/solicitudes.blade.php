@@ -8,7 +8,7 @@
 <h4 class="font-weight-bold text-success"><b> Solicitud</b></h4>
 <table class="table">
     <thead>
-        <tr class="table-secondary">
+        <tr class="table-secondary" style="font-size: 9">
             <th scope="col" width="80px"><div class="text-center font-weight-bold text-info">Codigo</th>
             <th scope="col" width="130px"><div class="text-center font-weight-bold text-info">Fecha de Emision</th>
             <th scope="col" width="130px"><div class="text-center font-weight-bold text-info">Fecha de Revision</th>
@@ -17,7 +17,7 @@
         </tr>
     </thead>
     <tbody>
-        <tr>
+        <tr style="font-size: 8">
             <td><div class="text-center">{{ $solicitud->codigo_solicitud }}</td>
             <td><div class="text-center">{{ $solicitud->fecha_emision }}</td>
             <td><div class="text-center">{{ $solicitud->fecha_revision }}</td>
@@ -25,8 +25,12 @@
             <td><div class="text-center">{{ $solicitud->estado }}</td>
         </tr>
         <tr>
-            <th scope="col"><div class="text-center font-weight-bold text-info">Detalles:</th>
-            <td scope="col" colspan="4"> {{ $solicitud->detalle }} <br><br></td>
+            <th scope="col" style="font-size: 9"><div class="text-center font-weight-bold text-info">Detalles:</th>
+            <td scope="col" colspan="4" style="font-size: 8"> {{ $solicitud->detalle }} <br><br></td>
+        </tr>
+        <tr>
+            <th scope="col" style="font-size: 9"><div class="text-center font-weight-bold text-info">Observaciones:</th>
+            <td scope="col" colspan="4" style="font-size: 8"> {{ $solicitud->observacion }} <br><br></td>
         </tr>
     </tbody>
 </table>
@@ -37,45 +41,57 @@
     <table class="table">
         <tbody>
             <tr>
-                <th width="150px"><div class="font-weight-bold text-info">N°</th>
+                <th width="150px" style="font-size: 9"><div class="font-weight-bold text-info">N°</th>
                     @foreach (@$solicitud->tareas as $item)
                         <td>{{ $loop->iteration }}</td>
                     @endforeach
             </tr>
             <tr>
-                <th width="150px"><div class="font-weight-bold text-info">Codigo</th>
+                <th width="150px" style="font-size: 9"><div class="font-weight-bold text-info">Codigo</th>
                     @foreach (@$solicitud->tareas as $item)
-                        <td>{{ $item->fake_id }}</td>
+                        <td style="font-size: 8">{{ $item->fake_id }}</td>
                     @endforeach
             </tr>
             <tr>
-                <th width="150px"><div class="font-weight-bold text-info">Fecha de Inicio</th>
+                <th width="150px" style="font-size: 9"><div class="font-weight-bold text-info">Fecha de Inicio</th>
                     @foreach (@$solicitud->tareas as $item)
-                        <td>{{ $item->fecha_inicio }}</td>
+                        <td style="font-size: 8">{{ $item->fecha_inicio }}</td>
                     @endforeach
             </tr>
             <tr>
-                <th width="150px"><div class="font-weight-bold text-info">Fecha de Fin</th>
+                <th width="150px" style="font-size: 9"><div class="font-weight-bold text-info">Fecha de Fin</th>
                     @foreach (@$solicitud->tareas as $item)
-                        <td>{{ $item->fecha_fin }}</td>
+                        <td style="font-size: 8">{{ $item->fecha_fin }}</td>
                     @endforeach
             </tr>
             <tr>
-                <th width="150px"><div class="font-weight-bold text-info">Direccion</th>
+                <th width="150px" style="font-size: 9"><div class="font-weight-bold text-info">Direccion</th>
                     @foreach (@$solicitud->tareas as $item)
-                        <td>{{ $item->direc_tarea }}</td>
+                        <td style="font-size: 8">{{ $item->direc_tarea }}</td>
                     @endforeach
             </tr>
             <tr>
-                <th width="150px"><div class="font-weight-bold text-info">Estado</th>
+                <th width="150px" style="font-size: 9"><div class="font-weight-bold text-info">Estado</th>
                     @foreach (@$solicitud->tareas as $item)
-                        <td>{{ $item->estado }}</td>
+                        <td style="font-size: 8">{{ $item->estado }}</td>
                     @endforeach
             </tr>
             <tr>
-                <th width="150px"><div class="font-weight-bold text-info">Detalles</th>
+                <th width="150px" style="font-size: 9"><div class="font-weight-bold text-info">Detalles</th>
                     @foreach (@$solicitud->tareas as $item)
-                        <td>{{ $item->detalle }}</td>
+                        <td style="font-size: 8">{{ $item->detalle }}</td>
+                    @endforeach
+            </tr>
+            <tr>
+                <th width="150px" style="font-size: 9"><div class="font-weight-bold text-info">Observaciones</th>
+                    @foreach (@$solicitud->tareas as $item)
+                        <td style="font-size: 8">{{ $item->observacion }}</td>
+                    @endforeach
+            </tr>
+            <tr>
+                <th width="150px" style="font-size: 9"><div class="font-weight-bold text-info">Maquinarias Asignadas</th>
+                    @foreach (@$solicitud->tareas as $item)
+                        <td style="font-size: 8">{{ $item->maquinarias->count() }}</td>
                     @endforeach
             </tr>
         </tbody>

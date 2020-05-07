@@ -16,10 +16,14 @@
                                 </a>
                             @endcan
                             @can('mantenimientos.show')
-                                <a href=" {{ route('mantenimientos.reportes') }} " class="btn btn-sm btn-info">
+                                <button type="button" id="btnCrearSolicitud" class="btn btn-info btn-sm">
                                     <i class="fas fa-fw fa-file-alt"></i>
                                     Reporte
-                                </a>
+                                </button>
+                                <!--<a href=" {{ route('mantenimientos.reportes') }} " class="btn btn-sm btn-info" target="_blank">
+                                    <i class="fas fa-fw fa-file-alt"></i>
+                                    Reporte
+                                </a>-->
                             @endcan
                         </div>
                     </div>
@@ -39,6 +43,51 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+<!-- Modal Reportes-->
+    <div class="modal fade" id="creaSolicitudModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Reporte de Mantenimientos</h5>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                <!-- Modal body -->
+                    <div class="modal-body text-center">
+                            
+                        <a href="{{ route('mantenimientos.reportesactivo') }}" class="btn btn-success mt-3" target="_blank">
+                            Mantenimientos Activos
+                        </a>
+                        <br>
+                        <a href="{{ route('mantenimientos.reportesespera') }}" class="btn btn-info mt-3" target="_blank">
+                            Mantenimientos En espera
+                        </a>
+                        <br>
+                        <a href="{{ route('mantenimientos.reportesinactivo') }}" class="btn btn-warning mt-3 text-dark" target="_blank">
+                            Mantenimientos Inactivos
+                        </a>
+                        <br>
+                        <a href="{{ route('mantenimientos.reportesfinalizado') }}" class="btn btn-danger mt-3" target="_blank">
+                            Mantenimientos Finalizados
+                        </a>
+                        <br>
+                        <a href="{{ route('mantenimientos.reporteselect') }}" class="btn btn-primary mt-3">
+                            Desde - Hasta
+                        </a>
+                        <br>
+                        <a href="{{ route('mantenimientos.reportes') }}" class="btn btn-primary mt-3" target="_blank">
+                            Todos los Registros
+                        </a>
+
+                    </div>
+                <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    </div>
             </div>
         </div>
     </div>
@@ -180,15 +229,15 @@
                     }
                 });
 
-            // modal crear
-                $("#btnCrearMantenimiento").click(function(e) {
+            // modal reportes
+                $("#btnCrearSolicitud").click(function(e) {
                     e.preventDefault();
                     $("#alertModal").addClass("display-none").removeClass("alert-danger")
                     $("#inputId").val(null)
-                    $("#creaMantenimientoModal").modal("show");
+                    $("#creaSolicitudModal").modal("show");
                 });
 
-            //Enviar diagnostico y observacion al modal de revision
+            // Enviar diagnostico y observacion al modal de revision
                 $('#RevisaTareaModal').on('show.bs.modal', function (event) {
                     var button = $(event.relatedTarget) // Button that triggered the modal
                     var diagnostico = button.data('diagnostico') // Extract info from data-* attributes
@@ -201,7 +250,7 @@
                     modal.find('.modal-body #observacion').val(observacion)
                 })
 
-            //Enviar diagnostico y observacion al modal de NoOption
+            // Enviar diagnostico y observacion al modal de NoOption
                 $('#NoOptionModal').on('show.bs.modal', function (event) {
                     var button = $(event.relatedTarget) // Button that triggered the modal
                     var diagnostico = button.data('diagnostico') // Extract info from data-* attributes

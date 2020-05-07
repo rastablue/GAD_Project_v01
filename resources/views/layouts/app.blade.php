@@ -237,7 +237,9 @@
                                                         @if (Auth::user()->path)
                                                             <img class="img-profile rounded-circle" src="{{ Auth::user()->url_path }}" alt="Perfil">
                                                         @else
-                                                            <img class="img-profile rounded-circle" src="{{ asset('images/profile.png') }}">
+                                                            <div class="img-profile rounded-circle">
+                                                                <i class="fas fa-user-tie fa-2x"></i>
+                                                            </div>
                                                         @endif
 
                                                     </a>

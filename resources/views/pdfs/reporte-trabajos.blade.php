@@ -9,18 +9,18 @@
 
 <table class="table">
     <thead>
-        <tr class="table-secondary">
-            <th scope="col" width="70px"><div class="text-center font-weight-bold text-info">Codigo</th>
-            <th scope="col" width="80px"><div class="text-center font-weight-bold text-info">Mantenimiento</th>
-            <th scope="col" width="130px"><div class="text-center font-weight-bold text-info">Mano De Obra</th>
-            <th scope="col" width="130px"><div class="text-center font-weight-bold text-info">Repuestos</th>
+        <tr class="table-secondary" style="font-size: 9">
+            <th scope="col" width="50px"><div class="text-center font-weight-bold text-info">Codigo</th>
+            <th scope="col" width="70px"><div class="text-center font-weight-bold text-info">Mantenimiento</th>
+            <th scope="col" width="140px"><div class="text-center font-weight-bold text-info">Mano De Obra</th>
+            <th scope="col" width="140px"><div class="text-center font-weight-bold text-info">Repuestos</th>
             <th scope="col" width="60px"><div class="text-center font-weight-bold text-info">Estado</th>
             <th scope="col" width="60px"><div class="text-center font-weight-bold text-info">Tipo</th>
         </tr>
     </thead>
     <tbody>
         @foreach ($trabajo as $trabajos)
-            <tr>
+            <tr style="font-size: 8">
                 <td><div class="text-center">{{ $trabajos->fake_id }}</td>
                 <td><div class="text-center">{{ $trabajos->mantenimientos->codigo }}</td>
                 <td><div class="text-center">{{ $trabajos->manobra }}</td>

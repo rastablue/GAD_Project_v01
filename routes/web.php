@@ -162,12 +162,28 @@ Route::middleware(['auth'])->group(function(){
                         ->middleware('can:operarios.edit');
 
     //Solicituds
-
+        //Todos los PDFs
         Route::get('descargar-solicituds', 'SolicitudController@reportes')->name('solicituds.reportes')
+                        ->middleware('can:solicitudes.show');
+
+        Route::get('descargar-solicituds/pendientes', 'SolicitudController@reportesPendientes')->name('solicituds.reportespendientes')
+                        ->middleware('can:solicitudes.show');
+
+        Route::get('descargar-solicituds/reprobado', 'SolicitudController@reportesReprobado')->name('solicituds.reportesreprobado')
+                        ->middleware('can:solicitudes.show');
+
+        Route::get('descargar-solicituds/aprobado', 'SolicitudController@reportesAprobado')->name('solicituds.reportesaprobado')
+                        ->middleware('can:solicitudes.show');
+
+        Route::get('seleccionar-solicituds', 'SolicitudController@reportesSelect')->name('solicituds.reporteselect')
+                        ->middleware('can:solicitudes.show');
+
+        Route::get('seleccionar-solicituds/apply', 'SolicitudController@reportesSelectApply')->name('solicituds.reporteselectapply')
                         ->middleware('can:solicitudes.show');
 
         Route::get('descargar-solicituds/{solicitud}', 'SolicitudController@pdf')->name('solicituds.pdf');
 
+        //Fin PDFs secction
         Route::post('solicituds/store', 'SolicitudController@store')->name('solicituds.store')
                         ->middleware('can:solicitudes.create');
 
@@ -309,12 +325,31 @@ Route::middleware(['auth'])->group(function(){
                         ->middleware('can:maquinarias.edit');
 
     //Mantenimientos
-
+        //PDFs
         Route::get('descargar-mantenimientos', 'MantenimientoController@reportes')->name('mantenimientos.reportes')
                     ->middleware('can:mantenimientos.show');
 
+        Route::get('descargar-mantenimientos/Espera', 'MantenimientoController@reportesEspera')->name('mantenimientos.reportesespera')
+                        ->middleware('can:mantenimientos.show');
+
+        Route::get('descargar-mantenimientos/inactivo', 'MantenimientoController@reportesInactivo')->name('mantenimientos.reportesinactivo')
+                        ->middleware('can:mantenimientos.show');
+
+        Route::get('descargar-mantenimientos/activo', 'MantenimientoController@reportesActivo')->name('mantenimientos.reportesactivo')
+                        ->middleware('can:mantenimientos.show');
+
+        Route::get('descargar-mantenimientos/finalizado', 'MantenimientoController@reportesFinalizado')->name('mantenimientos.reportesfinalizado')
+                        ->middleware('can:mantenimientos.show');
+
+        Route::get('seleccionar-mantenimientos', 'MantenimientoController@reportesSelect')->name('mantenimientos.reporteselect')
+                        ->middleware('can:mantenimientos.show');
+
+        Route::get('seleccionar-mantenimientos/apply', 'MantenimientoController@reportesSelectApply')->name('mantenimientos.reporteselectapply')
+                        ->middleware('can:mantenimientos.show');
+
         Route::get('descargar-mantenimientos/{mantenimiento}', 'MantenimientoController@pdf')->name('mantenimientos.pdf');
 
+        //Fin PDFs seccion
         Route::post('mantenimientos/store', 'MantenimientoController@store')->name('mantenimientos.store')
                     ->middleware('can:mantenimientos.create');
 

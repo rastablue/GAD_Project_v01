@@ -9,8 +9,8 @@
 
 <table class="table">
     <thead>
-        <tr class="table-secondary">
-            <th scope="col" width="80px"><div class="text-center font-weight-bold text-info">Codigo</th>
+        <tr class="table-secondary" style="font-size: 9">
+            <th scope="col" width="50px"><div class="text-center font-weight-bold text-info">Codigo</th>
             <th scope="col" width="120px"><div class="text-center font-weight-bold text-info">Fecha Emision</th>
             <th scope="col" width="110px"><div class="text-center font-weight-bold text-info">Responsable</th>
             <th scope="col" width="110px"><div class="text-center font-weight-bold text-info">Solicitante</th>
@@ -19,7 +19,7 @@
     </thead>
     <tbody>
         @foreach ($solicitud as $solicitudes)
-            <tr>
+            <tr style="font-size: 8">
                 <td><div class="text-center">{{ $solicitudes->codigo_solicitud }}</td>
                 <td><div class="text-center">{{ $solicitudes->fecha_emision }}</td>
                 <td><div class="text-center">{{ $solicitudes->users->name }} {{ $solicitudes->users->apellido_pater }}</td>

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateTarea extends FormRequest
+class FechaPdfMantenimiento extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,11 +24,9 @@ class CreateTarea extends FormRequest
     public function rules()
     {
         return [
-            "codigo" => "required|digits:7|exists:solicituds,codigo_solicitud",
             "fecha_inicio" => "required|date_format:Y-m-d",
             "fecha_fin" => "required|date_format:Y-m-d",
-            "direccion" => "required|string|max:500",
-            "detalle" => "required|string|max:500",
+            "customRadio" => "required|in:1,2,3,4,5",
         ];
     }
 }

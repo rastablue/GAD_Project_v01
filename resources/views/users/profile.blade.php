@@ -15,7 +15,13 @@
 
                 <div class="row">
                     <div class="col-lg-6 d-none d-lg-block bg-login">
-                        <div class="avatar text-center" style="background-image: url({{ Auth::user()->url_path }})"></div>
+                        @if ($user->path)
+                            <div class="avatar text-center" style="background-image: url({{ Auth::user()->url_path }})"></div>
+                        @else
+                            <div class="avatar text-center mt-15"><div>
+                                <i class="fas fa-user-tie fa-10x mt-5"></i>
+                            </div></div>
+                        @endif
                     </div>
                     <div class="col-lg-6">
                       <div class="p-5">

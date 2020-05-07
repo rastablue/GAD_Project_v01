@@ -90,6 +90,20 @@
                                 </div>
                             </div>
 
+                        {{-- Observacion --}}
+                            <div class="form-group row">
+                                <label for="observacion" class="col-md-4 col-form-label text-md-right">{{ __('Observacion') }}</label>
+                                <div class="col-md-6">
+                                    <textarea type="text" class="form-control @error('observacion') is-invalid @enderror" name="observacion" autocomplete="observacion" autofocus>{{ $observacion ?? old('observacion') }}</textarea>
+
+                                    @error('observacion')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+
                         {{-- Estado 
                             <div class="form-group row">
                                 <label for="tipo_contrato" class="col-md-4 col-form-label text-md-right">Estado</label>

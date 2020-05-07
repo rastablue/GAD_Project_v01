@@ -11,17 +11,16 @@
                         <i class="fas fa-plus"></i>
                         Nueva Solicitud
                     </a>
-                    <!--
-                    <button type="button" id="btnCrearSolicitud" class="btn btn-success btn-sm">
-                        <i class="fas fa-plus"></i>
-                        Nueva Solicitud
-                    </button>-->
                 @endcan
                 @can('solicitudes.show')
-                    <a href="{{ route('solicituds.reportes') }}" class="btn btn-sm btn-info">
+                    <button type="button" id="btnCrearSolicitud" class="btn btn-info btn-sm">
                         <i class="fas fa-fw fa-file-alt"></i>
                         Reporte
-                    </a>
+                    </button>
+                    <!--<a href="{{ route('solicituds.reportes') }}" class="btn btn-sm btn-info" target="_blank">
+                        <i class="fas fa-fw fa-file-alt"></i>
+                        Reporte
+                    </a>-->
                 @endcan
             </div>
         </div>
@@ -43,53 +42,45 @@
         </div>
     </div>
 
-
-<!-- Modal Crear-->
+<!-- Modal Reportes-->
     <div class="modal fade" id="creaSolicitudModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-dialog modal-md" role="document">
             <div class="modal-content">
                 <!-- Modal Header -->
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle">Agregar Solicitud</h5>
+                        <h5 class="modal-title" id="exampleModalLongTitle">Reporte de Solicitud</h5>
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                     </div>
                 <!-- Modal body -->
-                    <div class="modal-body">
+                    <div class="modal-body text-center">
                         <form id="formSolicitud" method="POST" action="{{ route('solicituds.store') }}">
                             @csrf
-                            {{-- Codigo --}}
-                                <div class="form-group row">
-                                    <label for="codigo" class="col-md-3 col-form-label">Codigo</label>
-                                    <div class="col-md-9">
-                                        <input id="codigo" type="text" pattern="{9}" class="form-control" name="codigo" required autocomplete="Codigo" autofocus>
-                                    </div>
-                                </div>
-
-                            {{-- Cedula Solicitante --}}
-                                <div class="form-group row">
-                                    <label for="user_id" class="col-md-3 col-form-label">Cedula del Solicitante</label>
-                                    <div class="col-md-9">
-                                        <input id="cliente_id" type="text" pattern="[0-9]{10}" class="form-control" name="cliente_id" required autocomplete="Cedula Solicitante" autofocus>
-                                    </div>
-                                </div>
-
-                            {{-- Detalle --}}
-                                <div class="form-group row">
-                                    <label for="detalle" class="col-md-3 col-form-label">Detalle</label>
-                                    <div class="col-md-9">
-                                        <textarea id="detalle" type="text" class="form-control" name="detalle" required autocomplete="detalle" autofocus></textarea>
-                                    </div>
-                                </div>
-
-                            {{-- ID del usuario --}}
-                                <input id="user_id" type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+                            
+                            <a href="{{ route('solicituds.reportesaprobado') }}" class="btn btn-success mt-3" target="_blank">
+                                Solicitudes Aprobadas
+                            </a>
+                            <br>
+                            <a href="{{ route('solicituds.reportespendientes') }}" class="btn btn-warning text-dark mt-3" target="_blank">
+                                Solicitudes pendientes
+                            </a>
+                            <br>
+                            <a href="{{ route('solicituds.reportesreprobado') }}" class="btn btn-danger mt-3" target="_blank">
+                                Solicitudes Reprobadas
+                            </a>
+                            <br>
+                            <a href="{{ route('solicituds.reporteselect') }}" class="btn btn-primary mt-3">
+                                Desde - Hasta
+                            </a>
+                            <br>
+                            <a href="{{ route('solicituds.reportes') }}" class="btn btn-primary mt-3" target="_blank">
+                                Todos los Registros
+                            </a>
 
                         </form>
                     </div>
                 <!-- Modal footer -->
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                        <button type="submit" form="formSolicitud" id="submitBtn" class="btn btn-primary">Agregar</button>
                     </div>
             </div>
         </div>
@@ -225,7 +216,7 @@
                     }
                 });
 
-            // modal crear
+            // modal reportes
                 $("#btnCrearSolicitud").click(function(e) {
                     e.preventDefault();
                     $("#alertModal").addClass("display-none").removeClass("alert-danger")
@@ -238,7 +229,7 @@
                         $('#formSolicitud')[0].reset();
                     });
                 
-            //Enviar detalle y observacion al modal de revision
+            // Enviar detalle y observacion al modal de revision
                 $('#RevisaSolicitudModal').on('show.bs.modal', function (event) {
                     var button = $(event.relatedTarget) // Button that triggered the modal
                     var detalle = button.data('detalle') // Extract info from data-* attributes
@@ -251,7 +242,7 @@
                     modal.find('.modal-body #observacion').val(observacion)
                 })
 
-            //Enviar detalle y observacion al modal de advertencia
+            // Enviar detalle y observacion al modal de advertencia
                 $('#NoOptionModal').on('show.bs.modal', function (event) {
                     var button = $(event.relatedTarget) // Button that triggered the modal
                     var detalle = button.data('detalle') // Extract info from data-* attributes

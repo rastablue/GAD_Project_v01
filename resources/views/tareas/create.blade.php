@@ -7,7 +7,7 @@
             <div class="card">
 
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <span><h4><b>Nueva Tarea</b></h4></span>
+                    <span><h4><b>Nuevo Requerimiento</b></h4></span>
                     <a href="javascript:history.back()">
                         <img class="img-responsive img-rounded float-left" src="{{ asset('images/retroceder.png') }}">
                     </a>
@@ -18,40 +18,16 @@
                         @csrf
 
                         {{-- Codigo --}}
-                            <div class="row">
-                                <div class="form-group row">
-                                    <label for="codigo" class="col-md-4 col-form-label text-md-right">Codigo</label>
-                                    <div class="col-md-2">
-                                        <input id="codigo1" onkeyup="mayus(this);" type="text" class="form-control @error('codigo1') is-invalid @enderror" name="codigo1" value="{{ $codigo1 ?? old('codigo1') }}" autocomplete="Codigo" autofocus>
+                            <div class="form-group row">
+                                <label for="codigo" class="col-md-4 col-form-label text-md-right">Codigo Solicitud</label>
+                                <div class="col-md-6">
+                                    <input id="codigo" onkeyup="mayus(this);" type="text" class="form-control @error('codigo') is-invalid @enderror" name="codigo" value="{{ $codigo ?? old('codigo') }}" autocomplete="Codigo" autofocus>
 
-                                        @error('codigo1')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
-
-                                    <label for="codigo" class="col-form-label">-</label>
-                                    <div class="col-md-2">
-                                        <input id="codigo2" onkeyup="mayus(this);" type="text" class="form-control @error('codigo2') is-invalid @enderror" name="codigo2" value="{{ $codigo1 ?? old('codigo2') }}" autocomplete="Codigo" autofocus>
-
-                                        @error('codigo2')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
-
-                                    <label for="codigo" class="col-form-label">-</label>
-                                    <div class="col-md-2">
-                                        <input id="codigo3" onkeyup="mayus(this);" type="text" class="form-control @error('codigo3') is-invalid @enderror" name="codigo3" value="{{ $codigo1 ?? old('codigo3') }}" autocomplete="Codigo" autofocus>
-
-                                        @error('codigo3')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
+                                    @error('codigo')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
                             </div>
 
@@ -104,6 +80,20 @@
                                     <textarea type="text" class="form-control @error('detalle') is-invalid @enderror" name="detalle" autocomplete="detalle" autofocus>{{ $detalle ?? old('detalle') }}</textarea>
 
                                     @error('detalle')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                        {{-- Observacion --}}
+                            <div class="form-group row">
+                                <label for="observacion" class="col-md-4 col-form-label text-md-right">{{ __('Observacion') }}</label>
+                                <div class="col-md-6">
+                                    <textarea type="text" class="form-control @error('observacion') is-invalid @enderror" name="observacion" autocomplete="observacion" autofocus>{{ $observacion ?? old('observacion') }}</textarea>
+
+                                    @error('observacion')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>

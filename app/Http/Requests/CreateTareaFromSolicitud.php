@@ -24,7 +24,7 @@ class CreateTareaFromSolicitud extends FormRequest
     public function rules()
     {
         return [
-            "codigo" => "required|string|size:10|exists:solicituds,codigo_solicitud",
+            "codigo" => "required|digits:7|exists:solicituds,codigo_solicitud",
             "fecha_inicio" => "required|date_format:Y-m-d",
             "fecha_fin" => "required|date_format:Y-m-d",
             "direccion" => "required|string|max:500",

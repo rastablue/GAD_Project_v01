@@ -9,7 +9,7 @@
 
 <table class="table">
     <thead>
-        <tr class="table-secondary">
+        <tr class="table-secondary" style="font-size: 9">
                 <th scope="col" width="90px"><div class="text-center font-weight-bold text-info">Cedula</th>
                 <th scope="col" width="150px"><div class="text-center font-weight-bold text-info">Nombre</th>
                 <th scope="col" width="80px"><div class="text-center font-weight-bold text-info">Telefono</th>
@@ -18,7 +18,7 @@
         </tr>
     </thead>
     <tbody>
-        <tr>
+        <tr style="font-size: 8">
             <td><div class="text-center">{{ $operario->cedula }}</td>
             <td><div class="text-center">{{ $operario->name }} {{ $operario->apellido_pater }}</td>
             <td><div class="text-center">{{ $operario->tlf }}</td>
@@ -43,37 +43,37 @@
             <tr>
                 <th width="150px"><div class="font-weight-bold text-info">Codigo</th>
                     @foreach (@$operario->maquinarias as $item)
-                        <td>{{ $item->codigo_nro_gad }}</td>
+                        <td style="font-size: 8">{{ $item->codigo_nro_gad }}</td>
                     @endforeach
             </tr>
             <tr>
                 <th width="150px"><div class="font-weight-bold text-info">Placa</th>
                     @foreach (@$operario->maquinarias as $item)
-                        <td>{{ $item->placa }}</td>
+                        <td style="font-size: 8">{{ $item->placa }}</td>
                     @endforeach
             </tr>
             <tr>
                 <th width="150px"><div class="font-weight-bold text-info">Marca</th>
                     @foreach (@$operario->maquinarias as $item)
-                        <td>{{ $item->marcas->marca }}</td>
+                        <td style="font-size: 8">{{ $item->marcas->marca }}</td>
                     @endforeach
             </tr>
             <tr>
                 <th width="150px"><div class="font-weight-bold text-info">Modelo</th>
                     @foreach (@$operario->maquinarias as $item)
-                        <td>{{ $item->modelo }}</td>
+                        <td style="font-size: 8">{{ $item->modelo }}</td>
                     @endforeach
             </tr>
             <tr>
                 <th width="150px"><div class="font-weight-bold text-info">Año</th>
                     @foreach (@$operario->maquinarias as $item)
-                        <td>{{ $item->anio }}</td>
+                        <td style="font-size: 8">{{ $item->anio }}</td>
                     @endforeach
             </tr>
             <tr>
                 <th width="150px"><div class="font-weight-bold text-info">Observacion</th>
                     @foreach (@$operario->maquinarias as $item)
-                        <td>{{ $item->observacion }}</td>
+                        <td style="font-size: 8">{{ $item->observacion }}</td>
                     @endforeach
             </tr>
         </tbody>

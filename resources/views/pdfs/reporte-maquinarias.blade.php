@@ -9,18 +9,18 @@
 
 <table class="table">
     <thead>
-        <tr class="table-secondary">
+        <tr class="table-secondary" style="font-size: 9">
             <th scope="col" width="60px"><div class="text-center font-weight-bold text-info">Codigo</th>
-            <th scope="col" width="60px"><div class="text-center font-weight-bold text-info">Placa</th>
+            <th scope="col" width="70px"><div class="text-center font-weight-bold text-info">Placa</th>
             <th scope="col" width="70px"><div class="text-center font-weight-bold text-info">Tipo</th>
             <th scope="col" width="90px"><div class="text-center font-weight-bold text-info">Marca / Modelo</th>
-            <th scope="col" width="140px"><div class="text-center font-weight-bold text-info">Conductor a cargo</th>
-            <th scope="col" width="140px"><div class="text-center font-weight-bold text-info">Observacion</th>
+            <th scope="col" width="100px"><div class="text-center font-weight-bold text-info">Conductor a cargo</th>
+            <th scope="col" width="100px"><div class="text-center font-weight-bold text-info">Observacion</th>
         </tr>
     </thead>
     <tbody>
         @foreach ($maquinaria as $maquinarias)
-            <tr>
+            <tr style="font-size: 8">
                 <td><div class="text-center">{{ $maquinarias->codigo_nro_gad }}</td>
                 <td><div class="text-center">{{ $maquinarias->placa }}</td>
                 <td><div class="text-center">{{ $maquinarias->tipo_vehiculo }}</td>

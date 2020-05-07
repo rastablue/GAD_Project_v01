@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Requests\CreateMantenimiento;
 use App\Http\Requests\EditMantenimiento;
+use App\Http\Requests\FechaPdfMantenimiento;
 use Vinkla\Hashids\Facades\Hashids;
 use Barryvdh\DomPDF\Facade as PDF;
 use Yajra\Datatables\Datatables;
@@ -38,32 +39,101 @@ class MantenimientoController extends Controller
                 ->make(true);
     }
 
-    public function reportes()
-    {
-        /**
-         * toma en cuenta que para ver los mismos
-         * datos debemos hacer la misma consulta
-        **/
-        $mantenimiento = Mantenimiento::all();
+    //Reportes PDFs
+        public function reportes()
+        {
+            $mantenimiento = Mantenimiento::all();
 
-        $pdf = PDF::loadView('pdfs.reporte-mantenimientos', compact('mantenimiento'));
+            $pdf = PDF::loadView('pdfs.reporte-mantenimientos', compact('mantenimiento'));
 
-        return $pdf->download('reporte-mantenimientos.pdf');
-    }
+            return $pdf->download('reporte-mantenimientos.pdf');
+        }
 
-    public function pdf($id)
-    {
-        /**
-         * toma en cuenta que para ver los mismos
-         * datos debemos hacer la misma consulta
-        **/
-        $id = Hashids::decode($id);
-        $mantenimiento = Mantenimiento::findOrFail($id)->first();
+        public function reportesActivo()
+        {
+            $mantenimiento = Mantenimiento::where('estado', 'Activo')->get();
 
-        $pdf = PDF::loadView('pdfs.mantenimientos', compact('mantenimiento'));
+            $pdf = PDF::loadView('pdfs.reporte-mantenimientos', compact('mantenimiento'));
 
-        return $pdf->download('mantenimiento-'.$mantenimiento->codigo.'.pdf');
-    }
+            return $pdf->download('reporte-mantenimientos-activos.pdf');
+        }
+
+        public function reportesEspera()
+        {
+            $mantenimiento = Mantenimiento::where('estado', 'En espera')->get();
+
+            $pdf = PDF::loadView('pdfs.reporte-mantenimientos', compact('mantenimiento'));
+
+            return $pdf->download('reporte-mantenimientos-espera.pdf');
+        }
+
+        public function reportesInactivo()
+        {
+            $mantenimiento = Mantenimiento::where('estado', 'Inactivo')->get();
+
+            $pdf = PDF::loadView('pdfs.reporte-mantenimientos', compact('mantenimiento'));
+
+            return $pdf->download('reporte-mantenimientos-inactivos.pdf');
+        }
+
+        public function reportesFinalizado()
+        {
+            $mantenimiento = Mantenimiento::where('estado', 'Finalizado')->get();
+
+            $pdf = PDF::loadView('pdfs.reporte-mantenimientos', compact('mantenimiento'));
+
+            return $pdf->download('reporte-mantenimientos-finalizados.pdf');
+        }
+
+        public function reportesSelect()
+        {
+            return view('mantenimientos.reporteselection.fecha');
+        }
+
+        public function reportesSelectApply(FechaPdfMantenimiento $request)
+        {
+            if ($request->customRadio == 1) {
+                $mantenimiento = Mantenimiento::whereBetween('fecha_ingreso', [$request->fecha_inicio, $request->fecha_fin])->get();
+            }
+            
+            if ($request->customRadio == 2) {
+                $mantenimiento = Mantenimiento::whereBetween('fecha_ingreso', [$request->fecha_inicio, $request->fecha_fin])
+                                        ->where('estado', 'Activo')
+                                        ->get();
+            }
+
+            if ($request->customRadio == 3) {
+                $mantenimiento = Mantenimiento::whereBetween('fecha_ingreso', [$request->fecha_inicio, $request->fecha_fin])
+                                        ->where('estado', 'En espera')
+                                        ->get();
+            }
+
+            if ($request->customRadio == 4) {
+                $mantenimiento = Mantenimiento::whereBetween('fecha_ingreso', [$request->fecha_inicio, $request->fecha_fin])
+                                        ->where('estado', 'Finalizado')
+                                        ->get();
+            }
+
+            if ($request->customRadio == 5) {
+                $mantenimiento = Mantenimiento::whereBetween('fecha_ingreso', [$request->fecha_inicio, $request->fecha_fin])
+                                        ->where('estado', 'Inactivo')
+                                        ->get();
+            }
+
+            $pdf = PDF::loadView('pdfs.reporte-mantenimientos', compact('mantenimiento'));
+
+            return $pdf->download('reporte-mantenimientos.pdf');
+        }
+
+        public function pdf($id)
+        {
+            $id = Hashids::decode($id);
+            $mantenimiento = Mantenimiento::findOrFail($id)->first();
+
+            $pdf = PDF::loadView('pdfs.mantenimientos', compact('mantenimiento'));
+
+            return $pdf->download('mantenimiento-'.$mantenimiento->codigo.'.pdf');
+        }
 
     /**
      * Show the form for creating a new resource.

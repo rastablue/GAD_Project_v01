@@ -13,7 +13,7 @@
                     </a>
                 @endcan
                 @can('users.show')
-                    <a href=" {{ route('users.reportes') }} " class="btn btn-sm btn-info">
+                    <a href=" {{ route('users.reportes') }} " class="btn btn-sm btn-info" target="_blank">
                         <i class="fas fa-fw fa-file-alt"></i>
                         Reporte
                     </a>
@@ -27,6 +27,7 @@
                         <tr>
                             <th width="75px">Cedula</th>
                             <th>Nombre</th>
+                            <th>Apellido</th>
                             <th>Telefono</th>
                             <th>E-mail</th>
                             <th width="255">Acciones</th>
@@ -182,7 +183,9 @@
                     ajax: '{!! route('datatables.users') !!}',
                     columns: [
                         { data: 'cedula', name: 'cedula' },
-                        { data: 'apellido_pater', render: function(data, type, row, meta){return row.name + ' ' + row.apellido_pater}},
+                        { data: 'name', name: 'name' },
+                        { data: 'apellido_pater', name: 'apellido_pater' },
+                        //{ data: 'apellido_pater', render: function(data, type, row, meta){return row.name + ' ' + row.apellido_pater}},
                         { data: 'tlf', name: 'tlf'  },
                         { data: 'email', name: 'email'  },
                         { data: 'btn', name: 'btn',orderable:false,serachable:false,sClass:'text-center' }
@@ -255,7 +258,6 @@
 </script>
 @endpush
 @push('charts')
-
 <script>
     // Set new default font family and font color to mimic Bootstrap's default styling
     Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';

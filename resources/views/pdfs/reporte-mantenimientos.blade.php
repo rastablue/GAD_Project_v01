@@ -10,16 +10,16 @@
 <table class="table">
     <thead>
         <tr class="table-secondary">
-            <th scope="col" width="60px"><div class="text-center font-weight-bold text-info">Codigo</th>
-            <th scope="col" width="120px"><div class="text-center font-weight-bold text-info">Fecha de Ingreso</th>
-            <th scope="col" width="70px"><div class="text-center font-weight-bold text-info">Monto Total</th>
-            <th scope="col" width="70px"><div class="text-center font-weight-bold text-info">Estado</th>
-            <th scope="col" width="140px"><div class="text-center font-weight-bold text-info">Diagnostico</th>
+            <th scope="col" width="50px" style="font-size: 9"><div class="text-center font-weight-bold text-info">Codigo</th>
+            <th scope="col" width="100px" style="font-size: 9"><div class="text-center font-weight-bold text-info">Fecha de Ingreso</th>
+            <th scope="col" width="70px" style="font-size: 9"><div class="text-center font-weight-bold text-info">Monto Total</th>
+            <th scope="col" width="60px" style="font-size: 9"><div class="text-center font-weight-bold text-info">Estado</th>
+            <th scope="col" width="160px" style="font-size: 9"><div class="text-center font-weight-bold text-info">Diagnostico</th>
         </tr>
     </thead>
     <tbody>
         @foreach ($mantenimiento as $mantenimientos)
-            <tr>
+            <tr style="font-size: 8">
                 <td><div class="text-center">{{ $mantenimientos->codigo }}</td>
                 <td><div class="text-center">{{ $mantenimientos->fecha_ingreso }}</td>
                 <td><div class="text-center">{{ $mantenimientos->valor_total }}</td>

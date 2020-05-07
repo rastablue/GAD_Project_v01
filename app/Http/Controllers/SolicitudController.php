@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\CreateSolicitud;
 use App\Http\Requests\CreateClienteFrom;
 use App\Http\Requests\EditSolicitud;
+use App\Http\Requests\FechaPdfSolicitud;
 use Carbon\Carbon;
 use Vinkla\Hashids\Facades\Hashids;
 use Barryvdh\DomPDF\Facade as PDF;
@@ -40,25 +41,86 @@ class SolicitudController extends Controller
                 ->rawColumns(['btn'])
                 ->make(true);
     }
+    //Reportes PDFs
+        public function reportes()
+        {
+            $solicitud = Solicitud::all();
 
-    public function reportes()
-    {
-        $solicitud = Solicitud::all();
+            $pdf = PDF::loadView('pdfs.reporte-solicitudes', compact('solicitud'));
 
-        $pdf = PDF::loadView('pdfs.reporte-solicitudes', compact('solicitud'));
+            return $pdf->download('reporte-solicitudes.pdf');
+        }
 
-        return $pdf->download('reporte-solicitudes.pdf');
-    }
+        public function reportesPendientes()
+        {
+            $solicitud = Solicitud::where('estado', 'Pendiente')->get();
 
-    public function pdf($id)
-    {
-        $id = Hashids::decode($id);
-        $solicitud = Solicitud::findOrFail($id)->first();
+            $pdf = PDF::loadView('pdfs.reporte-solicitudes', compact('solicitud'));
 
-        $pdf = PDF::loadView('pdfs.solicitudes', compact('solicitud'));
+            return $pdf->download('reporte-solicitudes.pdf');
+        }
 
-        return $pdf->download('solicitud-'.$solicitud->codigo_solicitud.'.pdf');
-    }
+        public function reportesAprobado()
+        {
+            $solicitud = Solicitud::where('estado', 'Aprobado')->get();
+
+            $pdf = PDF::loadView('pdfs.reporte-solicitudes', compact('solicitud'));
+
+            return $pdf->download('reporte-solicitudes.pdf');
+        }
+
+        public function reportesReprobado()
+        {
+            $solicitud = Solicitud::where('estado', 'Reprobado')->get();
+
+            $pdf = PDF::loadView('pdfs.reporte-solicitudes', compact('solicitud'));
+
+            return $pdf->download('reporte-solicitudes.pdf');
+        }
+
+        public function reportesSelect()
+        {
+            return view('solicituds.reporteselection.fecha');
+        }
+
+        public function reportesSelectApply(FechaPdfSolicitud $request)
+        {
+            if ($request->customRadio == 1) {
+                $solicitud = Solicitud::whereBetween('fecha_emision', [$request->fecha_inicio, $request->fecha_fin])->get();
+            }
+            
+            if ($request->customRadio == 2) {
+                $solicitud = Solicitud::whereBetween('fecha_emision', [$request->fecha_inicio, $request->fecha_fin])
+                                        ->where('estado', 'Aprobado')
+                                        ->get();
+            }
+
+            if ($request->customRadio == 3) {
+                $solicitud = Solicitud::whereBetween('fecha_emision', [$request->fecha_inicio, $request->fecha_fin])
+                                        ->where('estado', 'Pendiente')
+                                        ->get();
+            }
+
+            if ($request->customRadio == 4) {
+                $solicitud = Solicitud::whereBetween('fecha_emision', [$request->fecha_inicio, $request->fecha_fin])
+                                        ->where('estado', 'Reprobado')
+                                        ->get();
+            }
+
+            $pdf = PDF::loadView('pdfs.reporte-solicitudes', compact('solicitud'));
+
+            return $pdf->download('reporte-solicitudes.pdf');
+        }
+
+        public function pdf($id)
+        {
+            $id = Hashids::decode($id);
+            $solicitud = Solicitud::findOrFail($id)->first();
+
+            $pdf = PDF::loadView('pdfs.solicitudes', compact('solicitud'));
+
+            return $pdf->download('solicitud-'.$solicitud->codigo_solicitud.'.pdf');
+        }
 
     /**
      * Show the form for creating a new resource.

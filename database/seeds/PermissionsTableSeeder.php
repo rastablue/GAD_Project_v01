@@ -114,7 +114,7 @@ class PermissionsTableSeeder extends Seeder
                 Permission::create(['name' => 'admin.vehiculos.general']);
                 Permission::create(['name' => 'admin.vehiculos.general.marcas']);
 
-        //Admin
+        //Acceso total
             $admin = Role::create(['name' => 'Acceso Total']);
 
             $admin->givePermissionTo([
@@ -142,12 +142,14 @@ class PermissionsTableSeeder extends Seeder
                     'solicitudes.show',
                     'solicitudes.create',
                     'solicitudes.destroy',
+                    'solicitudes.revision',
                 //Tareas
                     'tareas.index',
                     'tareas.edit',
                     'tareas.show',
                     'tareas.create',
                     'tareas.destroy',
+                    'tareas.revision',
                 //Maquinarias
                     'maquinarias.index',
                     'maquinarias.edit',
@@ -393,7 +395,7 @@ class PermissionsTableSeeder extends Seeder
 
         //User Admin
             $user = User::find(1); //martin Ronquillo
-            $user->assignRole('Admin');
+            $user->assignRole('Acceso Total');
 
         //User Auditor
             $funcionario = User::find(2);

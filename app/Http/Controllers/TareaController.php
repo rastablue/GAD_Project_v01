@@ -78,29 +78,26 @@ class TareaController extends Controller
     public function store(CreateTarea $request)
     {
 
-        if ($solicitud = Solicitud::where('codigo_solicitud', $request->codigo1.'-'.$request->codigo2.'-'.$request->codigo3)->first()) {
-            $solicitud = Solicitud::where('codigo_solicitud', $request->codigo1.'-'.$request->codigo2.'-'.$request->codigo3)->first();
+        $solicitud = Solicitud::where('codigo_solicitud', $request->codigo)->first();
 
-            if($solicitud->estado == 'Reprobado'){
-                return back()->with('danger', 'La solicitud esta reprobada, no pueden agregarse tareas');
-            }else{
-                $tarea = new Tarea();
+        if($solicitud->estado == 'Reprobado'){
+            return back()->with('danger', 'La solicitud esta reprobada, no pueden agregarse tareas');
+        }else{
+            $tarea = new Tarea();
 
-                $tarea->fake_id = Str::random(5);
-                $tarea->fecha_inicio = $request->fecha_inicio;
-                $tarea->fecha_fin = $request->fecha_fin;
-                $tarea->direc_tarea = $request->direccion;
-                $tarea->detalle = $request->detalle;
-                $tarea->estado = 'Pendiente';
-                $tarea->solicitud_id = $solicitud->id;
+            $tarea->fake_id = Str::random(5);
+            $tarea->fecha_inicio = $request->fecha_inicio;
+            $tarea->fecha_fin = $request->fecha_fin;
+            $tarea->direc_tarea = $request->direccion;
+            $tarea->detalle = $request->detalle;
+            $tarea->observacion = $request->observacion;
+            $tarea->estado = 'Pendiente';
+            $tarea->solicitud_id = $solicitud->id;
 
-                $tarea->save();
+            $tarea->save();
 
-                return redirect()->route('solicituds.show', Hashids::encode($solicitud->id))
-                    ->with('info', 'Tarea Agregada');
-            }
-        } else {
-            return back()->with('danger', 'No se pudo encontrar la solicitud');
+            return redirect()->route('solicituds.show', Hashids::encode($solicitud->id))
+                ->with('info', 'Tarea Agregada');
         }
 
     }

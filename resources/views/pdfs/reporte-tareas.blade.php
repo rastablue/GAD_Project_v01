@@ -2,25 +2,25 @@
 
 @section('content')
 <br><br>
-<h5><b> Reporte de tareas </b></h5>
+<h5><b> Reporte de Requerimientos </b></h5>
 <h5><b> Fecha de emision: </b></h5>{{ Carbon\Carbon::now() }} <br><br>
 <hr class="sidebar-divider">
-<h4 class="font-weight-bold text-success"><b> Tareas</b></h4>
+<h4 class="font-weight-bold text-success"><b> Requerimientos</b></h4>
 
 <table class="table">
     <thead>
-        <tr class="table-secondary">
-            <th scope="col" width="80px"><div class="text-center font-weight-bold text-info">Codigo</th>
-            <th scope="col" width="80px"><div class="text-center font-weight-bold text-info">Solicitud</th>
+        <tr class="table-secondary" style="font-size: 9">
+            <th scope="col" width="50px"><div class="text-center font-weight-bold text-info">Codigo</th>
+            <th scope="col" width="50px"><div class="text-center font-weight-bold text-info">Solicitud</th>
             <th scope="col" width="120px"><div class="text-center font-weight-bold text-info">Fecha Inicio</th>
             <th scope="col" width="110px"><div class="text-center font-weight-bold text-info">Direccion</th>
             <th scope="col" width="90px"><div class="text-center font-weight-bold text-info">Estado</th>
-            <th scope="col" width="110px"><div class="text-center font-weight-bold text-info">Detalle</th>
+            <th scope="col" width="170px"><div class="text-center font-weight-bold text-info">Detalle</th>
         </tr>
     </thead>
     <tbody>
         @foreach ($tarea as $tareas)
-            <tr>
+            <tr style="font-size: 8">
                 <td><div class="text-center">{{ $tareas->fake_id }}</td>
                 <td><div class="text-center">{{ $tareas->solicituds->codigo_solicitud }}</td>
                 <td><div class="text-center">{{ $tareas->fecha_inicio }}</td>

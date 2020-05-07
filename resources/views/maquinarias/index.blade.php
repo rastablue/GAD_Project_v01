@@ -13,7 +13,7 @@
                     </a>
                 @endcan
                 @can('maquinarias.show')
-                    <a href="{{ route('maquinarias.reportes') }}" class="btn btn-sm btn-info">
+                    <a href="{{ route('maquinarias.reportes') }}" class="btn btn-sm btn-info" target="_blank">
                         <i class="fas fa-fw fa-file-alt"></i>
                         Reporte
                     </a>
