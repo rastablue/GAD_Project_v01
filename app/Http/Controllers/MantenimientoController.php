@@ -7,6 +7,7 @@ use App\Maquinaria;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Requests\CreateMantenimiento;
+use App\Http\Requests\CreateMantenimientoFrom;
 use App\Http\Requests\EditMantenimiento;
 use App\Http\Requests\FechaPdfMantenimiento;
 use Vinkla\Hashids\Facades\Hashids;
@@ -177,6 +178,40 @@ class MantenimientoController extends Controller
         $mantenimiento->diagnostico = $request->diagnostico;
         $mantenimiento->estado = 'En espera';
         $mantenimiento->maquinaria_id = $request->maquinaria;
+
+        if ($request->hasFile('foto')) {
+            $image = $request->foto->store('public');
+            $mantenimiento->path = $image;
+        }
+
+        $mantenimiento->save();
+
+        $mantenimiento = Mantenimiento::where('codigo', $codigo)->first();
+
+        return redirect()->route('mantenimientos.show', Hashids::encode($mantenimiento->id))
+                ->with('info', 'Mantenimiento agregado');
+    }
+
+    public function storeFrom(CreateMantenimientoFrom $request)
+    {
+        $date = Carbon::now();
+        $total = Mantenimiento::get()->last();
+        $maquinaria = Maquinaria::where('placa', $request->placa)->first();
+
+        if ($total->codigo == 0 || $total->codigo == '0' || empty($total->codigo)) {
+            $codigo = '1000000';
+        } else {
+            $codigo = $total->codigo + 1;
+        }
+
+        $mantenimiento = new Mantenimiento();
+        $mantenimiento->codigo = $codigo;
+        $mantenimiento->fecha_ingreso = $request->fecha_ingreso;
+        $mantenimiento->fecha_egreso = $request->fecha_egreso;
+        $mantenimiento->observacion = $request->observacion;
+        $mantenimiento->diagnostico = $request->diagnostico;
+        $mantenimiento->estado = 'En espera';
+        $mantenimiento->maquinaria_id = $maquinaria->id;
 
         if ($request->hasFile('foto')) {
             $image = $request->foto->store('public');

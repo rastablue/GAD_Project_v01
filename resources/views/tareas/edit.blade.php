@@ -7,7 +7,7 @@
             <div class="card">
 
                 <div class="card-header d-flex justify-content-between align-tareas-center">
-                    <span><h4><b>Actualizar Tarea de: </b><i>{{ $tarea->solicituds->codigo_solicitud }}</i></h4></span>
+                    <span><h4><b>Actualizar Requerimiento de: </b><i>{{ $tarea->solicituds->codigo_solicitud }}</i></h4></span>
                     <a href="javascript:history.back()">
                         <img class="img-responsive img-rounded float-left" src="{{ asset('images/retroceder.png') }}">
                     </a>
@@ -28,7 +28,7 @@
 
                         {{-- Codigo Tarea --}}
                             <div class="form-group row">
-                                <label for="codigo" class="col-md-4 col-form-label text-md-right">Codigo Tarea</label>
+                                <label for="codigo" class="col-md-4 col-form-label text-md-right">Codigo Requerimiento</label>
                                 <div class="col-md-6">
                                     <input type="text" disabled value="{{ $tarea->fake_id }}" class="form-control" autofocus>
                                 </div>
@@ -83,6 +83,20 @@
                                     <textarea type="text" name="detalle" placeholder="{{ $tarea->detalle }}" class="form-control @error('detalle') is-invalid @enderror" autocomplete="detalle" autofocus>{{ $tarea->detalle ?? old('detalle') }}</textarea>
                                 
                                     @error('detalle')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                        {{-- Observacion --}}
+                            <div class="form-group row">
+                                <label for="observacion" class="col-md-4 col-form-label text-md-right">Observacion</label>
+                                <div class="col-md-6">
+                                    <textarea type="text" name="observacion" placeholder="{{ $tarea->observacion }}" class="form-control @error('observacion') is-invalid @enderror" autocomplete="observacion" autofocus>{{ $tarea->observacion ?? old('observacion') }}</textarea>
+                                
+                                    @error('observacion')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>

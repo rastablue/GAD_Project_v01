@@ -104,7 +104,7 @@ class TrabajoController extends Controller
             $trabajo->repuestos = $request->repuestos;
             $trabajo->costo_repuestos = $request->costo_de_repuestos;
             $trabajo->costo_manobra = $request->costo_mano_de_obra;
-            $trabajo->estado = $request->estado;
+            $trabajo->estado = 'En espera';
             $trabajo->tipo = $request->tipo;
             $trabajo->mantenimiento_id = $mantenimiento->id;
 

@@ -85,28 +85,6 @@
                                 </div>
                             </div>
 
-                        {{-- Estado --}}
-                            <div class="form-group row">
-                                <label for="estado" class="col-md-4 col-form-label text-md-right">{{ __('Estado') }}</label>
-
-                                <div class="col-md-6">
-
-                                    <select id="estado" class="form-control @error('estado') is-invalid @enderror" name="estado">
-                                        <option value="{{ old('estado') }}" selected>{{ old('estado') }}</option>
-                                        @foreach(App\Trabajo::getEnumValues('trabajos', 'estado') as $estado)
-                                            <option value="{{ $estado }}">  {{ $estado }}  </option>
-                                        @endforeach
-                                    </select>
-
-                                    @error('estado')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-
-                            </div>
-
                         {{-- Tipo --}}
                             <div class="form-group row">
                                 <label for="tipo_contrato" class="col-md-4 col-form-label text-md-right">{{ __('Tipo De Trabajo') }}</label>

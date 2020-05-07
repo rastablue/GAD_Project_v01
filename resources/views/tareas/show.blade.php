@@ -62,6 +62,14 @@
                                             </div>
                                         </div>
 
+                                    {{-- Observacion --}}
+                                        <div class="form-group row">
+                                            <label for="detalle" class="col-md-4 col-form-label text-md-right">Observacion</label>
+                                            <div class="col-md-6">
+                                                <textarea id="detalle" type="text" class="form-control" disabled placeholder=" {{ $tarea->observacion }}" name="detalle" required autocomplete="detalle" autofocus></textarea>
+                                            </div>
+                                        </div> 
+
                                     {{-- Estado --}}
                                         <div class="form-group row">
                                             <label for="codigo" class="col-md-4 col-form-label text-md-right">Estado</label>
@@ -113,7 +121,7 @@
                                         <div class="form-group row">
                                             <label for="codigo" class="col-md-4 col-form-label text-md-right">Codigo</label>
                                             <div class="col-md-6">
-                                                <input id="codigo" type="text" pattern="{9}" class="form-control" disabled value=" {{ $tarea->solicituds->codigo_solicitud }} " name="codigo" required autocomplete="Codigo" autofocus>
+                                                <input id="codigo" type="text" class="form-control" disabled value=" {{ $tarea->solicituds->codigo_solicitud }} " name="codigo" required autocomplete="Codigo" autofocus>
                                             </div>
                                         </div>
 
@@ -121,7 +129,7 @@
                                         <div class="form-group row">
                                             <label for="codigo" class="col-md-4 col-form-label text-md-right">Fecha de Emision</label>
                                             <div class="col-md-6">
-                                                <input id="codigo" type="text" pattern="{9}" class="form-control" disabled value=" {{ $tarea->solicituds->fecha_emision }} " name="codigo" required autocomplete="Codigo" autofocus>
+                                                <input id="codigo" type="text" class="form-control" disabled value=" {{ $tarea->solicituds->fecha_emision }} " name="codigo" required autocomplete="Codigo" autofocus>
                                             </div>
                                         </div>
 
@@ -129,7 +137,7 @@
                                         <div class="form-group row">
                                             <label for="codigo" class="col-md-4 col-form-label text-md-right">Fecha de Revision</label>
                                             <div class="col-md-6">
-                                                <input id="codigo" type="text" pattern="{9}" class="form-control" disabled value=" {{ $tarea->solicituds->fecha_revision }} " name="codigo" required autocomplete="Codigo" autofocus>
+                                                <input id="codigo" type="text" class="form-control" disabled value=" {{ $tarea->solicituds->fecha_revision }} " name="codigo" required autocomplete="Codigo" autofocus>
                                             </div>
                                         </div>
 
@@ -137,7 +145,7 @@
                                         <div class="form-group row">
                                             <label for="codigo" class="col-md-4 col-form-label text-md-right">Funcionario contribuyente</label>
                                             <div class="col-md-6">
-                                                <input id="codigo" type="text" pattern="{9}" class="form-control" disabled value="{{ $tarea->solicituds->users->name }}  {{ $tarea->solicituds->users->apellido_pater }}" name="codigo" required autocomplete="Codigo" autofocus>
+                                                <input id="codigo" type="text" class="form-control" disabled value="{{ $tarea->solicituds->users->name }}  {{ $tarea->solicituds->users->apellido_pater }}" name="codigo" required autocomplete="Codigo" autofocus>
                                             </div>
                                         </div>
 
@@ -149,11 +157,19 @@
                                             </div>
                                         </div>
 
+                                    {{-- Observacion --}}
+                                        <div class="form-group row">
+                                            <label for="detalle" class="col-md-4 col-form-label text-md-right">Observacion</label>
+                                            <div class="col-md-6">
+                                                <textarea id="detalle" type="text" class="form-control" disabled placeholder=" {{ $tarea->solicituds->observacion }}" name="detalle" required autocomplete="detalle" autofocus></textarea>
+                                            </div>
+                                        </div>
+
                                     {{-- Estado --}}
                                         <div class="form-group row">
                                             <label for="codigo" class="col-md-4 col-form-label text-md-right">Estado Solicitud</label>
                                             <div class="col-md-6">
-                                                <input id="codigo" type="text" pattern="{9}" class="form-control" disabled value="{{ $tarea->solicituds->estado }}" name="codigo" required autocomplete="Codigo" autofocus>
+                                                <input id="codigo" type="text" class="form-control" disabled value="{{ $tarea->solicituds->estado }}" name="codigo" required autocomplete="Codigo" autofocus>
                                             </div>
                                         </div>
 

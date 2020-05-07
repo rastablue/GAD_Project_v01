@@ -353,6 +353,9 @@ Route::middleware(['auth'])->group(function(){
         Route::post('mantenimientos/store', 'MantenimientoController@store')->name('mantenimientos.store')
                     ->middleware('can:mantenimientos.create');
 
+        Route::post('mantenimientos/storefrom', 'MantenimientoController@storeFrom')->name('mantenimientos.storefrom')
+                    ->middleware('can:mantenimientos.create');
+
         Route::get('mantenimientos', 'MantenimientoController@index')->name('mantenimientos.index')
                     ->middleware('can:mantenimientos.index');
 

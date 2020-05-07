@@ -299,6 +299,7 @@ class SolicitudController extends Controller
             $solicitud = Solicitud::findOrFail($id);
 
             $solicitud->detalle = $request->detalle;
+            $solicitud->observacion = $request->observacion;
             $solicitud->cliente_id = $cliente->id;
 
             if ($request->estado != 'Pendiente') {

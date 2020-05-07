@@ -368,9 +368,6 @@
     <!-- Scripts -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-        <script src="{{ asset('js/jquery-3.4.1.min.js') }}"></script>
-        <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
-        <script src="{{ asset('js/datatables.min.js') }}"></script>
         <script type="text/javascript">
             $.ajaxSetup({
                 headers: {
@@ -394,13 +391,8 @@
         <!-- Custom scripts for all pages-->
         <script src="{{ asset('js/sb-admin-2.min.js') }}"></script>
 
-        <!-- Page level plugins -->
-        <script src="{{ asset('vendor/chart.js/Chart.min.js') }}"></script>
-
         <!-- Page level custom scripts -->
         @stack('charts')
-        <script src="{{ asset('js/demo/chart-area-demo.js') }}"></script>
-        <script src="{{ asset('js/demo/chart-pie-demo.js') }}"></script>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js" charset="utf-8"></script>
 

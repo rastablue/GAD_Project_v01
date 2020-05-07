@@ -35,7 +35,7 @@
                                                     <div class="form-group row">
                                                         <label for="codigo" class="col-md-4 col-form-label text-md-right">Codigo</label>
                                                         <div class="col-md-6">
-                                                            <input id="codigo" type="text" pattern="{9}" class="form-control" disabled value=" {{ $solicitud->codigo_solicitud }} " name="codigo" required autocomplete="Codigo" autofocus>
+                                                            <input id="codigo" type="text" class="form-control" disabled value=" {{ $solicitud->codigo_solicitud }} " name="codigo" required autocomplete="Codigo" autofocus>
                                                         </div>
                                                     </div>
 
@@ -43,7 +43,7 @@
                                                     <div class="form-group row">
                                                         <label for="codigo" class="col-md-4 col-form-label text-md-right">Fecha de Emision</label>
                                                         <div class="col-md-6">
-                                                            <input id="codigo" type="text" pattern="{9}" class="form-control" disabled value=" {{ $solicitud->fecha_emision }} " name="codigo" required autocomplete="Codigo" autofocus>
+                                                            <input id="codigo" type="text" class="form-control" disabled value=" {{ $solicitud->fecha_emision }} " name="codigo" required autocomplete="Codigo" autofocus>
                                                         </div>
                                                     </div>
 
@@ -51,7 +51,7 @@
                                                     <div class="form-group row">
                                                         <label for="codigo" class="col-md-4 col-form-label text-md-right">Fecha de Revision</label>
                                                         <div class="col-md-6">
-                                                            <input id="codigo" type="text" pattern="{9}" class="form-control" disabled value=" {{ $solicitud->fecha_revision }} " name="codigo" required autocomplete="Codigo" autofocus>
+                                                            <input id="codigo" type="text" class="form-control" disabled value=" {{ $solicitud->fecha_revision }} " name="codigo" required autocomplete="Codigo" autofocus>
                                                         </div>
                                                     </div>
 
@@ -59,7 +59,7 @@
                                                     <div class="form-group row">
                                                         <label for="codigo" class="col-md-4 col-form-label text-md-right">Funcionario contribuyente</label>
                                                         <div class="col-md-6">
-                                                            <input id="codigo" type="text" pattern="{9}" class="form-control" disabled value="{{ $solicitud->users->name }}  {{ $solicitud->users->apellido_pater }}" name="codigo" required autocomplete="Codigo" autofocus>
+                                                            <input id="codigo" type="text" class="form-control" disabled value="{{ $solicitud->users->name }}  {{ $solicitud->users->apellido_pater }}" name="codigo" required autocomplete="Codigo" autofocus>
                                                         </div>
                                                     </div>
 
@@ -83,7 +83,15 @@
                                                     <div class="form-group row">
                                                         <label for="codigo" class="col-md-4 col-form-label text-md-right">Estado Solicitud</label>
                                                         <div class="col-md-6">
-                                                            <input id="codigo" type="text" pattern="{9}" class="form-control" disabled value="{{ $solicitud->estado }}" name="codigo" required autocomplete="Codigo" autofocus>
+                                                            @if (@$solicitud->estado == 'Aprobado')
+                                                                <input id="codigo" type="text" class="form-control bg-success text-light" disabled value="{{ $solicitud->estado }}" name="codigo" required autocomplete="Codigo" autofocus>
+                                                            @endif
+                                                            @if (@$solicitud->estado == 'Reprobado')
+                                                                <input id="codigo" type="text" class="form-control bg-danger text-light" disabled value="{{ $solicitud->estado }}" name="codigo" required autocomplete="Codigo" autofocus>
+                                                            @endif
+                                                            @if (@$solicitud->estado == 'Pendiente')
+                                                                <input id="codigo" type="text" class="form-control bg-info text-light" disabled value="{{ $solicitud->estado }}" name="codigo" required autocomplete="Codigo" autofocus>
+                                                            @endif
                                                         </div>
                                                     </div>
     
@@ -96,7 +104,7 @@
                                                     <div class="form-group row">
                                                         <label for="codigo" class="col-md-4 col-form-label text-md-right">Cedula del solicitante</label>
                                                         <div class="col-md-6">
-                                                            <input id="codigo" type="text" pattern="{9}" class="form-control" disabled value="{{ $solicitud->clientes->cedula }}" name="codigo" required autocomplete="Codigo" autofocus>
+                                                            <input id="codigo" type="text" class="form-control" disabled value="{{ $solicitud->clientes->cedula }}" name="codigo" required autocomplete="Codigo" autofocus>
                                                         </div>
                                                     </div>
 
@@ -104,7 +112,7 @@
                                                     <div class="form-group row">
                                                         <label for="codigo" class="col-md-4 col-form-label text-md-right">Nombre del solicitante</label>
                                                         <div class="col-md-6">
-                                                            <input id="codigo" type="text" pattern="{9}" class="form-control" disabled value="{{ $solicitud->clientes->name }} {{ $solicitud->clientes->apellido_pater }} {{ $solicitud->clientes->apellido_mater }}" name="codigo" required autocomplete="Codigo" autofocus>
+                                                            <input id="codigo" type="text" class="form-control" disabled value="{{ $solicitud->clientes->name }} {{ $solicitud->clientes->apellido_pater }} {{ $solicitud->clientes->apellido_mater }}" name="codigo" required autocomplete="Codigo" autofocus>
                                                         </div>
                                                     </div>
 
@@ -122,7 +130,7 @@
                                                         <label for="tlf" class="col-md-4 col-form-label text-md-right">Telefono</label>
 
                                                         <div class="col-md-6">
-                                                            <input id="tlf" type="text" pattern="[0-9]{7,10}" class="form-control" disabled value="{{ $solicitud->clientes->tlf }}" name="tlf" required autofocus>
+                                                            <input id="tlf" type="text" class="form-control" disabled value="{{ $solicitud->clientes->tlf }}" name="tlf" required autofocus>
                                                         </div>
                                                     </div>
 
@@ -197,6 +205,14 @@
                                                                                     <label for="detalle" class="col-md-4 col-form-label text-md-right">Detalle</label>
                                                                                     <div class="col-md-6">
                                                                                         <textarea type="text" disabled class="form-control" required autocomplete="detalle" autofocus> {{ $item->detalle }} </textarea>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                            {{-- Observacion --}}
+                                                                                <div class="form-group row">
+                                                                                    <label for="detalle" class="col-md-4 col-form-label text-md-right">Observacion</label>
+                                                                                    <div class="col-md-6">
+                                                                                        <textarea type="text" disabled class="form-control" required autocomplete="detalle" autofocus> {{ $item->observacion }} </textarea>
                                                                                     </div>
                                                                                 </div>
 

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateTrabajo extends FormRequest
+class CreateMantenimientoFrom extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,11 +24,11 @@ class CreateTrabajo extends FormRequest
     public function rules()
     {
         return [
-            "mano_de_obra" => "required|string|max:500",
-            "repuestos" => "required|string|max:500",
-            "costo_mano_de_obra" => "required|between:0,9.99",
-            "costo_de_repuestos" => "required|between:0,9.99",
-            "tipo" => "required|in:Preventivo,Correctivo",
+            "fecha_ingreso" => "required|date_format:Y-m-d",
+            "diagnostico" => "required|string|max:500",
+            "observacion" => "string|max:500",
+            "placa" => "required|exists:maquinarias,placa",
+            "foto" => "image|mimes:jpg,jpeg,png|max:3000",
         ];
     }
 }

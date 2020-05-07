@@ -119,6 +119,7 @@ class TareaController extends Controller
                 $tarea->fecha_fin = $request->fecha_fin;
                 $tarea->direc_tarea = $request->direccion;
                 $tarea->detalle = $request->detalle;
+                $tarea->observacion = $request->observacion;
                 $tarea->estado = 'Pendiente';
                 $tarea->solicitud_id = $solicitud->id;
 
@@ -186,6 +187,7 @@ class TareaController extends Controller
             $tarea->fecha_fin = $request->fecha_fin;
             $tarea->direc_tarea = $request->direccion;
             $tarea->detalle = $request->detalle;
+            $tarea->observacion = $request->observacion;
             $tarea->estado = $request->estado;
 
             $tarea->save();

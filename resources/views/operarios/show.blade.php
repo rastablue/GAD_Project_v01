@@ -26,7 +26,7 @@
                                         <div class="form-group row">
                                             <label for="codigo" class="col-md-4 col-form-label text-md-right">Cedula</label>
                                             <div class="col-md-6">
-                                                <input id="codigo" type="text" pattern="{9}" class="form-control" disabled value="{{ $operario->cedula }}" name="codigo" required autocomplete="Codigo" autofocus>
+                                                <input id="codigo" type="text" class="form-control" disabled value="{{ $operario->cedula }}" name="codigo" required autocomplete="Codigo" autofocus>
                                             </div>
                                         </div>
 
@@ -34,7 +34,7 @@
                                         <div class="form-group row">
                                             <label for="codigo" class="col-md-4 col-form-label text-md-right">Nombre</label>
                                             <div class="col-md-6">
-                                                <input id="codigo" type="text" pattern="{9}" class="form-control" disabled value="{{ $operario->name }} {{ $operario->apellido_pater }} {{ $operario->apellido_mater }}" name="codigo" required autocomplete="Codigo" autofocus>
+                                                <input id="codigo" type="text" class="form-control" disabled value="{{ $operario->name }} {{ $operario->apellido_pater }} {{ $operario->apellido_mater }}" name="codigo" required autocomplete="Codigo" autofocus>
                                             </div>
                                         </div>
 
@@ -52,7 +52,7 @@
                                             <label for="tlf" class="col-md-4 col-form-label text-md-right">Telefono</label>
 
                                             <div class="col-md-6">
-                                                <input id="tlf" type="text" pattern="[0-9]{7,10}" class="form-control" disabled value="{{ $operario->tlf }}" name="tlf" required autofocus>
+                                                <input id="tlf" type="text" class="form-control" disabled value="{{ $operario->tlf }}" name="tlf" required autofocus>
                                             </div>
                                         </div>
 
@@ -61,7 +61,7 @@
                                             <label for="tlf" class="col-md-4 col-form-label text-md-right">Tipo Contrato</label>
 
                                             <div class="col-md-6">
-                                                <input id="tlf" type="text" pattern="[0-9]{7,10}" class="form-control" disabled value="{{ $operario->tipo_contrato }}" name="tlf" required autofocus>
+                                                <input id="tlf" type="text" class="form-control" disabled value="{{ $operario->tipo_contrato }}" name="tlf" required autofocus>
                                             </div>
                                         </div>
 
@@ -70,7 +70,7 @@
                                             <label for="tlf" class="col-md-4 col-form-label text-md-right">Tipo Licencia</label>
 
                                             <div class="col-md-6">
-                                                <input id="tlf" type="text" pattern="[0-9]{7,10}" class="form-control" disabled value="{{ $operario->tipo_licencia }}" name="tlf" required autofocus>
+                                                <input id="tlf" type="text" class="form-control" disabled value="{{ $operario->tipo_licencia }}" name="tlf" required autofocus>
                                             </div>
                                         </div>
 
