@@ -36,7 +36,7 @@
                                 </div>
                             </div>
 
-                        {{-- Fecha Ingreso --}}
+                        {{-- Fecha Ingreso
                             <div class="form-group row">
                                 <label for="codigo" class="col-md-4 col-form-label text-md-right">{{ __('Fecha Ingreso') }}</label>
                                 <div class="col-md-6">
@@ -48,9 +48,9 @@
                                         </span>
                                     @enderror
                                 </div>
-                            </div>
+                            </div> --}}
 
-                        {{-- Fecha Egreso --}}
+                        {{-- Fecha Egreso
                             <div class="form-group row">
                                 <label for="codigo" class="col-md-4 col-form-label text-md-right">{{ __('Fecha Egreso') }}</label>
                                 <div class="col-md-6">
@@ -62,7 +62,7 @@
                                         </span>
                                     @enderror
                                 </div>
-                            </div>
+                            </div> --}}
 
                         {{-- Observacion --}}
                             <div class="form-group row">
@@ -93,7 +93,7 @@
                             </div>
 
                         {{-- Foto de la Ficha --}}
-                            <div class="form-group" style="margin-left: 350px;">
+                            <div class="form-group" style="margin-left: 360px;">
                                 <label for="file-upload" class="custom-file-upload">
                                     <i class="fa fa-cloud-upload"></i> Agregar imagen de la ficha
                                 </label>
@@ -108,7 +108,7 @@
                             </div>
 
                         {{-- btn--}}
-                            <div class="form-group row mb-0">
+                            <div class="form-group row mb-0" style="margin-left: 15px;">
                                 <div class="col-md-6 offset-md-6">
                                     <button type="submit" class="btn btn-primary">Agregar</button>
                                 </div>

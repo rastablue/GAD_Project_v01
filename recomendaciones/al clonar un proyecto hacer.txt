@@ -1,0 +1,6 @@
+al clonar el proyecto desde git
+
+1.create: .env o cambiar el nombre de .env .example
+2.run: composer install
+3.run: npm install
+4.run: php artisan key:generate

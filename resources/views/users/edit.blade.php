@@ -137,7 +137,7 @@
                             </div>
 
                         {{-- btn--}}
-                            <div class="form-group row mb-0">
+                            <div class="form-group row mb-0" style="margin-left: 100px;">
                                 <div class="col-md-6 offset-md-5">
                                     <button type="submit" class="btn btn-primary">Actualizar</button>
                                 </div>

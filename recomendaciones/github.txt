@@ -1,0 +1,40 @@
+
+https://github.com/rastablue/Pry_taller.git
+
+git init
+
+git add .
+
+git remote add origin https://github.com/rastablue/Pry_taller.git
+
+git commit -m "first commit"
+
+git push -u origin master
+
+para eliminar ficheros al hacer push en vez de
+git add .
+usar
+git add -u
+para deshacer un git add .
+git reset
+si seguido de git commit ...
+git reset HEAD~
+para deshacer varios commit locales que no han sido pushedados:
+git reset --hard <codigo del commit>
+para obtener el codigo hacer:
+git log
+para salir del log pulsa q
+
+
+
+
+Se agrega a laravel App>providers>AppServiceProvider.php cuando se empiece un nuevo proyecto auth
+
+/*
+use Illuminate\Support\Facades\Schema;
+
+public function boot()
+{
+    Schema::defaultStringLength(191);
+}
+*/

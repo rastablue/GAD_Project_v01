@@ -172,8 +172,7 @@ class MantenimientoController extends Controller
 
         $mantenimiento = new Mantenimiento();
         $mantenimiento->codigo = $codigo;
-        $mantenimiento->fecha_ingreso = $request->fecha_ingreso;
-        $mantenimiento->fecha_egreso = $request->fecha_egreso;
+        $mantenimiento->fecha_ingreso = $date;
         $mantenimiento->observacion = $request->observacion;
         $mantenimiento->diagnostico = $request->diagnostico;
         $mantenimiento->estado = 'En espera';
@@ -206,8 +205,7 @@ class MantenimientoController extends Controller
 
         $mantenimiento = new Mantenimiento();
         $mantenimiento->codigo = $codigo;
-        $mantenimiento->fecha_ingreso = $request->fecha_ingreso;
-        $mantenimiento->fecha_egreso = $request->fecha_egreso;
+        $mantenimiento->fecha_ingreso = $date;
         $mantenimiento->observacion = $request->observacion;
         $mantenimiento->diagnostico = $request->diagnostico;
         $mantenimiento->estado = 'En espera';
@@ -281,8 +279,7 @@ class MantenimientoController extends Controller
 
         if ($mantenimiento->estado != 'Finalizado') {
 
-            $mantenimiento->fecha_ingreso = $request->fecha_ingreso;
-            $mantenimiento->fecha_egreso = $request->fecha_egreso;
+            $mantenimiento->fecha_egreso = $date;
             $mantenimiento->observacion = $request->observacion;
             $mantenimiento->diagnostico = $request->diagnostico;
             $mantenimiento->estado = $request->estado;
@@ -367,6 +364,7 @@ class MantenimientoController extends Controller
 
         if ($mantenimiento->estado != 'Finalizado') {
 
+            $mantenimiento->fecha_egreso = Carbon::now();
             $mantenimiento->estado = 'Finalizado';
 
             $mantenimiento->save();

@@ -68,7 +68,7 @@
                                 Solicitudes Reprobadas
                             </a>
                             <br>
-                            <a href="{{ route('solicituds.reporteselect') }}" class="btn btn-primary mt-3">
+                            <a href="{{ route('solicituds.reporteselect') }}" class="btn btn-primary mt-3" target="_blank">
                                 Desde - Hasta
                             </a>
                             <br>

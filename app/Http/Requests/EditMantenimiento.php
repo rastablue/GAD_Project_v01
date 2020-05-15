@@ -24,7 +24,6 @@ class EditMantenimiento extends FormRequest
     public function rules()
     {
         return [
-            "fecha_ingreso" => "required|date_format:Y-m-d",
             "diagnostico" => "required|string|max:500",
             "observacion" => "string|max:500",
             "foto" => "image|mimes:jpg,jpeg,png|max:3000",

@@ -15,7 +15,7 @@
                         <div class="collapse show">
                             <div class="card-body">
 
-                                {{-- Fecha Ingreso --}}
+                                {{-- Fecha Ingreso 
                                     <div class="form-group row">
                                         <label for="codigo" class="col-md-4 col-form-label text-md-right">{{ __('Fecha Ingreso') }}</label>
                                         <div class="col-md-6">
@@ -27,9 +27,9 @@
                                                 </span>
                                             @enderror
                                         </div>
-                                    </div>
+                                    </div>--}}
 
-                                {{-- Fecha Egreso --}}
+                                {{-- Fecha Egreso
                                     <div class="form-group row">
                                         <label for="codigo" class="col-md-4 col-form-label text-md-right">{{ __('Fecha Egreso') }}</label>
                                         <div class="col-md-6">
@@ -41,7 +41,7 @@
                                                 </span>
                                             @enderror
                                         </div>
-                                    </div>
+                                    </div> --}}
 
                                 {{-- Observacion --}}
                                     <div class="form-group row">
@@ -91,7 +91,7 @@
                                     </div>
 
                                 {{-- Foto de la Ficha --}}
-                                    <div class="form-group" style="margin-left: 250px;">
+                                    <div class="form-group" style="margin-left: 290px;">
                                         <label for="file-upload" class="custom-file-upload">
                                             <i class="fa fa-cloud-upload"></i> Agregar imagen de la ficha
                                         </label>
@@ -106,7 +106,7 @@
                                     </div>
 
                                 {{-- Botones --}}
-                                    <div class="text-center">
+                                    <div class="text-center" style="margin-left: 120px;">
                                         <a href="javascript:history.back()" class="btn btn-secondary">Volver</a>
                                         <button type="submit" form="formSolicitud" id="submitBtn" class="btn btn-primary">Agregar</button>
                                     </div>
