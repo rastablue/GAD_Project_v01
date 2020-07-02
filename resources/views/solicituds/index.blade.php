@@ -131,7 +131,7 @@
                 <!-- Modal body -->
                     <div class="modal-body">
                         <h6 align="center">
-                            Esta solicitud fue reprobada por lo que no es posible editar su informacion.
+                            Esta solicitud a finalizado o fue reprobada por lo que no es posible editar su informacion.
                         </h6>
                         <div class="text-md-left mt-2">
                             <label for="Detalle">Detalle:</label>
@@ -145,6 +145,63 @@
                 <!-- Modal footer -->
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Aceptar</button>
+                    </div>
+            </div>
+        </div>
+    </div>
+
+<!-- FinalizadoModal -->
+    <div class="modal fade" id="FinalizadoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                    <div class="modal-header bg-warning text-light">
+                        <h5>Solicitud Finalizada</h5>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                <!-- Modal body -->
+                    <div class="modal-body">
+                        <div class="alert alert-info" role="alert">
+                            <label for="Detalle">Fecha de finalizacion:  </label>
+                            <b><span id="finalizacion"></span></b>
+                        </div>
+                        <hr>
+                        <div class="text-md-left mt-2">
+                            <label for="Detalle">Detalle:</label>
+                            <textarea name="" id="detalle" disabled class="form-control detalle"></textarea>
+                        </div>
+                        <div class="text-md-left mt-2">
+                            <label for="Observacion">Observacion:</label>
+                            <textarea name="" id="observacion" disabled class="form-control observacion"></textarea>
+                        </div>
+                    </div>
+                <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Aceptar</button>
+                    </div>
+            </div>
+        </div>
+    </div>
+
+<!-- Finaliza solicitud Modal -->
+    <div class="modal fade" id="FinalizaSolicitudModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                    <div class="modal-header bg-warning text-light">
+                        <h5><b>Finalizar Solicitud</b></h5>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                <!-- Modal body -->
+                    <div class="modal-body">
+                        <h6 align="center">Finalizar esta solicitud tambien finalizara todos los requerimientos vinculados
+                                            que se encuentren en estado aprobado y los que estan en espera, pasaran a estado
+                                            de abandono. <br><br> ¿Desea continuar?</h6>
+                    </div>
+                <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-success" id="SubmitFinalizarSolicitudForm">Finalizar</button>
                     </div>
             </div>
         </div>
@@ -255,6 +312,24 @@
                     modal.find('.modal-body #observacion').val(observacion)
                 })
 
+            // Enviar detalle, observacion y fecha al modal de finalizado
+                $('#FinalizadoModal').on('show.bs.modal', function (event) {
+                    var button = $(event.relatedTarget) // Button that triggered the modal
+                    var detalle = button.data('detalle') // Extract info from data-* attributes
+                    var modal = $(this)
+                    modal.find('.modal-body #detalle').val(detalle)
+                    
+                    var button = $(event.relatedTarget) // Button that triggered the modal
+                    var observacion = button.data('observacion') // Extract info from data-* attributes
+                    var modal = $(this)
+                    modal.find('.modal-body #observacion').val(observacion)
+
+                    var button = $(event.relatedTarget) // Button that triggered the modal
+                    var fecha = button.data('fecha') // Extract info from data-* attributes
+                    var modal = $(this)
+                    $('#finalizacion').html(fecha);
+                })
+
             // Aprobar Solicitud.
                 var aprobarID;
                 var observacion;
@@ -285,15 +360,15 @@
                     });
 
             // Reprobar Solicitud.
-                var finalizaID;
+                var repruebaID;
                     $('body').on('click', '#getActualizaId', function(){
-                        finalizaID = $(this).data('id');
+                        repruebaID = $(this).data('id');
                     })
                     $('#SubmitReprobarSolicitudForm').click(function(e) {
                         e.preventDefault();
                         $("#alertModal").addClass("display-none").removeClass("alert-danger")
                         $("#inputId").val(null)
-                        var id = finalizaID;
+                        var id = repruebaID;
                         $.ajaxSetup({
                             headers: {
                                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -306,6 +381,33 @@
                                 setImmediate(function(){
                                     $('#solicitudes-table').DataTable().ajax.reload();
                                     $('#RevisaSolicitudModal').modal('hide');
+                                });
+                            }
+                        });
+                    });
+
+            // Finalizar Tarea.
+                var finalizarID;
+                    $('body').on('click', '#getActualizaId', function(){
+                        finalizarID = $(this).data('id');
+                    })
+                    $('#SubmitFinalizarSolicitudForm').click(function(e) {
+                        e.preventDefault();
+                        $("#alertModal").addClass("display-none").removeClass("alert-danger")
+                        $("#inputId").val(null)
+                        var id = finalizarID;
+                        $.ajaxSetup({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            }
+                        });
+                        $.ajax({
+                            url: "solicituds/finalizar/"+id,
+                            method: 'PUT',
+                            success: function(result) {
+                                setImmediate(function(){
+                                    $('#solicitudes-table').DataTable().ajax.reload();
+                                    $('#FinalizaSolicitudModal').modal('hide');
                                 });
                             }
                         });

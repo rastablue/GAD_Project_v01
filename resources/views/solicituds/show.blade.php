@@ -7,6 +7,29 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             @can('solicitudes.show')
+                <!-- Alert en caso de estar finalizada la tarea -->
+                    @if (@$solicitud->estado === 'Finalizado')
+                        @php
+                            $i = 0;
+                        @endphp
+                        @foreach ($solicitud->tareas->all() as $item)
+                            @if ($item->estado === 'Finalizada')
+                                @php
+                                    $i+= 1;
+                                @endphp
+                            @endif
+                        @endforeach
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+
+                            La solicitud finalizó satisfactoriamente el <b>{{ $solicitud->fecha_finalizacion }}</b>
+                            <br>
+                            Se completaron <b>{{ $i }}/{{ $solicitud->tareas->count() }}</b> requerimientos 
+
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    @endif
                 <!-- Formulario Solicitudes -->
                     <div class="card shadow mb-4">
                         <!-- Card Header - Accordion -->
@@ -19,7 +42,7 @@
                                 </h6>
                             </a>
                         <!-- Card Content - Collapse -->
-                            <div class="collapse hide" id="collapseCardSolicitud">
+                            <div class="collapse show" id="collapseCardSolicitud">
                                 <div class="card-body">
 
                                     {{-- Codigo --}}
@@ -79,7 +102,7 @@
                                         </div>
 
                                     {{-- btn--}}
-                                        @if($solicitud->estado != 'Reprobado')
+                                        @if($solicitud->estado != 'Reprobado' && $solicitud->estado != 'Finalizado')
                                             <div class="form-group row mb-0">
                                                 <div class="col-md-6 offset-md-6">
                                                     @can('solicitudes.edit')
@@ -286,7 +309,9 @@
                                                         {{-- Vehiculos asignados --}}
                                                             <div class="text-center">
                                                                 @if (@$item->maquinarias)
-                                                                    <em>Se ha asignado {{ $item->maquinarias->count() }} maquinaria(s) a este requerimiento</em><br><br>
+                                                                    <a href="{{ route('asigna.edit', Hashids::encode($item->id)) }}">
+                                                                        <em>Se ha asignado {{ $item->maquinarias->count() }} maquinaria(s) a este requerimiento</em><br><br>
+                                                                    </a>
                                                                 @else
                                                                     <em>No se han asignado maquinarias a esta tarea</em><br><br>
                                                                 @endif
@@ -294,7 +319,7 @@
 
                                                         {{-- btn--}}
                                                             <div class="form-group row mb-0">
-                                                                @if($item->estado != 'Finalizada')
+                                                                @if($item->estado != 'Finalizada' && $item->estado != 'Abandonado')
                                                                     <div class="col-md-6 offset-md-4">
                                                                         @can('tareas.show')
                                                                             <a href="{{ route('tareas.show', Hashids::encode($item->id)) }}" class="btn btn-sm btn-info">
@@ -330,7 +355,7 @@
                         @endif
                         
                         <!-- Boton Agregar Nueva Tarea -->
-                            @if($solicitud->estado != 'Reprobado')
+                            @if($solicitud->estado != 'Reprobado' && $solicitud->estado != 'Finalizado')
                                 <div class="col-lg-6">
                                     <div class="row justify-content-center">
                                         @can('tareas.create')

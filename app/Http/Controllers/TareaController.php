@@ -157,8 +157,8 @@ class TareaController extends Controller
         $id = Hashids::decode($tarea);
         $tarea = Tarea::findOrfail($id)->first();
 
-        if($tarea->estado == 'Finalizada'){
-            return back()->with('danger', 'La tarea ha finalizado y no puede actualizarse');
+        if($tarea->estado == 'Finalizada' || $tarea->estado == 'Abandonado'){
+            return back()->with('danger', 'Este requerimiento no puede actualizarse');
         }else{
             return view('tareas.edit', compact('tarea'));
         }

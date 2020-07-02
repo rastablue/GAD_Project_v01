@@ -19,7 +19,7 @@
                                 </h6>
                             </a>
                         <!-- Card Content - Collapse -->
-                            <div class="collapse hide" id="collapseCardCliente">
+                            <div class="collapse show" id="collapseCardCliente">
                                 <div class="card-body">
 
                                     {{-- Cedula --}}

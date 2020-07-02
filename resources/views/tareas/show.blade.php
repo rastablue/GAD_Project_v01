@@ -19,7 +19,7 @@
                                 </h6>
                             </a>
                         <!-- Card Content - Collapse -->
-                            <div class="collapse hide" id="collapseCardTarea">
+                            <div class="collapse show" id="collapseCardTarea">
                                 <div class="card-body">
 
                                     {{-- Codigo Tarea --}}
@@ -79,7 +79,7 @@
                                         </div>
 
                                     {{-- btn--}}
-                                        @if($tarea->estado != 'Finalizada')
+                                        @if($tarea->estado != 'Finalizada' && $tarea->estado != 'Abandonado')
                                             <div class="form-group row mb-0">
                                                 <div class="col-md-6 offset-md-6">
                                                     @can('tareas.edit')
@@ -224,22 +224,26 @@
                                 <div class="col-lg-6">
                                     <div class="card shadow mb-4">
                                         <!-- Card Header - Accordion -->
-                                            @if (!$item->operario_id)
-                                                <a href="#collapseCardTareas{{ $loop->iteration}}" class="d-block card-header py-3 border-left-danger" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardExample">
-                                                    <em>Esta maquinaria no posee un operador asignado</em>
+                                            @if (count($item->mantenimientos->where('estado', 'Activo')) >= 1 
+                                            || count($item->mantenimientos->where('estado', 'En espera')) >= 1 
+                                            || count($item->mantenimientos->where('estado', 'Inactivo')) >= 1)
+
+                                                <a href="#collapseCardTareas{{ $loop->iteration}}" class="d-block card-header py-3 border-left-danger border-danger" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardExample">
                                                     <h6 class="font-weight-bold text-danger">
                                                         Datos de la Maquinaria:
+                                                        <span class="badge badge-secondary float-right">Importante</span>
                                                         <h6 class="m-0 font-weight-bold text-dark">
-                                                            <i>{{ $item->codigo_nro_gad}}</i>
+                                                            <i>{{ $item->codigo_nro_gad}} - {{ $item->tipo_vehiculo }}</i>
                                                         </h6>
                                                     </h6>
                                                 </a>
+
                                             @else
                                                 <a href="#collapseCardTareas{{ $loop->iteration}}" class="d-block card-header py-3 border-left-info" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardExample">
                                                     <h6 class="font-weight-bold text-primary">
                                                         Datos de la Maquinaria:
                                                         <h6 class="m-0 font-weight-bold text-dark">
-                                                            <i>{{ $item->codigo_nro_gad}}</i>
+                                                            <i>{{ $item->codigo_nro_gad}} - {{ $item->tipo_vehiculo }}</i>
                                                         </h6>
                                                     </h6>
                                                 </a>
@@ -248,6 +252,20 @@
                                         <!-- Card Content - Collapse -->
                                                 <div class="collapse hide" id="collapseCardTareas{{ $loop->iteration}}">
                                                     <div class="card-body">
+
+                                                        {{-- Alert en caso de estar en mantenimiento --}}
+                                                        @if (count($item->mantenimientos->where('estado', 'Activo')) >= 1 
+                                                        || count($item->mantenimientos->where('estado', 'En espera')) >= 1 
+                                                        || count($item->mantenimientos->where('estado', 'Inactivo')) >= 1)
+
+                                                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                                    <strong>Tenemos un problema!.</strong> Este vehiculo ha entrado en mantenimiento recientemente,
+                                                                    por lo que es posible que no se encuentre disponible hasta culminar con el proceso.
+                                                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                            @endif
 
                                                         {{-- Codigo GAD --}}
                                                             <div class="form-group row">
@@ -305,6 +323,19 @@
                                                                 </div>
                                                             </div>
 
+                                                        {{-- Operario --}}
+                                                            <div class="form-group row">
+                                                                <label for="codigo" class="col-md-4 col-form-label text-md-right">Operador</label>
+                                                                <div class="col-md-6">
+                                                                    @if (@$item->operarios)
+                                                                        <input type="input" disabled value="{{ $item->operarios->name }} {{ $item->operarios->apellido_pater }}" class="form-control" required autocomplete="Fecha fin" autofocus>
+                                                                    @else
+                                                                        <input type="input" disabled value="N/A" class="form-control bg-danger text-light" required autocomplete="Fecha fin" autofocus>
+                                                                    @endif
+                                                                    
+                                                                </div>
+                                                            </div>
+
                                                         {{-- btn--}}
                                                             <div class="form-group row mb-0">
                                                                 <div class="align-items-center col-md-6 offset-md-5">
@@ -331,8 +362,8 @@
                             @endforeach
                         @endif
 
-                        <!-- Boton Agregar Nueva Tarea -->
-                            @if($tarea->estado != 'Finalizada')
+                        <!-- Boton Asignar Maquinarias a la Tarea -->
+                            @if($tarea->estado != 'Finalizada' && $tarea->estado != 'Abandonado')
                                 <div class="col-lg-6">
                                     <div class="row justify-content-center">
                                         @can('actividades.encargos.asignaciones')
@@ -350,5 +381,9 @@
         </div>
     </div>
 </form>
-
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+</script>
 @endsection

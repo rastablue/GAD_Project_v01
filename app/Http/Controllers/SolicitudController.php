@@ -34,7 +34,8 @@ class SolicitudController extends Controller
         $solicitudes = Solicitud::join('clientes', 'clientes.id', '=', 'solicituds.cliente_id')
                                 ->select('solicituds.id', 'solicituds.codigo_solicitud', 'solicituds.fecha_emision',
                                         'solicituds.fecha_revision', 'clientes.name', 'solicituds.detalle',
-                                        'clientes.apellido_pater', 'solicituds.estado', 'solicituds.observacion');
+                                        'clientes.apellido_pater', 'solicituds.estado', 'solicituds.observacion',
+                                        'solicituds.fecha_finalizacion');
 
         return Datatables::of($solicitudes)
                 ->addColumn('btn', 'solicituds.actions')
@@ -271,10 +272,10 @@ class SolicitudController extends Controller
         $id = Hashids::decode($solicitud);
         $solicitud = Solicitud::findOrfail($id)->first();
 
-        if($solicitud->estado != 'Reprobado'){
+        if($solicitud->estado != 'Reprobado' && $solicitud->estado != 'Finalizado'){
             return view('solicituds.edit', compact('solicitud'));
         }else{
-            return back()->with('danger', 'Esta solicitud fue reprobada y no puede editarse');
+            return back()->with('danger', 'Esta solicitud no puede editarse');
         }
     }
 
@@ -377,6 +378,38 @@ class SolicitudController extends Controller
                 $key->estado = 'Abandonado';
 
                 $key->save();
+            }
+
+        }
+    }
+
+    public function finalizar(request $request, $id)
+    {
+
+        $date = Carbon::now();
+
+        $solicitud = Solicitud::findOrFail($id);
+
+        if ($solicitud->estado != 'Reprobado') {
+
+            $solicitud->estado = 'Finalizado';
+            $solicitud->fecha_finalizacion = $date;
+
+            $solicitud->save();
+
+            foreach ($solicitud->tareas->all() as $key) {
+                
+                if ($key->estado === 'En Proceso') {
+
+                    $key->estado = 'Finalizada';
+                    $key->save();
+
+                }else{
+
+                    $key->estado = 'Abandonado';
+                    $key->save();
+
+                }
             }
 
         }

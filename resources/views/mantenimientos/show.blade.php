@@ -19,7 +19,7 @@
                                 </h6>
                             </a>
                         <!-- Card Content - Collapse -->
-                            <div class="collapse hide" id="collapseCardMantenimiento">
+                            <div class="collapse show" id="collapseCardMantenimiento">
                                 <div class="card-body">
 
                                     {{-- Codigo --}}
@@ -81,12 +81,12 @@
                                     {{-- btn --}}
                                         @if ($mantenimiento->estado != 'Finalizado')
                                             <div class="form-group row mb-0">
-                                                <div class="align-maquinarias-center col-md-6 offset-md-5">
+                                                <div class="align-maquinarias-center col-md-6 offset-md-6">
                                                     @can('mantenimientos.show')
-                                                        <button type="button" id="btnVerArchivo" class="btn btn-success btn-sm">
+                                                        <!--<button type="button" id="btnVerArchivo" class="btn btn-success btn-sm">
                                                             <i class="fas fa-fw fa-image"></i>
                                                             Archivo
-                                                        </button>
+                                                        </button>-->
                                                     @endcan
                                                     @can('mantenimientos.edit')
                                                         <a href="{{ route('mantenimientos.pdf', Hashids::encode($mantenimiento->id)) }}" class="btn btn-sm btn-info">
@@ -106,10 +106,10 @@
                                             <div class="form-group row mb-0">
                                                 <div class="align-maquinarias-center col-md-6 offset-md-6">
                                                     @can('mantenimientos.show')
-                                                        <button type="button" id="btnVerArchivo" class="btn btn-success btn-sm">
+                                                        <!--<button type="button" id="btnVerArchivo" class="btn btn-success btn-sm">
                                                             <i class="fas fa-fw fa-image"></i>
                                                             Archivo
-                                                        </button>
+                                                        </button>-->
                                                     @endcan
                                                     @can('mantenimientos.edit')
                                                         <a href="{{ route('mantenimientos.pdf', Hashids::encode($mantenimiento->id)) }}" class="btn btn-sm btn-info">
@@ -325,6 +325,8 @@
                                                                             @endcan
                                                                         </div>
                                                                     </div>
+                                                                @else
+                                                                    <br>
                                                                 @endif
 
                                                         </div>

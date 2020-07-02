@@ -19,7 +19,7 @@
                                 </h6>
                             </a>
                         <!-- Card Content - Collapse -->
-                            <div class="collapse hide" id="collapseCardMaquinaria">
+                            <div class="collapse show" id="collapseCardMaquinaria">
                                 <div class="card-body">
 
                                     {{-- Codigo GAD --}}

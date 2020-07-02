@@ -105,7 +105,7 @@ class MaquinariaController extends Controller
                 $tarea = Tarea::where('id', $request->tarea)->first();
                 $maquinaria = Maquinaria::where('id', $request->maquinaria)->first();
 
-                if($tarea->estado == 'Finalizada'){
+                if($tarea->estado == 'Finalizada' || $tarea->estado == 'Abandonado'){
                     return back()->with('danger', 'Error, la tarea seleccionada ha finalizado');
                 }else{
                         $tarea->maquinarias()->attach($maquinaria);
@@ -141,23 +141,21 @@ class MaquinariaController extends Controller
         $tarea = Tarea::findOrfail($id)->first();
         $maquinaria = Maquinaria::all();
 
-        if($tarea->estado != 'Finalizada'){
+        if($tarea->estado != 'Finalizada' && $tarea->estado != 'Abandonado'){
             return view('asignaciones.update', compact('maquinaria', 'tarea'));
         }else{
-            return back()->with('danger', 'La tarea ha finalizado, no es posible asignar vehiculos');
+            return back()->with('danger', 'No es posible asignar vehiculos');
         }
     }
 
     //Almacenar la asignacion de maquinarias desde la vista del requerimiento
     public function asignaStore(Request $request, $tarea)
     {
-        $id = Hashids::decode($tarea);
         $tarea = Tarea::findOrfail($request->tarea);
-        $maquinaria = Maquinaria::all();
 
-        if($tarea->estado == 'Finalizada'){
+        if($tarea->estado == 'Finalizada' || $tarea->estado == 'Abandonado'){
             return redirect()->route('tareas.show', Hashids::encode($tarea->id))
-                    ->with('danger', 'Esta tarea ha finalizado y no puede actualizarse');
+                    ->with('danger', 'No fue posible actualizar');
         }else{
 
             $tarea->maquinarias()->sync($request->get('maquinarias'));

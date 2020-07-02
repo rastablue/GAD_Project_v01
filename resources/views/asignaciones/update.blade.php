@@ -18,7 +18,10 @@
             <div class="form-group">
                 <ul class="list-unstyled">
                     @foreach ($maquinaria as $item)
-                        @if (@$item->mantenimientos->first()->estado == "Finalizado" || @$item->mantenimientos->first()->estado == Null)
+                        @if (count($item->mantenimientos->where('estado', 'Activo')) >= 1 
+                          || count($item->mantenimientos->where('estado', 'En espera')) >= 1 
+                          || count($item->mantenimientos->where('estado', 'Inactivo')) >= 1)
+                        @else
                             <div class="row">
 
                                 <div class="col-lg-0">
@@ -38,7 +41,7 @@
                                                 <h6 class="font-weight-bold text-primary">
                                                     Datos Del Vehiculo:
                                                     <h6 class="m-0 font-weight-bold text-dark">
-                                                        <em>{{ $item->codigo_nro_gad }}</em>
+                                                        <em>{{ $item->codigo_nro_gad }} - {{ $item->tipo_vehiculo }}</em>
                                                     </h6>
                                                 </h6>
                                             </a>
@@ -74,7 +77,7 @@
                                                         <div class="form-group row">
                                                             <label for="codigo" class="col-md-4 col-form-label text-md-right">Modelo</label>
                                                             <div class="col-md-6">
-                                                                <input type="input" disabled value="{{ $item->anio }}" class="form-control" required autocomplete="Fecha fin" autofocus>
+                                                                <input type="input" disabled value="{{ $item->modelo }}" class="form-control" required autocomplete="Fecha fin" autofocus>
                                                             </div>
                                                         </div>
 

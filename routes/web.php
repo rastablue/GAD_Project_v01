@@ -221,11 +221,14 @@ Route::middleware(['auth'])->group(function(){
         Route::get('solicituds/{solicitud}/edit', 'SolicitudController@edit')->name('solicituds.edit')
                         ->middleware('can:solicitudes.edit');
 
-        ///Aprobar o Reprobar solicitudes
+        ///Aprobar, Reprobar o Finalizar solicitudes
         Route::put('solicituds/aprobar/{solicitud}', 'SolicitudController@aprobar')->name('solicituds.aprobar')
                         ->middleware('can:solicitudes.edit');
 
         Route::put('solicituds/reprobar/{solicitud}', 'SolicitudController@reprobar')->name('solicituds.reprobar')
+                        ->middleware('can:solicitudes.edit');
+
+        Route::put('solicituds/finalizar/{solicitud}', 'SolicitudController@finalizar')->name('solicituds.finalizar')
                         ->middleware('can:solicitudes.edit');
 
     //Tareas

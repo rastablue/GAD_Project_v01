@@ -1,11 +1,11 @@
 @can('tareas.create')
-    @if ($estado != 'Reprobado')
+    @if ($estado != 'Reprobado' && $estado != 'Finalizado')
         <a href="{{ route('tareas.createfrom', Hashids::encode($id)) }}" class="btn btn-sm btn-success">
             <i class="fas fa-fw fa-plus"></i>
             Tarea
         </a>
     @else
-        <button type="button" data-toggle="modal" data-target="#NoOptionModal" class="btn btn-success btn-sm">
+        <button type="button" data-toggle="modal" data-observacion="{{ $observacion }}" data-detalle="{{ $detalle }}" data-target="#NoOptionModal" class="btn btn-success btn-sm">
             <i class="fas fa-fw fa-plus"></i>
             Tarea
         </button>
@@ -18,13 +18,26 @@
     </a>
 @endcan
 @can('solicitudes.revision')
-    @if ($estado != 'Reprobado')
+    @if ($estado === 'Reprobado')
+        <button type="button" data-toggle="modal" data-observacion="{{ $observacion }}" data-detalle="{{ $detalle }}" data-target="#NoOptionModal" class="btn btn-warning btn-sm">
+            <i class="fas fa-fw fa-check-circle"></i>
+            Revisar
+        </button>
+    @endif
+    @if ($estado === 'Pendiente')
         <button type="button" data-id="{{ $id }}" data-observacion="{{ $observacion }}" data-detalle="{{ $detalle }}" data-toggle="modal" data-target="#RevisaSolicitudModal" class="btn btn-warning btn-sm revisar" id="getActualizaId">
             <i class="fas fa-fw fa-check-circle"></i>
             Revisar
         </button>
-    @else
-        <button type="button" data-toggle="modal" data-observacion="{{ $observacion }}" data-detalle="{{ $detalle }}" data-target="#NoOptionModal" class="btn btn-warning btn-sm">
+    @endif
+    @if ($estado === 'Aprobado')
+        <button type="button" data-id="{{ $id }}" data-observacion="{{ $observacion }}" data-detalle="{{ $detalle }}" data-toggle="modal" data-target="#FinalizaSolicitudModal" class="btn btn-warning btn-sm revisar" id="getActualizaId">
+            <i class="fas fa-fw fa-flag"></i>
+            Concluir
+        </button>
+    @endif
+    @if ($estado === 'Finalizado')
+        <button type="button" data-toggle="modal" data-id="{{ $id }}" data-fecha="{{ $fecha_finalizacion }}" data-observacion="{{ $observacion }}" data-detalle="{{ $detalle }}" data-target="#FinalizadoModal" class="btn btn-warning btn-sm">
             <i class="fas fa-fw fa-check-circle"></i>
             Revisar
         </button>

@@ -92,7 +92,7 @@
                                 </div>
                             </div>
 
-                        {{-- Foto de la Ficha --}}
+                        {{-- Foto de la Ficha 
                             <div class="form-group" style="margin-left: 360px;">
                                 <label for="file-upload" class="custom-file-upload">
                                     <i class="fa fa-cloud-upload"></i> Agregar imagen de la ficha
@@ -105,7 +105,7 @@
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
-                            </div>
+                            </div>--}}
 
                         {{-- btn--}}
                             <div class="form-group row mb-0" style="margin-left: 15px;">

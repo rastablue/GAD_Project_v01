@@ -22,7 +22,7 @@
 
                         {{-- Codigo --}}
                             <div class="form-group row">
-                                <label for="codigo" class="col-md-4 col-form-label text-md-right">Codigo</label>
+                                <label for="codigo" class="col-md-4 col-form-label text-md-right">Codigo de la solicitud</label>
                                 <div class="col-md-6">
                                     <input type="text" disabled value="{{ $solicitud->codigo_solicitud }}" class="form-control @error('codigo') is-invalid @enderror" autocomplete="Codigo" autofocus>
 
