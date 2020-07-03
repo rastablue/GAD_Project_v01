@@ -168,6 +168,8 @@ class SolicitudController extends Controller
                 $solicitud = new Solicitud();
                 $solicitud->codigo_solicitud = $codigo;
                 $solicitud->fecha_emision = $date;
+                $solicitud->fecha_inicio = $request->fecha_inicio;
+                $solicitud->fecha_fin = $request->fecha_fin;
                 $solicitud->detalle = $request->detalle;
                 $solicitud->observacion = $request->observacion;
                 $solicitud->estado = 'Pendiente';
@@ -226,6 +228,8 @@ class SolicitudController extends Controller
         $solicitud = new Solicitud();
         $solicitud->codigo_solicitud = $codigo;
         $solicitud->fecha_emision = $date;
+        $solicitud->fecha_inicio = $request->fecha_inicio;
+        $solicitud->fecha_fin = $request->fecha_fin;
         $solicitud->detalle = $request->detalle;
         $solicitud->observacion = $request->observacion;
         $solicitud->estado = 'Pendiente';
@@ -299,26 +303,43 @@ class SolicitudController extends Controller
 
             $solicitud = Solicitud::findOrFail($id);
 
+            if ($request->fecha_inicio >= $solicitud->fecha_emision) {
+                Null;
+            }else{
+                return back()->with('danger', 'Error, la fecha de inicio no puede ser menor a la fecha de ingreso');
+            }
+
             $solicitud->detalle = $request->detalle;
             $solicitud->observacion = $request->observacion;
             $solicitud->cliente_id = $cliente->id;
-
-            if ($request->estado != 'Pendiente') {
-                $solicitud->fecha_revision = $date;
-                $solicitud->estado = $request->estado;
-            }
+            $solicitud->fecha_inicio =  $request->fecha_inicio;
+            $solicitud->fecha_fin =  $request->fecha_fin;
 
             if ($solicitud->estado == 'Reprobado') {
 
-                $solicitud->estado = 'Reprobado';
-                $solicitud->fecha_revision = $date;
-
-                $solicitud->save();
-
                 foreach ($solicitud->tareas->all() as $key) {
-                    $key->estado = 'Finalizada';
+                    $key->estado = 'Abandonado';
 
                     $key->save();
+                }
+
+            }
+
+            if ($solicitud->estado == 'Finalizado') {
+
+                foreach ($solicitud->tareas->all() as $key) {
+                
+                    if ($key->estado === 'En Proceso') {
+    
+                        $key->estado = 'Finalizada';
+                        $key->save();
+    
+                    }else{
+    
+                        $key->estado = 'Abandonado';
+                        $key->save();
+    
+                    }
                 }
 
             }

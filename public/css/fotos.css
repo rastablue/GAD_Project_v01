@@ -21,3 +21,39 @@ input[type="file"] {
     padding: 6px 12px;
     cursor: pointer;
 }
+
+.vl {
+    border-left: 6px solid green;
+    height: 500px;
+    position: absolute;
+    left: 50%;
+    margin-left: -3px;
+    top: 0;
+}
+
+.boton {
+    width: 18px;
+    height: 19px;
+    background-color: #706c70;
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 4px 5px;
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+.boton:hover {
+    opacity: 0.25;
+    -moz-opacity: .25;
+    filter: alpha (opacity=25);
+}
+
+.boton a {
+    color: rgb(136, 132, 132);
+    text-decoration: none;
+    padding: 5px 5px 5px 0;
+}

@@ -5,13 +5,15 @@
 <form id="formSolicitud" method="POST" action="{{ route('solicituds.store') }}">
     @csrf
     <div class="row justify-content-center">
-        <div class="col-md-12">
+        <div class="col-md-10">
             @can('solicitudes.show')
+                @php
+                    $i = 0;
+                    $date = date("Y-m-d");
+                @endphp
+
                 <!-- Alert en caso de estar finalizada la tarea -->
                     @if (@$solicitud->estado === 'Finalizado')
-                        @php
-                            $i = 0;
-                        @endphp
                         @foreach ($solicitud->tareas->all() as $item)
                             @if ($item->estado === 'Finalizada')
                                 @php
@@ -45,92 +47,165 @@
                             <div class="collapse show" id="collapseCardSolicitud">
                                 <div class="card-body">
 
-                                    {{-- Codigo --}}
-                                        <div class="form-group row">
-                                            <label for="codigo" class="col-md-4 col-form-label text-md-right">Codigo</label>
-                                            <div class="col-md-6">
-                                                <input id="codigo" type="text" class="form-control" disabled value=" {{ $solicitud->codigo_solicitud }} " name="codigo" required autocomplete="Codigo" autofocus>
-                                            </div>
-                                        </div>
+                                    {{-- Cuerpo Formulario--}}
+                                        {{-- Estados de la solicitud --}}
+                                            @if ($solicitud->estado === 'Pendiente')
+                                                <div class="form-row">
+                                                    <h5><span class="badge badge-info ml-2">{{ $solicitud->estado }}</span>&nbsp;</h5>
+                                                    <a href="#" class="boton text-light" data-toggle="tooltip" data-placement="right"
+                                                        title="Estado de la solicitud">?</a>
+                                                </div>
+                                            @endif
+                                            @if ($solicitud->estado === 'Aprobado')
+                                                <div class="form-row">
+                                                    <h5><span class="badge badge-success ml-2">{{ $solicitud->estado }}</span></h5>
+                                                    <a href="#" class="boton text-light" data-toggle="tooltip" data-placement="right"
+                                                    title="Estado de la solicitud">?</a>
+                                                </div>
+                                            @endif
+                                            @if ($solicitud->estado === 'Finalizado')
+                                                <div class="form-row">
+                                                    <h5><span class="badge badge-success ml-2">{{ $solicitud->estado }}</span></h5>
+                                                    <a href="#" class="boton text-light" data-toggle="tooltip" data-placement="right"
+                                                            title="Estado de la solicitud">?</a>
+                                                </div>
+                                            @endif
+                                            @if ($solicitud->estado === 'Reprobado')
+                                                <div class="form-row">
+                                                    <h5><span class="badge badge-danger ml-2">{{ $solicitud->estado }}</span></h5>
+                                                    <a href="#" class="boton text-light" data-toggle="tooltip" data-placement="right"
+                                                            title="Estado de la solicitud">?</a>
+                                                </div>
+                                            @endif
+                                            <br>
 
-                                    {{-- Fecha Emision --}}
-                                        <div class="form-group row">
-                                            <label for="codigo" class="col-md-4 col-form-label text-md-right">Fecha de Emision</label>
-                                            <div class="col-md-6">
-                                                <input id="codigo" type="text" class="form-control" disabled value=" {{ $solicitud->fecha_emision }} " name="codigo" required autocomplete="Codigo" autofocus>
-                                            </div>
-                                        </div>
-
-                                    {{-- Fecha Revision --}}
-                                        <div class="form-group row">
-                                            <label for="codigo" class="col-md-4 col-form-label text-md-right">Fecha de Revision</label>
-                                            <div class="col-md-6">
-                                                <input id="codigo" type="text" class="form-control" disabled value=" {{ $solicitud->fecha_revision }} " name="codigo" required autocomplete="Codigo" autofocus>
-                                            </div>
-                                        </div>
-
-                                    {{-- Funcionario que la creo --}}
-                                        <div class="form-group row">
-                                            <label for="codigo" class="col-md-4 col-form-label text-md-right">Funcionario contribuyente</label>
-                                            <div class="col-md-6">
-                                                <input id="codigo" type="text" class="form-control" disabled value="{{ $solicitud->users->name }}  {{ $solicitud->users->apellido_pater }}" name="codigo" required autocomplete="Codigo" autofocus>
-                                            </div>
-                                        </div>
-
-                                    {{-- Detalle --}}
-                                        <div class="form-group row">
-                                            <label for="detalle" class="col-md-4 col-form-label text-md-right">Detalle</label>
-                                            <div class="col-md-6">
-                                                <textarea id="detalle" type="text" class="form-control" disabled placeholder=" {{ $solicitud->detalle }}" name="detalle" required autocomplete="detalle" autofocus></textarea>
-                                            </div>
-                                        </div>
-
-                                    {{-- Observacion --}}
-                                        <div class="form-group row">
-                                            <label for="detalle" class="col-md-4 col-form-label text-md-right">Observacion</label>
-                                            <div class="col-md-6">
-                                                <textarea id="obsservacion" type="text" class="form-control" disabled placeholder=" {{ $solicitud->observacion }}" name="observacion"></textarea>
-                                            </div>
-                                        </div>
-
-                                    {{-- Estado --}}
-                                        <div class="form-group row">
-                                            <label for="codigo" class="col-md-4 col-form-label text-md-right">Estado Solicitud</label>
-                                            <div class="col-md-6">
-                                                <input id="codigo" type="text" class="form-control" disabled value="{{ $solicitud->estado }}" name="codigo" required autocomplete="Codigo" autofocus>
-                                            </div>
-                                        </div>
-
-                                    {{-- btn--}}
-                                        @if($solicitud->estado != 'Reprobado' && $solicitud->estado != 'Finalizado')
-                                            <div class="form-group row mb-0">
-                                                <div class="col-md-6 offset-md-6">
-                                                    @can('solicitudes.edit')
-                                                        <a href="{{ route('solicituds.pdf', Hashids::encode($solicitud->id)) }}" class="btn btn-sm btn-info">
-                                                            <i class="fas fa-fw fa-file-alt"></i>
-                                                            PDF
-                                                        </a>
-                                                    @endcan
-                                                    @can('solicitudes.edit')
-                                                        <a href="{{ route('solicituds.edit', Hashids::encode($solicitud->id)) }}" class="btn btn-sm btn-warning">
-                                                            <i class="fas fa-fw fa-pen"></i>
-                                                            Editar
-                                                        </a>
-                                                    @endcan
+                                        {{-- Codigo y Funcionario Contribuyente--}}
+                                            <div class="form-row">
+                                                <div class="form-group col-md-3">
+                                                    <label for="inputEmail4"><strong>Codigo de la Solicitud:</strong></label>
+                                                    <input id="codigo" type="text" class="form-control" disabled value=" {{ $solicitud->codigo_solicitud }} " name="codigo" required autocomplete="Codigo" autofocus>
+                                                </div>
+                                                <div class="form-group col-md-3" style="margin-left: 425px">
+                                                    <label for="inputEmail4"><strong>Funcionario Contribuyente:</strong></label>
+                                                    <input id="codigo" type="text" class="form-control" disabled value="{{ $solicitud->users->name }}  {{ $solicitud->users->apellido_pater }}" name="codigo" required autocomplete="Codigo" autofocus>
                                                 </div>
                                             </div>
-                                        @else
-                                            <div class="form-group row mb-0">
-                                                <div class="col-md-6 offset-md-6">
-                                                    @can('solicitudes.edit')
-                                                        <a href="{{ route('solicituds.pdf', Hashids::encode($solicitud->id)) }}" class="btn btn-sm btn-info">
-                                                            <i class="fas fa-fw fa-file-alt"></i>
-                                                            PDF
-                                                        </a>
-                                                    @endcan
+                                            <hr>
+                                            
+                                        {{-- Fechas --}}
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="inputAddress"><strong>Fecha de Emision:</strong></label>
+                                                    <input id="codigo" type="text" class="form-control" disabled value=" {{ $solicitud->fecha_emision }} " name="codigo" required autocomplete="Codigo" autofocus>
+                                                </div>
+                                                {{-- Cambia el color de las Fechas segun el estado de la solicitud --}}
+                                                    @if ($solicitud->fecha_revision)
+                                                        @if ($solicitud->estado === 'Pendiente')
+                                                            <div class="form-group col-md-6">
+                                                                <label for="inputAddress"><strong>Fecha de Revision:</strong></label>
+                                                                <input id="codigo" type="text" class="form-control bg-info text-light" disabled value=" {{ $solicitud->fecha_revision }} " name="codigo" required autocomplete="Codigo" autofocus>
+                                                            </div>
+                                                        @endif
+                                                        @if ($solicitud->estado === 'Finalizado')
+                                                            <div class="form-group col-md-6">
+                                                                <label for="inputAddress"><strong>Fecha de Revision:</strong></label>
+                                                                <input id="codigo" type="text" class="form-control bg-success text-light" disabled value=" {{ $solicitud->fecha_revision }} " name="codigo" required autocomplete="Codigo" autofocus>
+                                                            </div>
+                                                        @endif
+                                                        @if ($solicitud->estado === 'Aprobado')
+                                                            <div class="form-group col-md-6">
+                                                                <label for="inputAddress"><strong>Fecha de Revision:</strong></label>
+                                                                <input id="codigo" type="text" class="form-control bg-success text-light" disabled value=" {{ $solicitud->fecha_revision }} " name="codigo" required autocomplete="Codigo" autofocus>
+                                                            </div>
+                                                        @endif
+                                                        @if ($solicitud->estado === 'Reprobado')
+                                                            <div class="form-group col-md-6">
+                                                                <label for="inputAddress"><strong>Fecha de Revision:</strong></label>
+                                                                <input id="codigo" type="text" class="form-control bg-danger text-light" disabled value=" {{ $solicitud->fecha_revision }} " name="codigo" required autocomplete="Codigo" autofocus>
+                                                            </div>
+                                                        @endif
+                                                    @else
+                                                        <div class="form-group col-md-6">
+                                                            <label for="inputAddress"><strong>Fecha de Revision:</strong></label>
+                                                            <input id="codigo" type="text" class="form-control" disabled value=" {{ $solicitud->fecha_revision }} " name="codigo" required autocomplete="Codigo" autofocus>
+                                                        </div>
+                                                    @endif
+                                            </div>
+                                            <br>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="inputAddress"><strong>Fecha de Inicio Estimada:</strong></label>
+                                                    <input id="codigo" type="text" class="form-control" disabled value=" {{ $solicitud->fecha_inicio }} " name="codigo" required autocomplete="Codigo" autofocus>
+                                                </div>
+                                                
+                                                {{-- Cambia el color de la fecha fin en caso de estar cerca de la fecha final o en caso de haberla alcanzado --}}
+                                                    @if ($solicitud->fecha_fin >= $date && $solicitud->fecha_fin > $solicitud->fecha_finalizacion
+                                                        || $solicitud->fecha_fin >= $date && $solicitud->fecha_finalizacion === NULL)
+                                                        <div class="form-group col-md-6">
+
+                                                            <a href="#" class="boton text-light" data-toggle="tooltip" data-placement="top"
+                                                                title="La fecha para concluir esta solicitud ya expiro o esta cerca de hacerlo">?</a>
+
+                                                            <label for="inputAddress"><strong>Fecha de Fin Estimada:</strong></label>
+                                                            <input id="codigo" type="text" class="form-control bg-warning" disabled value=" {{ $solicitud->fecha_fin }} " name="codigo" required autocomplete="Codigo" autofocus>
+                                                        
+                                                        </div>
+                                                    @else
+                                                        <div class="form-group col-md-6">
+
+                                                            <a href="#" class="boton text-light" data-toggle="tooltip" data-placement="top"
+                                                                title="Fecha en la que se espera concluir la solicitud">?</a>
+
+                                                            <label for="inputAddress"><strong>Fecha de Fin Estimada:</strong></label>
+                                                            <input id="codigo" type="text" class="form-control bg-info text-light" disabled value=" {{ $solicitud->fecha_fin }} " name="codigo" required autocomplete="Codigo" autofocus>
+                                                        </div>
+                                                    @endif
+                                            </div>
+                                            <hr>
+
+                                        {{-- Observaciones y Detalles --}}
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="inputCity">Detalle:</label>
+                                                    <textarea id="detalle" type="text" class="form-control" disabled placeholder=" {{ $solicitud->detalle }}" name="detalle" required autocomplete="detalle" autofocus></textarea>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="inputState">Observacion:</label>
+                                                    <textarea id="obsservacion" type="text" class="form-control" disabled placeholder=" {{ $solicitud->observacion }}" name="observacion"></textarea>
                                                 </div>
                                             </div>
-                                        @endif
+                                            <br>
+
+                                        {{-- btn--}}
+                                            @if($solicitud->estado != 'Reprobado' && $solicitud->estado != 'Finalizado')
+                                                <div class="form-group row mb-0">
+                                                    <div class="col-md-6" style="margin-left: 357px">
+                                                        @can('solicitudes.edit')
+                                                            <a href="{{ route('solicituds.pdf', Hashids::encode($solicitud->id)) }}" class="btn btn-sm btn-info">
+                                                                <i class="fas fa-fw fa-file-alt"></i>
+                                                                PDF
+                                                            </a>
+                                                        @endcan
+                                                        @can('solicitudes.edit')
+                                                            <a href="{{ route('solicituds.edit', Hashids::encode($solicitud->id)) }}" class="btn btn-sm btn-warning">
+                                                                <i class="fas fa-fw fa-pen"></i>
+                                                                Editar
+                                                            </a>
+                                                        @endcan
+                                                    </div>
+                                                </div>
+                                            @else
+                                                <div class="form-group row mb-0">
+                                                    <div class="col-md-6 offset-md-6" style="margin-left: 390px">
+                                                        @can('solicitudes.edit')
+                                                            <a href="{{ route('solicituds.pdf', Hashids::encode($solicitud->id)) }}" class="btn btn-sm btn-info">
+                                                                <i class="fas fa-fw fa-file-alt"></i>
+                                                                PDF
+                                                            </a>
+                                                        @endcan
+                                                    </div>
+                                                </div>
+                                            @endif
 
                                 </div>
                             </div>
@@ -372,5 +447,9 @@
         </div>
     </div>
 </form>
-
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+</script>
 @stop

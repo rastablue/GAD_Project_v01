@@ -26,7 +26,7 @@ class CreateTarea extends FormRequest
         return [
             "codigo" => "required|digits:7|exists:solicituds,codigo_solicitud",
             "fecha_inicio" => "required|date_format:Y-m-d",
-            "fecha_fin" => "required|date_format:Y-m-d",
+            "fecha_fin" => "required|date_format:Y-m-d|after_or_equal:fecha_inicio",
             "direccion" => "required|string|max:500",
             "detalle" => "required|string|max:500",
         ];

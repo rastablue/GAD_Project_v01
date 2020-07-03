@@ -32,15 +32,20 @@
 
                             <div class="col-lg-11">
                                 <div class="card shadow mb-2">
+
                                     <!-- Card Header - Accordion -->
                                         <a href="#collapseCardTarea{{ $loop->iteration }}" class="d-block card-header py-3 border-left-info" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardExample">
                                             <h6 class="font-weight-bold text-primary">
                                                 Datos Del Vehiculo:
+                                                @if ($item->operarios)
+                                                    <span class="badge badge-primary float-right">Operador ya asignado</span>
+                                                @endif
                                                 <h6 class="m-0 font-weight-bold text-dark">
-                                                    <em>{{ $item->codigo_nro_gad }}</em>
+                                                    <em>{{ $item->codigo_nro_gad }} - {{ $item->tipo_vehiculo }}</em>
                                                 </h6>
                                             </h6>
                                         </a>
+
                                     <!-- Informacion con la lista de los vehiculos -->
                                         <div class="collapse hide" id="collapseCardTarea{{ $loop->iteration }}">
                                             <div class="card-body">
@@ -73,7 +78,7 @@
                                                     <div class="form-group row">
                                                         <label for="codigo" class="col-md-4 col-form-label text-md-right">Modelo</label>
                                                         <div class="col-md-6">
-                                                            <input type="input" disabled value="{{ $item->anio }}" class="form-control" required autocomplete="Fecha fin" autofocus>
+                                                            <input type="input" disabled value="{{ $item->modelo }}" class="form-control" required autocomplete="Fecha fin" autofocus>
                                                         </div>
                                                     </div>
 
@@ -90,6 +95,18 @@
                                                         <label for="codigo" class="col-md-4 col-form-label text-md-right">Tipo</label>
                                                         <div class="col-md-6">
                                                             <input type="input" disabled value="{{ $item->tipo_vehiculo }}" class="form-control" required autocomplete="Fecha fin" autofocus>
+                                                        </div>
+                                                    </div>
+
+                                                {{-- Operario --}}
+                                                    <div class="form-group row">
+                                                        <label for="codigo" class="col-md-4 col-form-label text-md-right">Operador del Vehiculo</label>
+                                                        <div class="col-md-6">
+                                                            @if ($item->operarios)
+                                                                <input type="input" disabled value="{{ $item->operarios->name }} {{ $item->operarios->apellido_pater }}" class="form-control" required autocomplete="Fecha fin" autofocus>
+                                                            @else
+                                                                <input type="input" disabled value="N/A" class="form-control" required autocomplete="Fecha fin" autofocus>
+                                                            @endif
                                                         </div>
                                                     </div>
 

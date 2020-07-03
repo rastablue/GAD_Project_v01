@@ -64,6 +64,8 @@
 
                     <!-- Divider -->
                         <hr class="sidebar-divider">
+                        <strong class="text-light ml-3">{{ Auth::user()->roles->first()->name }}</strong>
+                        <hr class="sidebar-divider">
 
                     <!-- Actividades -->
                         @can('actividades')

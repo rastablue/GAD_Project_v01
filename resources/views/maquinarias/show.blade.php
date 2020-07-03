@@ -78,6 +78,18 @@
                                             </div>
                                         </div>
 
+                                    {{-- Operario --}}
+                                        <div class="form-group row">
+                                            <label for="codigo" class="col-md-4 col-form-label text-md-right">Operador del Vehiculo</label>
+                                            <div class="col-md-6">
+                                                @if ($maquinaria->operarios)
+                                                    <input type="input" disabled value="{{ $maquinaria->operarios->first()->name }} {{ $maquinaria->operarios->first()->apellido_pater }}" class="form-control" required autocomplete="Fecha fin" autofocus>
+                                                @else
+                                                    <input type="input" disabled value="N/A" class="form-control" required autocomplete="Fecha fin" autofocus>
+                                                @endif
+                                            </div>
+                                        </div>
+
                                     {{-- Observacion --}}
                                         <div class="form-group row">
                                             <label for="detalle" class="col-md-4 col-form-label text-md-right">Observacion</label>

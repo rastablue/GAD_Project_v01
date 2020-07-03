@@ -23,9 +23,13 @@ class CreateSolicitud extends FormRequest
      */
     public function rules()
     {
+        $hoy = date('Y-m-d');
+
         return [
             "detalle" => "string|max:500",
             "cedula" => "required|digits:10",
+            "fecha_inicio" => "required|date_format:Y-m-d|after_or_equal:".$hoy,
+            "fecha_fin" => "required|date_format:Y-m-d|after_or_equal:fecha_inicio",
         ];
     }
 }

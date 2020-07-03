@@ -117,7 +117,7 @@
                                                     <h6 class="font-weight-bold text-primary">
                                                         Datos de la Maquinaria:
                                                         <h6 class="m-0 font-weight-bold text-dark">
-                                                            <i>{{ $item->codigo_nro_gad}}</i>
+                                                            <i>{{ $item->codigo_nro_gad }} - {{ $item->tipo_vehiculo }}</i>
                                                         </h6>
                                                     </h6>
                                                 </a>
@@ -153,7 +153,7 @@
                                                             <div class="form-group row">
                                                                 <label for="codigo" class="col-md-4 col-form-label text-md-right">Modelo</label>
                                                                 <div class="col-md-6">
-                                                                    <input type="input" disabled value="{{ $item->anio }}" class="form-control" required autocomplete="Fecha fin" autofocus>
+                                                                    <input type="input" disabled value="{{ $item->modelo }}" class="form-control" required autocomplete="Fecha fin" autofocus>
                                                                 </div>
                                                             </div>
 

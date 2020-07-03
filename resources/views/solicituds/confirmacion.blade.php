@@ -54,6 +54,38 @@
 
                                     <input type="hidden" name="cedula" value="{{ $request->cedula }}">
 
+                                {{-- Fecha_inicio --}}
+                                    <div class="form-group row">
+                                        <label for="cedula" class="col-md-3 col-form-label text-md-right">Fecha de Inicio</label>
+                                        <div class="col-md-6">
+                                            <input type="text" disabled class="form-control @error('cedula') is-invalid @enderror" value="{{ $request->fecha_inicio }}" autofocus>
+                                        
+                                            @error('cedula')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+
+                                            <input type="hidden" name="fecha_inicio" value="{{ $request->fecha_inicio }}">
+                                        </div>
+                                    </div>
+
+                                {{-- Fecha_fin --}}
+                                    <div class="form-group row">
+                                        <label for="cedula" class="col-md-3 col-form-label text-md-right">Fecha de Fin</label>
+                                        <div class="col-md-6">
+                                            <input type="text" disabled class="form-control @error('cedula') is-invalid @enderror" value="{{ $request->fecha_fin }}" autofocus>
+                                        
+                                            @error('cedula')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+
+                                            <input type="hidden" name="fecha_fin" value="{{ $request->fecha_fin }}">
+                                        </div>
+                                    </div>
+
                                 {{-- Detalle --}}
                                     <div class="form-group row">
                                         <label for="detalle" class="col-md-3 col-form-label text-md-right">Detalle</label>
