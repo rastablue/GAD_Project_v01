@@ -1,3 +1,9 @@
+#center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 div.avatar {
     /* cambia estos dos valores para definir el tamaño de tu círculo */
     height: 350px;
@@ -56,4 +62,37 @@ input[type="file"] {
     color: rgb(136, 132, 132);
     text-decoration: none;
     padding: 5px 5px 5px 0;
+}
+
+#global {
+    height: 250px;
+    width: auto;
+    border: 1px solid #ddd;
+    background: #f1f1f1;
+    overflow-y: scroll;
+}
+
+#cardScroll {
+    height: 550px;
+    width: auto;
+    background: #fff;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+#trab {
+    height: 550px;
+    width: auto;
+    border: 1px solid #ddd;
+    background: #f1f1f1;
+    overflow-y: scroll;
+}
+
+#mensajes {
+    height: auto;
+}
+
+.texto {
+    padding: 4px;
+    background: #fff;
 }

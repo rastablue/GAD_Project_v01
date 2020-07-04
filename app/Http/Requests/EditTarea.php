@@ -25,7 +25,7 @@ class EditTarea extends FormRequest
     {
         return [
             "fecha_inicio" => "required|date_format:Y-m-d",
-            "fecha_fin" => "required|date_format:Y-m-d",
+            "fecha_fin" => "required|date_format:Y-m-d|after_or_equal:fecha_inicio",
             "direccion" => "required|string|max:500",
             "detalle" => "required|string|max:500",
             "estado" => "required|in:Abandonado,En Proceso,Finalizada,Pendiente",

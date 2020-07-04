@@ -17,11 +17,18 @@
                     <form method="POST" action="{{ route('tareas.store') }}">
                         @csrf
 
-                        {{-- Codigo --}}
+                        {{-- Codigo Solicitud --}}
                             <div class="form-group row">
-                                <label for="codigo" class="col-md-4 col-form-label text-md-right">Codigo Solicitud</label>
+                                <label for="codigo" class="col-md-4 col-form-label text-md-right">Solicitudes</label>
                                 <div class="col-md-6">
-                                    <input id="codigo" onkeyup="mayus(this);" type="text" class="form-control @error('codigo') is-invalid @enderror" name="codigo" value="{{ $codigo ?? old('codigo') }}" autocomplete="Codigo" autofocus>
+                                    <select id="codigo" class="form-control @error('codigo') is-invalid @enderror" name="codigo">
+                                        <option disabled selected='true'>Seleccione una Solicitud</option>
+                                        @foreach(@App\Solicitud::all() as $item)
+                                            @if (@$item->estado != 'Finalizado' && @$item->estado != 'Reprobado')
+                                                <option value="{{ $item->codigo_solicitud }}">{{ $item->codigo_solicitud }}</option>
+                                            @endif
+                                        @endforeach
+                                    </select>
 
                                     @error('codigo')
                                         <span class="invalid-feedback" role="alert">

@@ -38,7 +38,7 @@
                             <div class="form-group row">
                                 <label for="codigo" class="col-md-4 col-form-label text-md-right">Fecha de Inicio</label>
                                 <div class="col-md-6">
-                                    <input type="date" name="fecha_inicio" class="form-control @error('fecha_inicio') is-invalid @enderror" value="{{ $fecha_inicio ?? old('fecha_inicio') }}" autocomplete="Fecha inicio" autofocus>
+                                    <input type="date" name="fecha_inicio" class="form-control @error('fecha_inicio') is-invalid @enderror" value="{{ $tarea->fecha_inicio ?? old('fecha_inicio') }}" autocomplete="Fecha inicio" autofocus>
                                 
                                     @error('fecha_inicio')
                                         <span class="invalid-feedback" role="alert">
@@ -52,7 +52,7 @@
                             <div class="form-group row">
                                 <label for="codigo" class="col-md-4 col-form-label text-md-right">Fecha de Fin</label>
                                 <div class="col-md-6">
-                                    <input type="date" id="fecha_fin" name="fecha_fin" class="form-control @error('fecha_fin') is-invalid @enderror" value="{{ $fecha_fin ?? old('fecha_fin') }}" autocomplete="Fecha fin" autofocus>
+                                    <input type="date" id="fecha_fin" name="fecha_fin" class="form-control @error('fecha_fin') is-invalid @enderror" value="{{ $tarea->fecha_fin ?? old('fecha_fin') }}" autocomplete="Fecha fin" autofocus>
                                 
                                     @error('fecha_fin')
                                         <span class="invalid-feedback" role="alert">

@@ -148,103 +148,102 @@
                                         {{-- Requerimientos --}}
                                             <div class="tab-pane fade" id="v-pills-cliente" role="tabpanel" aria-labelledby="v-pills-cliente-tab">
                                                 <div id="accordion">
-                                                @if(@$solicitud->tareas->first())
-                                                    @foreach (@App\Solicitud::findOrFail($solicitud->id)->tareas as $item)
+                                                    @if(@$solicitud->tareas->first())
+                                                        @foreach (@App\Solicitud::findOrFail($solicitud->id)->tareas as $item)
 
-                                                        <div class="col-lg-12">
-                                                            <div class="card shadow mb-4">
+                                                            <div class="col-lg-12">
+                                                                <div class="card shadow mb-4">
+                                                                        
+                                                                    <div class="card">
+                                                                        <div class="card-header" id="headingOne">
+                                                                            <h5 class="font-weight-bold text-primary">
+                                                                                <button class="btn btn-link btn-sm" data-toggle="collapse" data-target="#collapseOne{{ $loop->iteration }}" aria-expanded="true" aria-controls="collapseOne">
+                                                                                    Datos del Requerimiento:
+                                                                                    <h6 class="mb-0 font-weight-bold text-dark">
+                                                                                        <i>{{ $item->fake_id}}</i>
+                                                                                    </h6>
+                                                                                </button>
+                                                                            </h5>
+                                                                        </div>
                                                                     
-                                                                <div class="card">
-                                                                    <div class="card-header" id="headingOne">
-                                                                        <h5 class="font-weight-bold text-primary">
-                                                                            <button class="btn btn-link btn-sm" data-toggle="collapse" data-target="#collapseOne{{ $loop->iteration }}" aria-expanded="true" aria-controls="collapseOne">
-                                                                                Datos del Requerimiento:
-                                                                                <h6 class="mb-0 font-weight-bold text-dark">
-                                                                                    <i>{{ $item->fake_id}}</i>
-                                                                                </h6>
-                                                                            </button>
-                                                                        </h5>
-                                                                    </div>
-                                                                
-                                                                    <div id="collapseOne{{ $loop->iteration }}" class="collapse hide" aria-labelledby="headingOne" data-parent="#accordion">
-                                                                        <div class="card-body">
-                                                                            {{-- Codigo Tarea --}}
-                                                                                <div class="form-group row">
-                                                                                    <label for="codigo" class="col-md-4 col-form-label text-md-right">Codigo Requerimiento</label>
-                                                                                    <div class="col-md-6">
-                                                                                        <input type="input" disabled value="{{ $item->fake_id }}" class="form-control" required autocomplete="Fecha inicio" autofocus>
+                                                                        <div id="collapseOne{{ $loop->iteration }}" class="collapse hide" aria-labelledby="headingOne" data-parent="#accordion">
+                                                                            <div class="card-body">
+                                                                                {{-- Codigo Tarea --}}
+                                                                                    <div class="form-group row">
+                                                                                        <label for="codigo" class="col-md-4 col-form-label text-md-right">Codigo Requerimiento</label>
+                                                                                        <div class="col-md-6">
+                                                                                            <input type="input" disabled value="{{ $item->fake_id }}" class="form-control" required autocomplete="Fecha inicio" autofocus>
+                                                                                        </div>
                                                                                     </div>
-                                                                                </div>
 
-                                                                            {{-- Fecha Inicio --}}
-                                                                                <div class="form-group row">
-                                                                                    <label for="codigo" class="col-md-4 col-form-label text-md-right">Fecha de Inicio</label>
-                                                                                    <div class="col-md-6">
-                                                                                        <input type="input" disabled value="{{ $item->fecha_inicio }}" class="form-control" required autocomplete="Fecha inicio" autofocus>
+                                                                                {{-- Fecha Inicio --}}
+                                                                                    <div class="form-group row">
+                                                                                        <label for="codigo" class="col-md-4 col-form-label text-md-right">Fecha de Inicio</label>
+                                                                                        <div class="col-md-6">
+                                                                                            <input type="input" disabled value="{{ $item->fecha_inicio }}" class="form-control" required autocomplete="Fecha inicio" autofocus>
+                                                                                        </div>
                                                                                     </div>
-                                                                                </div>
 
-                                                                            {{-- Fecha Fin --}}
-                                                                                <div class="form-group row">
-                                                                                    <label for="codigo" class="col-md-4 col-form-label text-md-right">Fecha de Fin</label>
-                                                                                    <div class="col-md-6">
-                                                                                        <input type="input" disabled value="{{ $item->fecha_fin }}" class="form-control" required autocomplete="Fecha fin" autofocus>
+                                                                                {{-- Fecha Fin --}}
+                                                                                    <div class="form-group row">
+                                                                                        <label for="codigo" class="col-md-4 col-form-label text-md-right">Fecha de Fin</label>
+                                                                                        <div class="col-md-6">
+                                                                                            <input type="input" disabled value="{{ $item->fecha_fin }}" class="form-control" required autocomplete="Fecha fin" autofocus>
+                                                                                        </div>
                                                                                     </div>
-                                                                                </div>
 
-                                                                            {{-- Direccion --}}
-                                                                                <div class="form-group row">
-                                                                                    <label for="detalle" class="col-md-4 col-form-label text-md-right">Direccion</label>
-                                                                                    <div class="col-md-6">
-                                                                                        <textarea type="text" disabled class="form-control" required autocomplete="direccion" autofocus> {{ $item->direc_tarea }} </textarea>
+                                                                                {{-- Direccion --}}
+                                                                                    <div class="form-group row">
+                                                                                        <label for="detalle" class="col-md-4 col-form-label text-md-right">Direccion</label>
+                                                                                        <div class="col-md-6">
+                                                                                            <textarea type="text" disabled class="form-control" required autocomplete="direccion" autofocus> {{ $item->direc_tarea }} </textarea>
+                                                                                        </div>
                                                                                     </div>
-                                                                                </div>
 
-                                                                            {{-- Detalle --}}
-                                                                                <div class="form-group row">
-                                                                                    <label for="detalle" class="col-md-4 col-form-label text-md-right">Detalle</label>
-                                                                                    <div class="col-md-6">
-                                                                                        <textarea type="text" disabled class="form-control" required autocomplete="detalle" autofocus> {{ $item->detalle }} </textarea>
+                                                                                {{-- Detalle --}}
+                                                                                    <div class="form-group row">
+                                                                                        <label for="detalle" class="col-md-4 col-form-label text-md-right">Detalle</label>
+                                                                                        <div class="col-md-6">
+                                                                                            <textarea type="text" disabled class="form-control" required autocomplete="detalle" autofocus> {{ $item->detalle }} </textarea>
+                                                                                        </div>
                                                                                     </div>
-                                                                                </div>
 
-                                                                            {{-- Observacion --}}
-                                                                                <div class="form-group row">
-                                                                                    <label for="detalle" class="col-md-4 col-form-label text-md-right">Observacion</label>
-                                                                                    <div class="col-md-6">
-                                                                                        <textarea type="text" disabled class="form-control" required autocomplete="detalle" autofocus> {{ $item->observacion }} </textarea>
+                                                                                {{-- Observacion --}}
+                                                                                    <div class="form-group row">
+                                                                                        <label for="detalle" class="col-md-4 col-form-label text-md-right">Observacion</label>
+                                                                                        <div class="col-md-6">
+                                                                                            <textarea type="text" disabled class="form-control" required autocomplete="detalle" autofocus> {{ $item->observacion }} </textarea>
+                                                                                        </div>
                                                                                     </div>
-                                                                                </div>
 
-                                                                            {{-- Estado --}}
-                                                                                <div class="form-group row">
-                                                                                    <label for="codigo" class="col-md-4 col-form-label text-md-right">Estado</label>
-                                                                                    <div class="col-md-6">
-                                                                                        <input type="input" disabled value="{{ $item->estado }}" class="form-control" required autocomplete="Fecha fin" autofocus>
+                                                                                {{-- Estado --}}
+                                                                                    <div class="form-group row">
+                                                                                        <label for="codigo" class="col-md-4 col-form-label text-md-right">Estado</label>
+                                                                                        <div class="col-md-6">
+                                                                                            <input type="input" disabled value="{{ $item->estado }}" class="form-control" required autocomplete="Fecha fin" autofocus>
+                                                                                        </div>
                                                                                     </div>
-                                                                                </div>
 
-                                                                            {{-- Vehiculos asignados --}}
-                                                                                @if (@$item->maquinarias)
-                                                                                    <div class="text-center">
-                                                                                        <em>Se ha asignado {{ $item->maquinarias->count() }} maquinaria(s) a esta tarea</em><br><br>
-                                                                                    </div>
-                                                                                @else
-                                                                                    <div class="text-center">
-                                                                                        <em>No se han asignado maquinarias a esta tarea</em><br><br>
-                                                                                    </div>
-                                                                                @endif
+                                                                                {{-- Vehiculos asignados --}}
+                                                                                    @if (@$item->maquinarias)
+                                                                                        <div class="text-center">
+                                                                                            <em>Se ha asignado {{ $item->maquinarias->count() }} maquinaria(s) a esta tarea</em><br><br>
+                                                                                        </div>
+                                                                                    @else
+                                                                                        <div class="text-center">
+                                                                                            <em>No se han asignado maquinarias a esta tarea</em><br><br>
+                                                                                        </div>
+                                                                                    @endif
+                                                                            </div>
                                                                         </div>
                                                                     </div>
+                                                                            
                                                                 </div>
-                                                                        
                                                             </div>
-                                                        </div>
 
-                                                    @endforeach
-                                                    </div>
-                                                @endif
-    
+                                                        @endforeach
+                                                    @endif
+                                                </div>
                                             </div>
                                     </div>
                                 </div>

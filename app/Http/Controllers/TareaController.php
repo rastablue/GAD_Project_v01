@@ -80,8 +80,20 @@ class TareaController extends Controller
 
         $solicitud = Solicitud::where('codigo_solicitud', $request->codigo)->first();
 
-        if($solicitud->estado == 'Reprobado'){
-            return back()->with('danger', 'La solicitud esta reprobada, no pueden agregarse tareas');
+        if ($request->fecha_inicio >= $solicitud->fecha_emision) {
+            Null;
+        }else{
+            return back()->with('danger', 'Error, la fecha de inicio no puede ser anterior a la solicitud');
+        }
+
+        if ($request->fecha_fin > $solicitud->fecha_fin) {
+            return back()->with('danger', 'Error, la fecha de fin no puede ser posterior a la solicitud');
+        }else{
+            NULL;
+        }
+
+        if($solicitud->estado === 'Reprobado' || $solicitud->estado === 'Finalizado'){
+            return back()->with('danger', 'Error, la solicitud no puede ser modificada');
         }else{
             $tarea = new Tarea();
 
@@ -108,9 +120,21 @@ class TareaController extends Controller
         if ($solicitud = Solicitud::where('codigo_solicitud', $request->codigo)->first()) {
             $solicitud = Solicitud::where('codigo_solicitud', $request->codigo)->first();
 
-            if($solicitud->estado == 'Reprobado'){
+            if ($request->fecha_inicio >= $solicitud->fecha_emision) {
+                Null;
+            }else{
+                return back()->with('danger', 'Error, la fecha de inicio no puede ser anterior a la solicitud');
+            }
+
+            if ($request->fecha_fin > $solicitud->fecha_fin) {
+                return back()->with('danger', 'Error, la fecha de fin no puede ser posterior a la solicitud');
+            }else{
+                NULL;
+            }
+
+            if($solicitud->estado === 'Reprobado' || $solicitud->estado === 'Finalizado'){
                 return redirect()->route('solicituds.show', Hashids::encode($solicitud->id))
-                        ->with('danger', 'La solicitud esta reprobada, no pueden agregarse tareas');
+                        ->with('danger', 'Error, la solicitud no puede ser modificada');
             }else{
                 $tarea = new Tarea();
 
@@ -175,6 +199,23 @@ class TareaController extends Controller
     {
         $tarea = Tarea::findOrFail($tarea);
         $solicitud = Solicitud::where('id', $tarea->solicitud_id)->first();
+
+        if ($request->fecha_inicio >= $solicitud->fecha_emision) {
+            Null;
+        }else{
+            return back()->with('danger', 'Error, la fecha de inicio no puede ser anterior a la solicitud');
+        }
+
+        if ($request->fecha_fin > $solicitud->fecha_fin) {
+            return back()->with('danger', 'Error, la fecha de fin no puede ser posterior a la solicitud');
+        }else{
+            NULL;
+        }
+
+        if($solicitud->estado === 'Reprobado' || $solicitud->estado === 'Finalizado'){
+            return redirect()->route('solicituds.show', Hashids::encode($solicitud->id))
+                    ->with('danger', 'Error, la solicitud no puede ser modificada');
+        }
 
         if($tarea->estado == 'Finalizada'){
 
