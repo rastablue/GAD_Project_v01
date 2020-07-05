@@ -184,7 +184,9 @@ class TareaController extends Controller
     {
         $id = Hashids::decode($tarea);
         $tarea = Tarea::findOrfail($id)->first();
-        return view('tareas.show', compact('tarea'));
+        $solicitud = Solicitud::findOrFail($tarea->solicituds->id);
+        
+        return view('solicituds.show', compact('solicitud'));
     }
 
     /**

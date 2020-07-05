@@ -7,18 +7,19 @@
     <div class="row justify-content-center">
         <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10">
             @can('solicitudes.show')
-                @php
-                    $i = 0;
-                    $date = date("Y-m-d");
-                    //resta los dias actuales menos los dias de la fecha final para obtener los dias restantes
-                    $diff = abs(strtotime($date) - strtotime($solicitud->fecha_fin));
-                    //convertir a años
-                    $years = floor($diff / (365*60*60*24));
-                    //convertir a meses
-                    $months = floor(($diff - $years * 365*60*60*24) / (30*60*60*24));
-                    //convertir a dias
-                    $days = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
-                @endphp
+                {{-- Variables y demás php Global --}}
+                    @php
+                        $i = 0;
+                        $date = date("Y-m-d");
+                        //resta los dias actuales menos los dias de la fecha final para obtener los dias restantes
+                        $diff = abs(strtotime($date) - strtotime($solicitud->fecha_fin));
+                        //convertir a años
+                        $years = floor($diff / (365*60*60*24));
+                        //convertir a meses
+                        $months = floor(($diff - $years * 365*60*60*24) / (30*60*60*24));
+                        //convertir a dias
+                        $days = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
+                    @endphp
 
                 <!-- Alert en caso de estar finalizada la solicitud -->
                     @if (@$solicitud->estado === 'Finalizado')
@@ -260,91 +261,6 @@
                                 </div>
                             </div>
                     </div>
-            @endcan
-            @can('clientes.show')
-                {{-- Formulario Cliente -->
-                    <!-- Divider -->
-                        <div class="sidebar-heading text-center">
-                            Solicitante
-                        </div>
-                        <hr class="sidebar-divider">
-                    <div class="card shadow mb-4">
-                        <!-- Card Header - Accordion -->
-                            <a href="#collapseCardCliente" class="d-block card-header py-3 border-left-info" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardExample">
-                                <h6 class="font-weight-bold text-primary">
-                                    Datos del Cliente Solicitante:
-                                    <h6 class="m-0 font-weight-bold text-dark">
-                                        {{ $solicitud->clientes->name }} {{ $solicitud->clientes->apellido_pater }} {{ $solicitud->clientes->apellido_mater }}
-                                    </h6>
-                                </h6>
-                            </a>
-                        <!-- Card Content - Collapse -->
-                            <div class="collapse hide" id="collapseCardCliente">
-                                <div class="card-body">
-
-                                    {{-- Cedula 
-                                        <div class="form-group row">
-                                            <label for="codigo" class="col-md-4 col-form-label text-md-right">Cedula del solicitante</label>
-                                            <div class="col-md-6">
-                                                <input id="codigo" type="text" class="form-control" disabled value="{{ $solicitud->clientes->cedula }}" name="codigo" required autocomplete="Codigo" autofocus>
-                                            </div>
-                                        </div>
-
-                                    {{-- Nombre
-                                        <div class="form-group row">
-                                            <label for="codigo" class="col-md-4 col-form-label text-md-right">Nombre del solicitante</label>
-                                            <div class="col-md-6">
-                                                <input id="codigo" type="text" class="form-control" disabled value="{{ $solicitud->clientes->name }} {{ $solicitud->clientes->apellido_pater }} {{ $solicitud->clientes->apellido_mater }}" name="codigo" required autocomplete="Codigo" autofocus>
-                                            </div>
-                                        </div>
-
-                                    {{-- Direccion 
-                                        <div class="form-group row">
-                                            <label for="direc" class="col-md-4 col-form-label text-md-right">Direccion</label>
-
-                                            <div class="col-md-6">
-                                                <input id="direc" type="text" class="form-control" disabled value="{{ $solicitud->clientes->direc }}" name="direc" required autofocus>
-                                            </div>
-                                        </div>
-
-                                    {{-- Telefono 
-                                        <div class="form-group row">
-                                            <label for="tlf" class="col-md-4 col-form-label text-md-right">Telefono</label>
-
-                                            <div class="col-md-6">
-                                                <input id="tlf" type="text" class="form-control" disabled value="{{ $solicitud->clientes->tlf }}" name="tlf" required autofocus>
-                                            </div>
-                                        </div>
-
-                                    {{-- Email 
-                                        <div class="form-group row">
-                                            <label for="email" class="col-md-4 col-form-label text-md-right">E-Mail Address</label>
-
-                                            <div class="col-md-6">
-                                                <input id="email" type="email" class="form-control" disabled value="{{ $solicitud->clientes->email }}" name="email" required autofocus>
-                                            </div>
-                                        </div>
-
-                                    {{-- btn
-                                        <div class="form-group row mb-0">
-                                            <div class="col-md-6 offset-md-6">
-                                                @can('clientes.show')
-                                                    <a href="{{ route('clientes.show', Hashids::encode($solicitud->clientes->id)) }}" class="btn btn-sm btn-info">
-                                                        <i class="fas fa-fw fa-eye"></i>
-                                                        Ver
-                                                    </a>
-                                                @endcan
-                                                @can('clientes.edit')
-                                                    <a href="{{ route('clientes.edit', Hashids::encode($solicitud->clientes->id)) }}" class="btn btn-sm btn-warning">
-                                                        <i class="fas fa-fw fa-pen"></i>
-                                                        Editar
-                                                    </a>
-                                                @endcan
-                                            </div>
-                                        </div>
-                                </div>
-                            </div>
-                    </div> --}}
             @endcan
             @can('tareas.show')
                 <!-- Formulario Tareas -->
@@ -700,7 +616,7 @@
 
                                                                                 @if(@$item->maquinarias->first())
                                                                                     @foreach (@App\Tarea::findOrFail($item->id)->maquinarias as $item)
-
+                                                                                    
                                                                                         <div class="col-lg-12">
                                                                                             <div class="card shadow mb-4">
                                                                                                 <!-- Card Header - Accordion -->
@@ -734,9 +650,9 @@
                                                                                                         <div class="card-body">
 
                                                                                                             {{-- Alert en caso de estar en mantenimiento --}}
-                                                                                                            @if (count($item->mantenimientos->where('estado', 'Activo')) >= 1 
-                                                                                                            || count($item->mantenimientos->where('estado', 'En espera')) >= 1 
-                                                                                                            || count($item->mantenimientos->where('estado', 'Inactivo')) >= 1)
+                                                                                                                @if (count($item->mantenimientos->where('estado', 'Activo')) >= 1 
+                                                                                                                || count($item->mantenimientos->where('estado', 'En espera')) >= 1 
+                                                                                                                || count($item->mantenimientos->where('estado', 'Inactivo')) >= 1)
 
                                                                                                                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
                                                                                                                         <strong>Tenemos un problema!.</strong> Este vehiculo ha entrado en mantenimiento recientemente,
@@ -878,29 +794,6 @@
         </div>
     </div>
 </form>
-
-{{-- Modal Divisar maquinarias asignadas
-    <div class="modal fade" id="MaquinariaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-scrollable modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-
-                    <input type="text" id="prueba" value="{{ $id }}">
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
-            </div>
-        </div>
-    </div> --}}
 
 <script>
     $(function () {

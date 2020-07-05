@@ -11,7 +11,7 @@ class Tarea extends Model
 
     public function maquinarias(){
 
-        return $this->belongsToMany(Maquinaria::class)->withPivot('estado_tarea', 'operador_id');
+        return $this->belongsToMany(Maquinaria::class)->withPivot('estado_tarea', 'operador_id', 'fecha_inicio', 'fecha_fin');
 
     }
 

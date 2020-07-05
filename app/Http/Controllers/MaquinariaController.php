@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Tarea;
 use App\Maquinaria;
 use App\MaquinariaTarea;
+Use App\Solicitud;
 use Illuminate\Http\Request;
 use App\Http\Requests\CreateMaquinaria;
 use App\Http\Requests\EditMaquinaria;
@@ -152,9 +153,10 @@ class MaquinariaController extends Controller
     public function asignaStore(Request $request, $tarea)
     {
         $tarea = Tarea::findOrfail($request->tarea);
+        $solicitud = Solicitud::findOrFail($tarea->solicituds->id);
 
         if($tarea->estado == 'Finalizada' || $tarea->estado == 'Abandonado'){
-            return redirect()->route('tareas.show', Hashids::encode($tarea->id))
+            return redirect()->route('solicituds.show', Hashids::encode($solicitud->id))
                     ->with('danger', 'No fue posible actualizar');
         }else{
 
@@ -172,14 +174,16 @@ class MaquinariaController extends Controller
                     $key->pivot->save();
                 }
 
-                return redirect()->route('tareas.show', Hashids::encode($tarea->id))
+                return redirect()->route('solicituds.show', Hashids::encode($solicitud->id))
                             ->with('info', 'Maquinarias asignadas');
 
             } else {
-                return redirect()->route('tareas.show', Hashids::encode($tarea->id))
+                return redirect()->route('solicituds.show', Hashids::encode($solicitud->id))
                             ->with('danger', 'Error, no fue posible asignar los vehiculos');
             }
         }
+
+        return $solicitud;
     }
 
     /**

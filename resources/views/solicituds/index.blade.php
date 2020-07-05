@@ -237,6 +237,7 @@
 <script>
     $(function() {
         $(document).ready(function(){
+
             // initializing Datatable
                 var table = $("#solicitudes-table").DataTable({
                     serverSide: true,
