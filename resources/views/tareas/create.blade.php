@@ -37,7 +37,7 @@
                                     @enderror
                                 </div>
                             </div>
-
+                        @can ('agregar.fechas')
                         {{-- Fecha Inicio --}}
                             <div class="form-group row">
                                 <label for="codigo" class="col-md-4 col-form-label text-md-right">{{ __('Fecha de Inicio') }}</label>
@@ -65,7 +65,7 @@
                                     @enderror
                                 </div>
                             </div>
-
+                        @endcan
                         {{-- Direccion --}}
                             <div class="form-group row">
                                 <label for="detalle" class="col-md-4 col-form-label text-md-right">{{ __('Direccion') }}</label>
@@ -94,7 +94,7 @@
                                 </div>
                             </div>
 
-                        {{-- Observacion --}}
+                        {{-- Observacion 
                             <div class="form-group row">
                                 <label for="observacion" class="col-md-4 col-form-label text-md-right">{{ __('Observacion') }}</label>
                                 <div class="col-md-6">
@@ -106,7 +106,7 @@
                                         </span>
                                     @enderror
                                 </div>
-                            </div>
+                            </div>--}}
 
                         {{-- Estado 
                             <div class="form-group row">

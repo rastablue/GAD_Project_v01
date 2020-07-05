@@ -47,7 +47,7 @@
                                     @enderror
                                 </div>
                             </div>
-
+                        @can ('agregar.fechas')
                         {{-- Fecha Inicio --}}
                             <div class="form-group row">
                                 <label for="codigo" class="col-md-4 col-form-label text-md-right">Fecha de Inicio</label>
@@ -75,7 +75,7 @@
                                     @enderror
                                 </div>
                             </div>
-
+                        @endcan
                         {{-- Detalle --}}
                             <div class="form-group row">
                                 <label for="detalle" class="col-md-4 col-form-label text-md-right">Detalle</label>

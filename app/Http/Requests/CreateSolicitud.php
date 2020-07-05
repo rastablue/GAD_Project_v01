@@ -29,7 +29,7 @@ class CreateSolicitud extends FormRequest
             "detalle" => "string|max:500",
             "cedula" => "required|digits:10",
             "fecha_inicio" => "nullable|date_format:Y-m-d|after_or_equal:".$hoy,
-            "fecha_fin" => "nullable|date_format:Y-m-d|after_or_equal:fecha_inicio",
+            "fecha_fin" => 'nullable|required_with:fecha_inicio|date_format:Y-m-d|after_or_equal:fecha_inicio',
         ];
     }
 }

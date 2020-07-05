@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\RequiredIf;
 
 class CreateTareaFromSolicitud extends FormRequest
 {
@@ -23,12 +24,14 @@ class CreateTareaFromSolicitud extends FormRequest
      */
     public function rules()
     {
+        $hoy = date('Y-m-d');
+
         return [
             "codigo" => "required|digits:7|exists:solicituds,codigo_solicitud",
-            "fecha_inicio" => "required|date_format:Y-m-d",
-            "fecha_fin" => "required|date_format:Y-m-d|after_or_equal:fecha_inicio",
             "direccion" => "required|string|max:500",
             "detalle" => "required|string|max:500",
+            "fecha_inicio" => "nullable|date_format:Y-m-d|after_or_equal:".$hoy,
+            "fecha_fin" => 'nullable|required_with:fecha_inicio|date_format:Y-m-d|after_or_equal:fecha_inicio',
         ];
     }
 }

@@ -5,12 +5,13 @@ namespace App\Http\Controllers;
 use App\Solicitud;
 use App\Cliente;
 use App\Tarea;
-use App\Http\Requests\CreateCliente;
 use Illuminate\Http\Request;
 use App\Http\Requests\CreateSolicitud;
+use App\Http\Requests\CreateCliente;
 use App\Http\Requests\CreateClienteFrom;
 use App\Http\Requests\EditSolicitud;
 use App\Http\Requests\FechaPdfSolicitud;
+use App\Http\Requests\FechaInicioFin;
 use Carbon\Carbon;
 use Vinkla\Hashids\Facades\Hashids;
 use Barryvdh\DomPDF\Facade as PDF;
@@ -303,7 +304,7 @@ class SolicitudController extends Controller
 
             $solicitud = Solicitud::findOrFail($id);
 
-            if ($request->fecha_inicio >= $solicitud->fecha_emision) {
+            if ($request->fecha_inicio >= $solicitud->fecha_emision || $request->fecha_inicio === NULL) {
                 Null;
             }else{
                 return back()->with('danger', 'Error, la fecha de inicio no puede ser menor a la fecha de ingreso');
@@ -356,6 +357,37 @@ class SolicitudController extends Controller
 
         }
 
+    }
+
+    public function fechasInicioFin($solicitud)
+    {
+        $id = Hashids::decode($solicitud);
+        $solicitud = Solicitud::findOrfail($id)->first();
+
+        if($solicitud->estado != 'Reprobado' && $solicitud->estado != 'Finalizado'){
+            return view('solicituds.fechas.fecha_inicio_fin', compact('solicitud'));
+        }else{
+            return back()->with('danger', 'Esta solicitud no puede editarse');
+        }
+    }
+
+    public function agregaFechaInicioFin(FechaInicioFin $request, $id)
+    {
+        $solicitud = Solicitud::findOrFail($id);
+
+        if ($request->fecha_inicio >= $solicitud->fecha_emision) {
+            Null;
+        }else{
+            return back()->with('danger', 'Error, la fecha de inicio no puede ser menor a la fecha de ingreso');
+        }
+
+        $solicitud->fecha_inicio =  $request->fecha_inicio;
+        $solicitud->fecha_fin =  $request->fecha_fin;
+
+        $solicitud->save();
+
+        return redirect()->route('solicituds.show', Hashids::encode($solicitud->id))
+                ->with('info', 'Solicitud actualizada');
     }
 
     public function aprobar(request $request, $id)

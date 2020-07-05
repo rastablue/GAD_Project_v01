@@ -9,6 +9,7 @@ use Vinkla\Hashids\Facades\Hashids;
 use App\Http\Requests\CreateTareaFromSolicitud;
 use App\Http\Requests\CreateTarea;
 use App\Http\Requests\EditTarea;
+use App\Http\Requests\FechaInicioFin;
 use Illuminate\Support\Str;
 use Barryvdh\DomPDF\Facade as PDF;
 use Yajra\Datatables\Datatables;
@@ -80,16 +81,24 @@ class TareaController extends Controller
 
         $solicitud = Solicitud::where('codigo_solicitud', $request->codigo)->first();
 
-        if ($request->fecha_inicio >= $solicitud->fecha_emision) {
+        if ($solicitud->fecha_inicio === NULL && $request->fecha_inicio === NULL
+            || $solicitud->fecha_inicio !== NULL && $request->fecha_inicio === NULL) {
+            Null;
+        }else{
+            return back()->with('warning', 'Error, primero agregue una fecha de inicio y de fin a la solicitud u omita
+                                    las fechas en este requerimiento');
+        }
+
+        if ($request->fecha_inicio >= $solicitud->fecha_emision || $request->fecha_inicio === NULL) {
             Null;
         }else{
             return back()->with('danger', 'Error, la fecha de inicio no puede ser anterior a la solicitud');
         }
 
-        if ($request->fecha_fin > $solicitud->fecha_fin) {
-            return back()->with('danger', 'Error, la fecha de fin no puede ser posterior a la solicitud');
-        }else{
+        if ($request->fecha_fin <= $solicitud->fecha_fin || $solicitud->fecha_fin === NULL) {
             NULL;
+        }else{
+            return back()->with('danger', 'Error, la fecha de fin no puede ser posterior a la solicitud');
         }
 
         if($solicitud->estado === 'Reprobado' || $solicitud->estado === 'Finalizado'){
@@ -120,16 +129,24 @@ class TareaController extends Controller
         if ($solicitud = Solicitud::where('codigo_solicitud', $request->codigo)->first()) {
             $solicitud = Solicitud::where('codigo_solicitud', $request->codigo)->first();
 
-            if ($request->fecha_inicio >= $solicitud->fecha_emision) {
+            if ($solicitud->fecha_inicio === NULL && $request->fecha_inicio === NULL
+                || $solicitud->fecha_inicio !== NULL && $request->fecha_inicio === NULL) {
+                Null;
+            }else{
+                return back()->with('warning', 'Error, primero agregue una fecha de inicio y de fin a la solicitud u omita
+                                     las fechas en este requerimiento');
+            }
+
+            if ($request->fecha_inicio >= $solicitud->fecha_emision || $request->fecha_inicio === NULL) {
                 Null;
             }else{
                 return back()->with('danger', 'Error, la fecha de inicio no puede ser anterior a la solicitud');
             }
 
-            if ($request->fecha_fin > $solicitud->fecha_fin) {
-                return back()->with('danger', 'Error, la fecha de fin no puede ser posterior a la solicitud');
-            }else{
+            if ($request->fecha_fin <= $solicitud->fecha_fin || $solicitud->fecha_fin === NULL) {
                 NULL;
+            }else{
+                return back()->with('danger', 'Error, la fecha de fin no puede ser posterior a la solicitud');
             }
 
             if($solicitud->estado === 'Reprobado' || $solicitud->estado === 'Finalizado'){
@@ -242,6 +259,37 @@ class TareaController extends Controller
                 ->with('info', 'Tarea actualizada');
 
         }
+    }
+
+    public function fechasInicioFin($tarea)
+    {
+        $id = Hashids::decode($tarea);
+        $tarea = Tarea::findOrfail($id)->first();
+
+        if($tarea->estado != 'Abandonado' && $tarea->estado != 'Finalizada'){
+            return view('tareas.fechas.fecha_inicio_fin', compact('tarea'));
+        }else{
+            return back()->with('danger', 'Este requerimiento no puede editarse');
+        }
+    }
+
+    public function agregaFechaInicioFin(FechaInicioFin $request, $id)
+    {
+        $tarea = Tarea::findOrFail($id);
+
+        if ($request->fecha_inicio >= $tarea->solicituds->fecha_emision) {
+            Null;
+        }else{
+            return back()->with('warning', 'Error, la fecha de inicio no puede ser menor a la fecha de emision de la solicitud');
+        }
+
+        $tarea->fecha_inicio =  $request->fecha_inicio;
+        $tarea->fecha_fin =  $request->fecha_fin;
+
+        $tarea->save();
+
+        return redirect()->route('solicituds.show', Hashids::encode($tarea->solicituds->id))
+                ->with('info', 'Requerimiento actualizado');
     }
 
     public function abandonar(request $request, $id)

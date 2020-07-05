@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class EditTarea extends FormRequest
+class FechaInicioFin extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,12 +23,11 @@ class EditTarea extends FormRequest
      */
     public function rules()
     {
+        $hoy = date('Y-m-d');
+        
         return [
-            "fecha_inicio" => "nullable|date_format:Y-m-d",
-            "fecha_fin" => 'nullable|required_with:fecha_inicio|date_format:Y-m-d|after_or_equal:fecha_inicio',
-            "direccion" => "required|string|max:500",
-            "detalle" => "required|string|max:500",
-            "estado" => "required|in:Abandonado,En Proceso,Finalizada,Pendiente",
+            "fecha_inicio" => "required|date_format:Y-m-d|after_or_equal:".$hoy,
+            "fecha_fin" => "required|date_format:Y-m-d|after_or_equal:fecha_inicio",
         ];
     }
 }

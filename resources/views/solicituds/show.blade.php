@@ -92,6 +92,17 @@
                                                 @if($solicitud->estado != 'Reprobado' && $solicitud->estado != 'Finalizado')
                                                     <div class="form-group row mb-0" style="margin-left: auto;">
                                                         <div class="col-md-12">
+                                                            @can('agregar.fechas')
+                                                                @if (!$solicitud->fecha_inicio)
+
+                                                                    {{-- Boton calendario --}}
+                                                                        <a href="{{ route('solicituds.agregafechas', Hashids::encode($solicitud->id)) }}" class="btn btn-sm btn-success"
+                                                                            data-toggle="tooltip" data-placement="left" title="Haga clic para agregar una fecha de inicio y de fin a esta solicitud">
+                                                                            <i class="fas fa-fw fa-calendar-alt"></i>
+                                                                        </a>
+
+                                                                @endif
+                                                            @endcan
                                                             @can('solicitudes.edit')
                                                                 <a href="{{ route('solicituds.pdf', Hashids::encode($solicitud->id)) }}" class="btn btn-sm btn-info">
                                                                     <i class="fas fa-fw fa-file-alt"></i>
@@ -196,28 +207,40 @@
                                                 </div>
                                                 
                                                 {{-- Cambia el color de la fecha fin en caso de estar cerca de la fecha final o en caso de haberla alcanzado --}}
-                                                    @if ($solicitud->fecha_fin <= $date && $solicitud->fecha_fin > $solicitud->fecha_finalizacion
+                                                    @if ($solicitud->fecha_fin)
+                                                        @if ($solicitud->fecha_fin <= $date && $solicitud->fecha_fin > $solicitud->fecha_finalizacion
                                                         || $solicitud->fecha_fin <= $date && $solicitud->fecha_finalizacion === NULL)
-                                                        <div class="form-group col-md-6">
+                                                            <div class="form-group col-md-6">
 
-                                                            <a href="#" class="boton text-light" data-toggle="tooltip" data-placement="top"
-                                                                title="La fecha para concluir esta solicitud ya expiro o esta cerca de hacerlo">?</a>
+                                                                <a href="#" class="boton text-light" data-toggle="tooltip" data-placement="top"
+                                                                    title="La fecha para concluir esta solicitud ya expiro o esta cerca de hacerlo">?</a>
 
-                                                            <label for="inputAddress"><strong>Fecha de Fin Estimada:</strong></label>
-                                                            <input id="codigo" type="text" class="form-control bg-warning" disabled value=" {{ $solicitud->fecha_fin }} " name="codigo" required autocomplete="Codigo" autofocus>
-                                                        
-                                                        </div>
+                                                                <label for="inputAddress"><strong>Fecha de Fin Estimada:</strong></label>
+                                                                <input id="codigo" type="text" class="form-control bg-warning" disabled value=" {{ $solicitud->fecha_fin }} " name="codigo" required autocomplete="Codigo" autofocus>
+                                                            
+                                                            </div>
+                                                        @else
+                                                            <div class="form-group col-md-6">
+
+                                                                <a href="#" class="boton text-light" data-toggle="tooltip" data-placement="top"
+                                                                    title="Fecha en la que se espera concluir la solicitud. Quedan {{ $days }} dias
+                                                                    hasta cumplir con la fecha">?</a>
+
+                                                                <label for="inputAddress"><strong>Fecha de Fin Estimada:</strong></label>
+                                                                <input id="codigo" type="text" class="form-control bg-info text-light" disabled value=" {{ $solicitud->fecha_fin }} " name="codigo" required autocomplete="Codigo" autofocus>
+                                                            </div>
+                                                        @endif
                                                     @else
                                                         <div class="form-group col-md-6">
 
                                                             <a href="#" class="boton text-light" data-toggle="tooltip" data-placement="top"
-                                                                title="Fecha en la que se espera concluir la solicitud. Quedan {{ $days }} dias
-                                                                hasta cumplir con la fecha">?</a>
+                                                                title="Fecha en la que se espera concluir la solicitud. Aun no se ha agregado una fecha">?</a>
 
                                                             <label for="inputAddress"><strong>Fecha de Fin Estimada:</strong></label>
-                                                            <input id="codigo" type="text" class="form-control bg-info text-light" disabled value=" {{ $solicitud->fecha_fin }} " name="codigo" required autocomplete="Codigo" autofocus>
+                                                            <input id="codigo" type="text" class="form-control" disabled value=" {{ $solicitud->fecha_fin }} " name="codigo" required autocomplete="Codigo" autofocus>
                                                         </div>
                                                     @endif
+                                                    
                                             </div>
                                             <hr>
 
@@ -371,15 +394,44 @@
                                                             @if ($item->estado === 'En Proceso')
                                                                 <span class="badge float-right badge-success ml-2">{{ $item->estado }}</span>
                                                             @endif
-                                                            @if ($item->fecha_fin <= $date && $item->fecha_fin > $solicitud->fecha_finalizacion
-                                                                || $item->fecha_fin <= $date && $solicitud->fecha_finalizacion === NULL)
-                                                                @if ($item->estado !== 'Abandonado')
-                                                                    <span class="badge float-right badge-danger ml-2">1</span>
+
+                                                            {{-- Condicion de Notificaciones --}}
+                                                                @php
+                                                                    $notificaciones = 0;
+                                                                @endphp
+                                                                {{-- Si el requerimiento termina despues que la solicitud o si alcanzo a la fecha final de la solicitud --}}
+                                                                @if ($item->fecha_fin >= $solicitud->fecha_fin && $item->estado !== 'Finalizada' && $item->estado !== 'Abandonado')
+                                                                    @php
+                                                                        $notificaciones += 1;
+                                                                    @endphp
                                                                 @endif
-                                                            @endif
-                                                            <h6 class="m-0 font-weight-bold text-dark">
-                                                                <i>{{ $item->fake_id}}</i>
-                                                            </h6>
+                                                                {{-- Si el requerimiento ha alcanzado o sobrepasado la fecha actual sin finalizar --}}
+                                                                @if ($item->fecha_fin <= $date && $item->fecha_fin !== NULL && $item->estado !== 'Finalizada' && $item->estado !== 'Abandonado')
+                                                                    @php
+                                                                        $notificaciones += 1;
+                                                                    @endphp
+                                                                @endif
+                                                                {{-- Si el requerimiento tiene una fecha de inicio anterior al inicio de la solicitud --}}
+                                                                @if ($item->fecha_inicio < $solicitud->fecha_inicio && $item->fecha_fin !== NULL && $item->estado !== 'Finalizada' && $item->estado !== 'Abandonado')
+                                                                    @php
+                                                                        $notificaciones += 1;
+                                                                    @endphp
+                                                                @endif
+
+                                                            {{-- Mostrar notificaciones totales --}}
+                                                                @if ($item->estado !== 'Finalizada' && $item->estado !== 'Abandonado')
+
+                                                                    @if ($notificaciones >= 1)
+                                                                        <span class="badge float-right badge-danger ml-2" data-toggle="tooltip"
+                                                                        data-placement="top" title="Importante!">{{$notificaciones}}</span>
+                                                                    @endif
+
+                                                                @endif
+                                                            
+                                                            {{-- ID del requerimiento en el header --}}
+                                                                <h6 class="m-0 font-weight-bold text-dark">
+                                                                    <i>{{ $item->fake_id}}</i>
+                                                                </h6>
                                                         </h6>
                                                     </a>
 
@@ -387,7 +439,7 @@
                                                     <div class="collapse hide" id="collapseCard{{ $loop->iteration }}">
                                                         <div class="card-body">
 
-                                                            {{-- Estados y Codigo del requerimiento --}}
+                                                            {{-- Estados, Codigo y Botones del requerimiento --}}
                                                                 <div class="form-row">
 
                                                                     {{-- Estados del requerimiento --}}
@@ -425,11 +477,23 @@
                                                                         <div class="form-group row mb-0" style="margin-left: auto;">
                                                                             @if($item->estado != 'Finalizada' && $item->estado != 'Abandonado')
                                                                                 <div class="col-md-12">
+                                                                                    @can('agregar.fechas')
+                                                                                        @if (!$item->fecha_inicio)
+
+                                                                                            {{-- Boton calendario --}}
+                                                                                                <a href="{{ route('tareas.agregafechas', Hashids::encode($item->id)) }}" class="btn btn-sm btn-success"
+                                                                                                    data-toggle="tooltip" data-placement="left" title="Haga clic para agregar una fecha de inicio y de fin a este requerimiento">
+                                                                                                    <i class="fas fa-fw fa-calendar-alt"></i>
+                                                                                                </a>
+
+                                                                                        @endif
+                                                                                    @endcan
                                                                                     @can('tareas.show')
-                                                                                        <a href="{{ route('tareas.show', Hashids::encode($item->id)) }}" class="btn btn-sm btn-info">
+                                                                                        <button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-id="{{ $item->id }}" 
+                                                                                            data-target="#MaquinariaModal{{ $loop->iteration }}" value="{{ $item->id }}">
                                                                                             <i class="fas fa-fw fa-eye"></i>
-                                                                                            Ver
-                                                                                        </a>
+                                                                                            Maquinarias Asignadas
+                                                                                        </button>
                                                                                     @endcan
                                                                                     @can('tareas.edit')
                                                                                         <a href="{{ route('tareas.edit', Hashids::encode($item->id)) }}" class="btn btn-sm btn-warning">
@@ -441,10 +505,16 @@
                                                                             @else
                                                                                 <div class="col-md-12">
                                                                                     @can('tareas.show')
+                                                                                        <button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-id="{{ $item->id }}" 
+                                                                                            data-target="#MaquinariaModal{{ $loop->iteration }}" value="{{ $item->id }}">
+                                                                                            <i class="fas fa-fw fa-eye"></i>
+                                                                                            Maquinarias Asignadas
+                                                                                        </button>
+                                                                                        {{--
                                                                                         <a href="{{ route('tareas.show', Hashids::encode($item->id)) }}" class="btn btn-sm btn-info">
                                                                                             <i class="fas fa-fw fa-eye"></i>
                                                                                             Ver
-                                                                                        </a>
+                                                                                        </a>--}}
                                                                                     @endcan
                                                                                 </div>
                                                                             @endif
@@ -464,24 +534,98 @@
 
                                                             {{-- Fechas --}}
                                                                 <div class="form-row">
-                                                                    <div class="form-group col-md-6">
-                                                                        <label for="inputAddress"><strong>Fecha de Inicio:</strong></label>
-                                                                        <input id="codigo" type="text" class="form-control" disabled value=" {{ $item->fecha_inicio }} " name="codigo" required autocomplete="Codigo" autofocus>
-                                                                    </div>
 
-                                                                    {{-- Cambia el color de las Fechas segun la fecha de fin del Requerimiento --}}
-                                                                        @if ($item->estado === 'Abandonado')
+                                                                    {{-- Cambia el color de las Fechas segun la fecha de inicio del Requerimiento --}}
+                                                                        @if ($item->estado === 'Abandonado' || $item->fecha_inicio === NULL)
 
                                                                             <div class="form-group col-md-6">
+                                                                                <label for="inputAddress"><strong>Fecha de Inicio:</strong></label>
+                                                                                <input id="codigo" type="text" class="form-control" disabled value=" {{ $item->fecha_inicio }} " name="codigo" required autocomplete="Codigo" autofocus>
+                                                                            </div>
+                                                                        
+                                                                        @else
+
+                                                                            @if ($item->fecha_inicio < $solicitud->fecha_inicio)
+                                                                
+                                                                                <div class="form-group col-md-6">
+                                                                                    <a href="#" class="boton text-light" data-toggle="tooltip" data-placement="top"
+                                                                                    title="La fecha de inicio de este requerimiento es anterior al inicio de la propia solicitud">?</a>
+
+                                                                                    <label for="inputAddress"><strong>Fecha de Inicio:</strong></label>
+                                                                                    <input id="codigo" type="text" class="form-control bg-danger text-light" disabled value=" {{ $item->fecha_inicio }} " name="codigo" required autocomplete="Codigo" autofocus>
+                                                                                </div>
+
+                                                                            @else
+
+                                                                                <div class="form-group col-md-6">
+                                                                                    <label for="inputAddress"><strong>Fecha de Inicio:</strong></label>
+                                                                                    <input id="codigo" type="text" class="form-control" disabled value=" {{ $item->fecha_inicio }} " name="codigo" required autocomplete="Codigo" autofocus>
+                                                                                </div>
+
+                                                                            @endif
+
+                                                                        @endif
+
+                                                                    {{-- Cambia el color de las Fechas segun la fecha de fin del Requerimiento --}}
+                                                                        
+                                                                        {{-- Si el requerimiento alcanza la fecha final de la solicitud y al mismo tiempo alcanza
+                                                                             la fecha actual. se cumple la condicion --}}
+                                                                        @if ($item->fecha_fin >= $solicitud->fecha_fin && $item->fecha_fin <= $date
+                                                                            && $item->estado !== 'Finalizada' && $item->estado !== 'Abandonado')
+                                                                            
+                                                                            <div class="form-group col-md-6">
+                                                                                <a href="#" class="boton text-light" data-toggle="tooltip" data-placement="top"
+                                                                                title="1. La fecha para concluir este requerimiento ya expiro o esta cerca de hacerlo.-------
+                                                                                        2. La fecha para concluir este requerimiento se esta aproximando o ha sobre pasado a la fecha final de la solicitud">?</a>
+
                                                                                 <label for="inputAddress"><strong>Fecha de Fin:</strong></label>
-                                                                                <input id="codigo" type="text" class="form-control" disabled value=" {{ $item->fecha_fin }} " name="codigo" required autocomplete="Codigo" autofocus>
+                                                                                <input id="codigo" type="text" class="form-control bg-danger text-light" disabled value=" {{ $item->fecha_fin }} " name="codigo" required autocomplete="Codigo" autofocus>
                                                                             </div>
 
                                                                         @else
 
-                                                                            @if ($item->fecha_fin <= $date && $item->fecha_fin > $solicitud->fecha_finalizacion
-                                                                            || $item->fecha_fin <= $date && $solicitud->fecha_finalizacion === NULL)
-                                                                
+                                                                            {{-- Si el requerimiento esta abandonado o finalizado --}}
+                                                                            @if ($item->estado === 'Abandonado' || $item->estado === 'Finalizada' || $item->fecha_fin === NULL)
+
+                                                                                <div class="form-group col-md-6">
+                                                                                    <label for="inputAddress"><strong>Fecha de Fin:</strong></label>
+                                                                                    <input id="codigo" type="text" class="form-control" disabled value=" {{ $item->fecha_fin }} " name="codigo" required autocomplete="Codigo" autofocus>
+                                                                                </div>
+
+                                                                            @endif
+
+                                                                            {{-- Si el requerimiento esta entre las fechas validas --}}
+                                                                            @if ($item->fecha_fin > $date && $item->fecha_fin < $solicitud->fecha_fin 
+                                                                            && $item->estado !== 'Finalizada' && $item->estado !== 'Abandonado')
+                                                                                
+                                                                                @if ($item->fecha_fin > $date)
+                                                                                    <div class="form-group col-md-6">
+                                                                                        <a href="#" class="boton text-light" data-toggle="tooltip" data-placement="top"
+                                                                                            title="Fecha en la que se espera concluir el requerimiento">?</a>
+
+                                                                                        <label for="inputAddress"><strong>Fecha de Fin:</strong></label>
+                                                                                        <input id="codigo" type="text" class="form-control bg-info text-light" disabled value=" {{ $item->fecha_fin }} " name="codigo" required autocomplete="Codigo" autofocus>
+                                                                                    </div>
+                                                                                @endif
+
+                                                                            @endif
+
+                                                                            {{-- Si el requerimiento termina despues que la solicitud o si alcanzo a la fecha final de la solicitud --}}
+                                                                            @if ($item->fecha_fin >= $solicitud->fecha_fin && $item->estado !== 'Finalizada' && $item->estado !== 'Abandonado')
+                                                                                
+                                                                                <div class="form-group col-md-6">
+                                                                                    <a href="#" class="boton text-light" data-toggle="tooltip" data-placement="top"
+                                                                                    title="La fecha para concluir este requerimiento se esta aproximando o ha sobre pasado a la fecha final de la solicitud">?</a>
+
+                                                                                    <label for="inputAddress"><strong>Fecha de Fin:</strong></label>
+                                                                                    <input id="codigo" type="text" class="form-control bg-danger text-light" disabled value=" {{ $item->fecha_fin }} " name="codigo" required autocomplete="Codigo" autofocus>
+                                                                                </div>
+
+                                                                            @endif
+
+                                                                            {{-- Si el requerimiento ha alcanzado o sobrepasado la fecha actual sin finalizar --}}
+                                                                            @if ($item->fecha_fin <= $date && $item->fecha_fin !== NULL && $item->estado !== 'Finalizada' && $item->estado !== 'Abandonado')
+                                                                                
                                                                                 <div class="form-group col-md-6">
                                                                                     <a href="#" class="boton text-light" data-toggle="tooltip" data-placement="top"
                                                                                     title="La fecha para concluir este requerimiento ya expiro o esta cerca de hacerlo">?</a>
@@ -490,19 +634,10 @@
                                                                                     <input id="codigo" type="text" class="form-control bg-danger text-light" disabled value=" {{ $item->fecha_fin }} " name="codigo" required autocomplete="Codigo" autofocus>
                                                                                 </div>
 
-                                                                            @else
-
-                                                                                <div class="form-group col-md-6">
-                                                                                    <a href="#" class="boton text-light" data-toggle="tooltip" data-placement="top"
-                                                                                        title="Fecha en la que se espera concluir el requerimiento">?</a>
-
-                                                                                    <label for="inputAddress"><strong>Fecha de Fin:</strong></label>
-                                                                                    <input id="codigo" type="text" class="form-control bg-info text-light" disabled value=" {{ $item->fecha_fin }} " name="codigo" required autocomplete="Codigo" autofocus>
-                                                                                </div>
-
                                                                             @endif
 
                                                                         @endif
+
                                                                 </div>
                                                             <hr>
 
@@ -546,6 +681,191 @@
 
                                                                 @endcan
 
+                                                            {{-- Modal Divisar maquinarias asignadas --}}
+                                                                <div class="modal fade" id="MaquinariaModal{{ $loop->iteration }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                                    <div class="modal-dialog modal-dialog-scrollable modal-lg">
+                                                                        <div class="modal-content">
+                                                                            <div class="modal-header">
+                                                                                <h5 class="font-weight-bold text-danger">
+                                                                                    Maquinarias asignadas al requerimiento: &nbsp;
+                                                                                    <h5 class="m-0 font-weight-bold text-dark">
+                                                                                        <i> {{ $item->fake_id }}</i>
+                                                                                    </h5>
+                                                                                </h5>
+                                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                                    <span aria-hidden="true">&times;</span>
+                                                                                </button>
+                                                                            </div>
+                                                                            <div class="modal-body">
+
+                                                                                @if(@$item->maquinarias->first())
+                                                                                    @foreach (@App\Tarea::findOrFail($item->id)->maquinarias as $item)
+
+                                                                                        <div class="col-lg-12">
+                                                                                            <div class="card shadow mb-4">
+                                                                                                <!-- Card Header - Accordion -->
+                                                                                                    @if (count($item->mantenimientos->where('estado', 'Activo')) >= 1 
+                                                                                                    || count($item->mantenimientos->where('estado', 'En espera')) >= 1 
+                                                                                                    || count($item->mantenimientos->where('estado', 'Inactivo')) >= 1)
+
+                                                                                                        <a href="#collapseCardTareas{{ $loop->iteration}}" class="d-block card-header py-3 border-left-danger border-danger" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardExample">
+                                                                                                            <h6 class="font-weight-bold text-danger">
+                                                                                                                Datos de la Maquinaria:
+                                                                                                                <span class="badge badge-secondary float-right">Importante</span>
+                                                                                                                <h6 class="m-0 font-weight-bold text-dark">
+                                                                                                                    <i>{{ $item->codigo_nro_gad}} - {{ $item->tipo_vehiculo }}</i>
+                                                                                                                </h6>
+                                                                                                            </h6>
+                                                                                                        </a>
+
+                                                                                                    @else
+                                                                                                        <a href="#collapseCardTareas{{ $loop->iteration}}" class="d-block card-header py-3 border-left-info" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardExample">
+                                                                                                            <h6 class="font-weight-bold text-primary">
+                                                                                                                Datos de la Maquinaria:
+                                                                                                                <h6 class="m-0 font-weight-bold text-dark">
+                                                                                                                    <i>{{ $item->codigo_nro_gad}} - {{ $item->tipo_vehiculo }}</i>
+                                                                                                                </h6>
+                                                                                                            </h6>
+                                                                                                        </a>
+                                                                                                    @endif
+                                                                                                        
+                                                                                                <!-- Card Content - Collapse -->
+                                                                                                    <div class="collapse hide" id="collapseCardTareas{{ $loop->iteration}}">
+                                                                                                        <div class="card-body">
+
+                                                                                                            {{-- Alert en caso de estar en mantenimiento --}}
+                                                                                                            @if (count($item->mantenimientos->where('estado', 'Activo')) >= 1 
+                                                                                                            || count($item->mantenimientos->where('estado', 'En espera')) >= 1 
+                                                                                                            || count($item->mantenimientos->where('estado', 'Inactivo')) >= 1)
+
+                                                                                                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                                                                                        <strong>Tenemos un problema!.</strong> Este vehiculo ha entrado en mantenimiento recientemente,
+                                                                                                                        por lo que es posible que no se encuentre disponible hasta culminar con el proceso.
+                                                                                                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                                                                                            <span aria-hidden="true">&times;</span>
+                                                                                                                        </button>
+                                                                                                                    </div>
+                                                                                                                @endif
+
+                                                                                                            {{-- Codigo GAD --}}
+                                                                                                                <div class="form-group row">
+                                                                                                                    <label for="codigo" class="col-md-4 col-form-label text-md-right">Codigo GAD</label>
+                                                                                                                    <div class="col-md-6">
+                                                                                                                        <input type="input" disabled value="{{ $item->codigo_nro_gad }}" class="form-control" required autocomplete="Fecha inicio" autofocus>
+                                                                                                                    </div>
+                                                                                                                </div>
+
+                                                                                                            {{-- Placa --}}
+                                                                                                                <div class="form-group row">
+                                                                                                                    <label for="codigo" class="col-md-4 col-form-label text-md-right">Placa</label>
+                                                                                                                    <div class="col-md-6">
+                                                                                                                        <input type="input" disabled value="{{ $item->placa }}" class="form-control" required autocomplete="Fecha inicio" autofocus>
+                                                                                                                    </div>
+                                                                                                                </div>
+
+                                                                                                            {{-- Marca --}}
+                                                                                                                <div class="form-group row">
+                                                                                                                    <label for="codigo" class="col-md-4 col-form-label text-md-right">Marca</label>
+                                                                                                                    <div class="col-md-6">
+                                                                                                                        <input type="input" disabled value="{{ $item->marcas->marca }}" class="form-control" required autocomplete="Fecha fin" autofocus>
+                                                                                                                    </div>
+                                                                                                                </div>
+
+                                                                                                            {{-- Modelo --}}
+                                                                                                                <div class="form-group row">
+                                                                                                                    <label for="codigo" class="col-md-4 col-form-label text-md-right">Modelo</label>
+                                                                                                                    <div class="col-md-6">
+                                                                                                                        <input type="input" disabled value="{{ $item->anio }}" class="form-control" required autocomplete="Fecha fin" autofocus>
+                                                                                                                    </div>
+                                                                                                                </div>
+
+                                                                                                            {{-- Año --}}
+                                                                                                                <div class="form-group row">
+                                                                                                                    <label for="codigo" class="col-md-4 col-form-label text-md-right">Año</label>
+                                                                                                                    <div class="col-md-6">
+                                                                                                                        <input type="input" disabled value="{{ $item->anio }}" class="form-control" required autocomplete="Fecha fin" autofocus>
+                                                                                                                    </div>
+                                                                                                                </div>
+
+                                                                                                            {{-- Tipo --}}
+                                                                                                                <div class="form-group row">
+                                                                                                                    <label for="codigo" class="col-md-4 col-form-label text-md-right">Tipo</label>
+                                                                                                                    <div class="col-md-6">
+                                                                                                                        <input type="input" disabled value="{{ $item->tipo_vehiculo }}" class="form-control" required autocomplete="Fecha fin" autofocus>
+                                                                                                                    </div>
+                                                                                                                </div>
+
+                                                                                                            {{-- Observacion --}}
+                                                                                                                <div class="form-group row">
+                                                                                                                    <label for="detalle" class="col-md-4 col-form-label text-md-right">Observacion</label>
+                                                                                                                    <div class="col-md-6">
+                                                                                                                        <textarea type="text" disabled class="form-control" required autocomplete="detalle" autofocus> {{ $item->observacion }} </textarea>
+                                                                                                                    </div>
+                                                                                                                </div>
+
+                                                                                                            {{-- Operario --}}
+                                                                                                                <div class="form-group row">
+                                                                                                                    <label for="codigo" class="col-md-4 col-form-label text-md-right">Operador</label>
+                                                                                                                    <div class="col-md-6">
+                                                                                                                        @if (@$item->operarios)
+                                                                                                                            <input type="input" disabled value="{{ $item->operarios->name }} {{ $item->operarios->apellido_pater }}" class="form-control" required autocomplete="Fecha fin" autofocus>
+                                                                                                                        @else
+                                                                                                                            <input type="input" disabled value="N/A" class="form-control bg-danger text-light" required autocomplete="Fecha fin" autofocus>
+                                                                                                                        @endif
+                                                                                                                        
+                                                                                                                    </div>
+                                                                                                                </div>
+
+                                                                                                            {{-- btn--}}
+                                                                                                                <div class="form-group row mb-0">
+                                                                                                                    <div class="align-items-center col-md-6 offset-md-5">
+                                                                                                                        @can('maquinarias.show')
+                                                                                                                            <a href="{{ route('maquinarias.show', Hashids::encode($item->id)) }}" class="btn btn-sm btn-info">
+                                                                                                                                <i class="fas fa-fw fa-eye"></i>
+                                                                                                                                Ver
+                                                                                                                            </a>
+                                                                                                                        @endcan
+                                                                                                                        @can('maquinarias.edit')
+                                                                                                                            <a href="{{ route('maquinarias.edit', Hashids::encode($item->id)) }}" class="btn btn-sm btn-warning">
+                                                                                                                                <i class="fas fa-fw fa-pen"></i>
+                                                                                                                                Editar
+                                                                                                                            </a>
+                                                                                                                        @endcan
+                                                                                                                    </div>
+                                                                                                                </div>
+
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                            </div>
+                                                                                        </div>
+
+                                                                                    @endforeach
+                                                                                @else
+                                                                                    <br><br>
+                                                                                    <strong class="mt-5 mb-5 text-center"><h5><em>No se han asignado maquinarias para ejecutar este requerimiento</em></h5></strong>
+                                                                                    <br><br>
+                                                                                @endif
+
+                                                                            </div>
+                                                                            <div class="modal-footer">
+                                                                                <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Close</button>
+                                                                                @can('actividades.encargos.asignaciones')
+
+                                                                                    @if ($item->estado !== 'Abandonado' && $item->estado !== 'Finalizada')
+                                                                                        <div class="text-center">
+                                                                                            <a href="{{ route('asigna.edit', Hashids::encode($item->id)) }}" class="btn btn-sm btn-success">
+                                                                                                <i class="fas fa-plus"></i>
+                                                                                                Asignar Maquinarias
+                                                                                            </a>
+                                                                                        </div>
+                                                                                    @endif
+
+                                                                                @endcan
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
                                                         </div>
                                                     </div>
                                             </div>
@@ -558,9 +878,41 @@
         </div>
     </div>
 </form>
+
+{{-- Modal Divisar maquinarias asignadas
+    <div class="modal fade" id="MaquinariaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <input type="text" id="prueba" value="{{ $id }}">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div> --}}
+
 <script>
     $(function () {
         $('[data-toggle="tooltip"]').tooltip()
     })
+
+    // Enviar detalle y observacion al modal de revision
+        $('#MaquinariaModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget) // Button that triggered the modal
+            var id = button.data('id') // Extract info from data-* attributes
+            var modal = $(this)
+            modal.find('.modal-body ').val(id)
+        })
 </script>
 @stop

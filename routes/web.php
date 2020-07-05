@@ -231,6 +231,13 @@ Route::middleware(['auth'])->group(function(){
         Route::put('solicituds/finalizar/{solicitud}', 'SolicitudController@finalizar')->name('solicituds.finalizar')
                         ->middleware('can:solicitudes.edit');
 
+        ///Agregar Fechas de inicio y Fin en la vista SHOW de la solicitud
+        Route::get('solicituds/{solicitud}/edit/agregar-fechas', 'SolicitudController@fechasInicioFin')->name('solicituds.agregafechas')
+                        ->middleware('can:agregar.fechas');
+
+        Route::put('solicituds/agregar/{solicitud}/agregar-fechas', 'SolicitudController@agregaFechaInicioFin')->name('solicituds.updatefechasiniciofin')
+                        ->middleware('can:agregar.fechas');
+
     //Tareas
 
         Route::get('descargar-tareas', 'TareaController@reportes')->name('tareas.reportes')
@@ -276,6 +283,13 @@ Route::middleware(['auth'])->group(function(){
 
         Route::put('tareas/finalizar/{tarea}', 'TareaController@finalizar')->name('tareas.finalizar')
                         ->middleware('can:tareas.edit');
+
+        ///Agregar Fechas de inicio y Fin en la vista SHOW de la solicitud
+        Route::get('tareas/{tarea}/edit/agregar-fechas', 'TareaController@fechasInicioFin')->name('tareas.agregafechas')
+                        ->middleware('can:agregar.fechas');
+
+        Route::put('tareas/agregar/{tarea}/agregar-fechas', 'TareaController@agregaFechaInicioFin')->name('tareas.updatefechasiniciofin')
+                        ->middleware('can:agregar.fechas');
 
     //Maquinarias
 

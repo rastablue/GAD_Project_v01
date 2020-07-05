@@ -90,7 +90,7 @@
                                 </div>
                             </div>
 
-                        {{-- Observacion --}}
+                        {{-- Observacion
                             <div class="form-group row">
                                 <label for="observacion" class="col-md-4 col-form-label text-md-right">{{ __('Observacion') }}</label>
                                 <div class="col-md-6">
@@ -102,7 +102,7 @@
                                         </span>
                                     @enderror
                                 </div>
-                            </div>
+                            </div> --}}
 
                         {{-- Estado 
                             <div class="form-group row">

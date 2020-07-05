@@ -32,7 +32,8 @@
                                             @enderror
                                         </div>
                                     </div>
-                                @if (Auth::user()->roles->first()->id == 1)
+
+                                @can ('agregar.fechas')
                                 
                                 {{-- Fecha Inicio --}}
                                     <div class="form-group row">
@@ -61,7 +62,9 @@
                                             @enderror
                                         </div>
                                     </div>
-                                @endif
+
+                                @endcan
+
                                 {{-- Detalle --}}
                                     <div class="form-group row">
                                         <label for="detalle" class="col-md-4 col-form-label text-md-right">Detalle</label>
