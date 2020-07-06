@@ -22,6 +22,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::post('consultas', 'LogoutController@consulta')->name('consultas');
+Route::get('descargar-solicituds/{solicitud}', 'SolicitudController@pdf')->name('solicituds.pdf');
 
 Route::middleware(['auth'])->group(function(){
 
@@ -181,8 +182,6 @@ Route::middleware(['auth'])->group(function(){
 
         Route::get('seleccionar-solicituds/apply', 'SolicitudController@reportesSelectApply')->name('solicituds.reporteselectapply')
                         ->middleware('can:solicitudes.show');
-
-        Route::get('descargar-solicituds/{solicitud}', 'SolicitudController@pdf')->name('solicituds.pdf');
 
         //Fin PDFs secction
         Route::post('solicituds/store', 'SolicitudController@store')->name('solicituds.store')

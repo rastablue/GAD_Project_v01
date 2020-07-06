@@ -7,8 +7,7 @@
         <div class="row">
             <div class="col-md-12 float-auto">
                 <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                    Parece que hay <strong>{{ $solicitud->count() }}</strong> solicitudes en estado pendiente.
-                    <br>
+                    Parece que hay <strong>{{ $solicitud->count() }}</strong> solicitudes en estado pendiente. 
                     Puede filtrarlas escribiendo <strong>"pendiente"</strong> en el cuadro de busqueda.
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -21,8 +20,7 @@
         <div class="row">
             <div class="col-md-12 float-auto">
                 <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                    Parece que hay <strong>{{ $requerimientos->count() }}</strong> requerimientos en estado pendiente.
-                    <br>
+                    Parece que hay <strong>{{ $requerimientos->count() }}</strong> requerimientos en estado pendiente. 
                     Consulte la <a href="{{ route('tareas.index') }}" class="alert-link">lista de requerimientos</a> 
                     para revisar su estado.
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -159,6 +157,10 @@
                                 <i class="fas fa-fw fa-times-circle"></i>
                                 Reprobar
                             </button>
+                            <div class="text-md-left mt-2">
+                                <label for="Detalle">Fecha Inicio:</label>
+                                <textarea name="" id="fecha_inicio" disabled class="form-control detalle"></textarea>
+                            </div>
                             <div class="text-md-left mt-2">
                                 <label for="Detalle">Detalle:</label>
                                 <textarea name="" id="detalle" disabled class="form-control detalle"></textarea>
@@ -374,6 +376,11 @@
                     var observacion = button.data('observacion') // Extract info from data-* attributes
                     var modal = $(this)
                     modal.find('.modal-body #observacion').val(observacion)
+
+                    var button = $(event.relatedTarget) // Button that triggered the modal
+                    var fecha_inicio = button.data('fecha_inicio') // Extract info from data-* attributes
+                    var modal = $(this)
+                    modal.find('.modal-body #fecha_inicio').val(fecha_inicio)
                 })
 
             // Enviar detalle y observacion al modal de advertencia

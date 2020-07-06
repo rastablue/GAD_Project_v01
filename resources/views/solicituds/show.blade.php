@@ -150,13 +150,13 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                        <a href="{{ route('clientes.show', Hashids::encode($solicitud->clientes->id)) }}" 
-                                                            class="boton text-dark" style="margin-top: 40px; background-color: #24bcf8;" 
-                                                            data-toggle="tooltip" data-placement="top"
-                                                            title="Ver los datos del cliente">
+                                                    <a href="{{ route('clientes.show', Hashids::encode($solicitud->clientes->id)) }}" 
+                                                        class="boton text-dark" style="margin-top: 40px; background-color: #24bcf8;" 
+                                                        data-toggle="tooltip" data-placement="top"
+                                                        title="Ver los datos del cliente">
 
-                                                            <i class="fas fa-fw fa-eye"></i>
-                                                        </a>
+                                                        <i class="fas fa-fw fa-eye"></i>
+                                                    </a>
                                                 </div>
                                             </div>
                                             <hr>
@@ -220,7 +220,9 @@
                                                                 <input id="codigo" type="text" class="form-control bg-warning" disabled value=" {{ $solicitud->fecha_fin }} " name="codigo" required autocomplete="Codigo" autofocus>
                                                             
                                                             </div>
-                                                        @else
+                                                        @endif
+                                                        @if($solicitud->fecha_fin >= $date && $solicitud->estado != 'Finalizado' 
+                                                            && $solicitud->estado != 'Reprobado')
                                                             <div class="form-group col-md-6">
 
                                                                 <a href="#" class="boton text-light" data-toggle="tooltip" data-placement="top"
@@ -228,7 +230,17 @@
                                                                     hasta cumplir con la fecha">?</a>
 
                                                                 <label for="inputAddress"><strong>Fecha de Fin Estimada:</strong></label>
-                                                                <input id="codigo" type="text" class="form-control bg-info text-light" disabled value=" {{ $solicitud->fecha_fin }} " name="codigo" required autocomplete="Codigo" autofocus>
+                                                                <input id="codigo" type="text" class="form-control bg-info text-light" disabled value="{{ $solicitud->fecha_fin }}" name="codigo" required autocomplete="Codigo" autofocus>
+                                                            </div>
+                                                        @endif
+                                                        @if($solicitud->estado == 'Finalizado' || $solicitud->estado == 'Reprobado')
+                                                            <div class="form-group col-md-6">
+
+                                                                <a href="#" class="boton text-light" data-toggle="tooltip" data-placement="top"
+                                                                    title="Fecha en la que se espera concluir la solicitud.">?</a>
+
+                                                                <label for="inputAddress"><strong>Fecha de Fin Estimada:</strong></label>
+                                                                <input id="codigo" type="text" class="form-control" disabled value="{{ $solicitud->fecha_fin }}" name="codigo" required autocomplete="Codigo" autofocus>
                                                             </div>
                                                         @endif
                                                     @else
@@ -615,21 +627,21 @@
                                                                             <div class="modal-body">
 
                                                                                 @if(@$item->maquinarias->first())
-                                                                                    @foreach (@App\Tarea::findOrFail($item->id)->maquinarias as $item)
+                                                                                    @foreach (@App\Tarea::findOrFail($item->id)->maquinarias as $item2)
                                                                                     
                                                                                         <div class="col-lg-12">
                                                                                             <div class="card shadow mb-4">
                                                                                                 <!-- Card Header - Accordion -->
-                                                                                                    @if (count($item->mantenimientos->where('estado', 'Activo')) >= 1 
-                                                                                                    || count($item->mantenimientos->where('estado', 'En espera')) >= 1 
-                                                                                                    || count($item->mantenimientos->where('estado', 'Inactivo')) >= 1)
+                                                                                                    @if (count($item2->mantenimientos->where('estado', 'Activo')) >= 1 
+                                                                                                    || count($item2->mantenimientos->where('estado', 'En espera')) >= 1 
+                                                                                                    || count($item2->mantenimientos->where('estado', 'Inactivo')) >= 1)
 
                                                                                                         <a href="#collapseCardTareas{{ $loop->iteration}}" class="d-block card-header py-3 border-left-danger border-danger" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardExample">
                                                                                                             <h6 class="font-weight-bold text-danger">
                                                                                                                 Datos de la Maquinaria:
                                                                                                                 <span class="badge badge-secondary float-right">Importante</span>
                                                                                                                 <h6 class="m-0 font-weight-bold text-dark">
-                                                                                                                    <i>{{ $item->codigo_nro_gad}} - {{ $item->tipo_vehiculo }}</i>
+                                                                                                                    <i>{{ $item2->codigo_nro_gad}} - {{ $item2->tipo_vehiculo }}</i>
                                                                                                                 </h6>
                                                                                                             </h6>
                                                                                                         </a>
@@ -639,7 +651,7 @@
                                                                                                             <h6 class="font-weight-bold text-primary">
                                                                                                                 Datos de la Maquinaria:
                                                                                                                 <h6 class="m-0 font-weight-bold text-dark">
-                                                                                                                    <i>{{ $item->codigo_nro_gad}} - {{ $item->tipo_vehiculo }}</i>
+                                                                                                                    <i>{{ $item2->codigo_nro_gad}} - {{ $item2->tipo_vehiculo }}</i>
                                                                                                                 </h6>
                                                                                                             </h6>
                                                                                                         </a>
@@ -650,9 +662,9 @@
                                                                                                         <div class="card-body">
 
                                                                                                             {{-- Alert en caso de estar en mantenimiento --}}
-                                                                                                                @if (count($item->mantenimientos->where('estado', 'Activo')) >= 1 
-                                                                                                                || count($item->mantenimientos->where('estado', 'En espera')) >= 1 
-                                                                                                                || count($item->mantenimientos->where('estado', 'Inactivo')) >= 1)
+                                                                                                                @if (count($item2->mantenimientos->where('estado', 'Activo')) >= 1 
+                                                                                                                || count($item2->mantenimientos->where('estado', 'En espera')) >= 1 
+                                                                                                                || count($item2->mantenimientos->where('estado', 'Inactivo')) >= 1)
 
                                                                                                                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
                                                                                                                         <strong>Tenemos un problema!.</strong> Este vehiculo ha entrado en mantenimiento recientemente,
@@ -667,7 +679,7 @@
                                                                                                                 <div class="form-group row">
                                                                                                                     <label for="codigo" class="col-md-4 col-form-label text-md-right">Codigo GAD</label>
                                                                                                                     <div class="col-md-6">
-                                                                                                                        <input type="input" disabled value="{{ $item->codigo_nro_gad }}" class="form-control" required autocomplete="Fecha inicio" autofocus>
+                                                                                                                        <input type="input" disabled value="{{ $item2->codigo_nro_gad }}" class="form-control" required autocomplete="Fecha inicio" autofocus>
                                                                                                                     </div>
                                                                                                                 </div>
 
@@ -675,7 +687,7 @@
                                                                                                                 <div class="form-group row">
                                                                                                                     <label for="codigo" class="col-md-4 col-form-label text-md-right">Placa</label>
                                                                                                                     <div class="col-md-6">
-                                                                                                                        <input type="input" disabled value="{{ $item->placa }}" class="form-control" required autocomplete="Fecha inicio" autofocus>
+                                                                                                                        <input type="input" disabled value="{{ $item2->placa }}" class="form-control" required autocomplete="Fecha inicio" autofocus>
                                                                                                                     </div>
                                                                                                                 </div>
 
@@ -683,7 +695,7 @@
                                                                                                                 <div class="form-group row">
                                                                                                                     <label for="codigo" class="col-md-4 col-form-label text-md-right">Marca</label>
                                                                                                                     <div class="col-md-6">
-                                                                                                                        <input type="input" disabled value="{{ $item->marcas->marca }}" class="form-control" required autocomplete="Fecha fin" autofocus>
+                                                                                                                        <input type="input" disabled value="{{ $item2->marcas->marca }}" class="form-control" required autocomplete="Fecha fin" autofocus>
                                                                                                                     </div>
                                                                                                                 </div>
 
@@ -691,7 +703,7 @@
                                                                                                                 <div class="form-group row">
                                                                                                                     <label for="codigo" class="col-md-4 col-form-label text-md-right">Modelo</label>
                                                                                                                     <div class="col-md-6">
-                                                                                                                        <input type="input" disabled value="{{ $item->anio }}" class="form-control" required autocomplete="Fecha fin" autofocus>
+                                                                                                                        <input type="input" disabled value="{{ $item2->anio }}" class="form-control" required autocomplete="Fecha fin" autofocus>
                                                                                                                     </div>
                                                                                                                 </div>
 
@@ -699,7 +711,7 @@
                                                                                                                 <div class="form-group row">
                                                                                                                     <label for="codigo" class="col-md-4 col-form-label text-md-right">Año</label>
                                                                                                                     <div class="col-md-6">
-                                                                                                                        <input type="input" disabled value="{{ $item->anio }}" class="form-control" required autocomplete="Fecha fin" autofocus>
+                                                                                                                        <input type="input" disabled value="{{ $item2->anio }}" class="form-control" required autocomplete="Fecha fin" autofocus>
                                                                                                                     </div>
                                                                                                                 </div>
 
@@ -707,7 +719,7 @@
                                                                                                                 <div class="form-group row">
                                                                                                                     <label for="codigo" class="col-md-4 col-form-label text-md-right">Tipo</label>
                                                                                                                     <div class="col-md-6">
-                                                                                                                        <input type="input" disabled value="{{ $item->tipo_vehiculo }}" class="form-control" required autocomplete="Fecha fin" autofocus>
+                                                                                                                        <input type="input" disabled value="{{ $item2->tipo_vehiculo }}" class="form-control" required autocomplete="Fecha fin" autofocus>
                                                                                                                     </div>
                                                                                                                 </div>
 
@@ -715,7 +727,7 @@
                                                                                                                 <div class="form-group row">
                                                                                                                     <label for="detalle" class="col-md-4 col-form-label text-md-right">Observacion</label>
                                                                                                                     <div class="col-md-6">
-                                                                                                                        <textarea type="text" disabled class="form-control" required autocomplete="detalle" autofocus> {{ $item->observacion }} </textarea>
+                                                                                                                        <textarea type="text" disabled class="form-control" required autocomplete="detalle" autofocus> {{ $item2->observacion }} </textarea>
                                                                                                                     </div>
                                                                                                                 </div>
 
@@ -723,8 +735,8 @@
                                                                                                                 <div class="form-group row">
                                                                                                                     <label for="codigo" class="col-md-4 col-form-label text-md-right">Operador</label>
                                                                                                                     <div class="col-md-6">
-                                                                                                                        @if (@$item->operarios)
-                                                                                                                            <input type="input" disabled value="{{ $item->operarios->name }} {{ $item->operarios->apellido_pater }}" class="form-control" required autocomplete="Fecha fin" autofocus>
+                                                                                                                        @if (@$item2->operarios)
+                                                                                                                            <input type="input" disabled value="{{ $item2->operarios->name }} {{ $item2->operarios->apellido_pater }}" class="form-control" required autocomplete="Fecha fin" autofocus>
                                                                                                                         @else
                                                                                                                             <input type="input" disabled value="N/A" class="form-control bg-danger text-light" required autocomplete="Fecha fin" autofocus>
                                                                                                                         @endif
@@ -736,13 +748,13 @@
                                                                                                                 <div class="form-group row mb-0">
                                                                                                                     <div class="align-items-center col-md-6 offset-md-5">
                                                                                                                         @can('maquinarias.show')
-                                                                                                                            <a href="{{ route('maquinarias.show', Hashids::encode($item->id)) }}" class="btn btn-sm btn-info">
+                                                                                                                            <a href="{{ route('maquinarias.show', Hashids::encode($item2->id)) }}" class="btn btn-sm btn-info">
                                                                                                                                 <i class="fas fa-fw fa-eye"></i>
                                                                                                                                 Ver
                                                                                                                             </a>
                                                                                                                         @endcan
                                                                                                                         @can('maquinarias.edit')
-                                                                                                                            <a href="{{ route('maquinarias.edit', Hashids::encode($item->id)) }}" class="btn btn-sm btn-warning">
+                                                                                                                            <a href="{{ route('maquinarias.edit', Hashids::encode($item2->id)) }}" class="btn btn-sm btn-warning">
                                                                                                                                 <i class="fas fa-fw fa-pen"></i>
                                                                                                                                 Editar
                                                                                                                             </a>

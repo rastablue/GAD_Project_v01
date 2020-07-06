@@ -1,100 +1,100 @@
 @extends('layouts.pdf')
 
 @section('content')
-<br><br>
-<h5><b> Solicitud emitida a nombre de: </b></h5>{{ $solicitud->clientes->name }} {{ $solicitud->clientes->apellido_pater }} {{ $solicitud->clientes->apellido_mater }} <br><br>
-<h5><b> Fecha de emision: </b></h5>{{ Carbon\Carbon::now() }} <br><br>
-<hr class="sidebar-divider">
-<h4 class="font-weight-bold text-success"><b> Solicitud</b></h4>
-<table class="table">
-    <thead>
-        <tr class="table-secondary" style="font-size: 9">
-            <th scope="col" width="80px"><div class="text-center font-weight-bold text-info">Codigo</th>
-            <th scope="col" width="130px"><div class="text-center font-weight-bold text-info">Fecha de Emision</th>
-            <th scope="col" width="130px"><div class="text-center font-weight-bold text-info">Fecha de Revision</th>
-            <th scope="col" width="120px"><div class="text-center font-weight-bold text-info">Responsable</th>
-            <th scope="col" width="75px"><div class="text-center font-weight-bold text-info">Estado</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr style="font-size: 8">
-            <td><div class="text-center">{{ $solicitud->codigo_solicitud }}</td>
-            <td><div class="text-center">{{ $solicitud->fecha_emision }}</td>
-            <td><div class="text-center">{{ $solicitud->fecha_revision }}</td>
-            <td><div class="text-center">{{ $solicitud->users->name }} {{ $solicitud->users->apellido_pater }}</td>
-            <td><div class="text-center">{{ $solicitud->estado }}</td>
-        </tr>
-        <tr>
-            <th scope="col" style="font-size: 9"><div class="text-center font-weight-bold text-info">Detalles:</th>
-            <td scope="col" colspan="4" style="font-size: 8"> {{ $solicitud->detalle }} <br><br></td>
-        </tr>
-        <tr>
-            <th scope="col" style="font-size: 9"><div class="text-center font-weight-bold text-info">Observaciones:</th>
-            <td scope="col" colspan="4" style="font-size: 8"> {{ $solicitud->observacion }} <br><br></td>
-        </tr>
-    </tbody>
-</table>
-
-<hr class="sidebar-divider">
-@if(@$solicitud->tareas->first())
-    <h4 class="font-weight-bold text-success"><b> Tareas </b></h4>
-    <table class="table">
-        <tbody>
-            <tr>
-                <th width="150px" style="font-size: 9"><div class="font-weight-bold text-info">N°</th>
-                    @foreach (@$solicitud->tareas as $item)
-                        <td>{{ $loop->iteration }}</td>
-                    @endforeach
-            </tr>
-            <tr>
-                <th width="150px" style="font-size: 9"><div class="font-weight-bold text-info">Codigo</th>
-                    @foreach (@$solicitud->tareas as $item)
-                        <td style="font-size: 8">{{ $item->fake_id }}</td>
-                    @endforeach
-            </tr>
-            <tr>
-                <th width="150px" style="font-size: 9"><div class="font-weight-bold text-info">Fecha de Inicio</th>
-                    @foreach (@$solicitud->tareas as $item)
-                        <td style="font-size: 8">{{ $item->fecha_inicio }}</td>
-                    @endforeach
-            </tr>
-            <tr>
-                <th width="150px" style="font-size: 9"><div class="font-weight-bold text-info">Fecha de Fin</th>
-                    @foreach (@$solicitud->tareas as $item)
-                        <td style="font-size: 8">{{ $item->fecha_fin }}</td>
-                    @endforeach
-            </tr>
-            <tr>
-                <th width="150px" style="font-size: 9"><div class="font-weight-bold text-info">Direccion</th>
-                    @foreach (@$solicitud->tareas as $item)
-                        <td style="font-size: 8">{{ $item->direc_tarea }}</td>
-                    @endforeach
-            </tr>
-            <tr>
-                <th width="150px" style="font-size: 9"><div class="font-weight-bold text-info">Estado</th>
-                    @foreach (@$solicitud->tareas as $item)
-                        <td style="font-size: 8">{{ $item->estado }}</td>
-                    @endforeach
-            </tr>
-            <tr>
-                <th width="150px" style="font-size: 9"><div class="font-weight-bold text-info">Detalles</th>
-                    @foreach (@$solicitud->tareas as $item)
-                        <td style="font-size: 8">{{ $item->detalle }}</td>
-                    @endforeach
-            </tr>
-            <tr>
-                <th width="150px" style="font-size: 9"><div class="font-weight-bold text-info">Observaciones</th>
-                    @foreach (@$solicitud->tareas as $item)
-                        <td style="font-size: 8">{{ $item->observacion }}</td>
-                    @endforeach
-            </tr>
-            <tr>
-                <th width="150px" style="font-size: 9"><div class="font-weight-bold text-info">Maquinarias Asignadas</th>
-                    @foreach (@$solicitud->tareas as $item)
-                        <td style="font-size: 8">{{ $item->maquinarias->count() }}</td>
-                    @endforeach
-            </tr>
-        </tbody>
-    </table>
-@endif
 @endsection
+
+
+<!doctype html>
+<html lang="en">
+    <head>
+    <meta charset="UTF-8">
+    <title>Aloha!</title>
+
+    <style type="text/css">
+        * {
+            font-family: Verdana, Arial, sans-serif;
+        }
+        table{
+            font-size: x-small;
+        }
+        tfoot tr td{
+            font-weight: bold;
+            font-size: x-small;
+        }
+        .gray {
+            background-color: lightgray
+        }
+    </style>
+
+    </head>
+    <body>
+
+        <table width="100%">
+            <tr>
+                <td valign="top"><img src="{{asset('images/gad.jpg')}}" alt="" width="250"/></td>
+                <td align="right">
+                    <h2>GAD MUNICIPAL LAS NAVES</h2>
+                    <pre>
+                        Emitido a nombre de:<br>
+                        <b>{{ $solicitud->clientes->name }} {{ $solicitud->clientes->apellido_pater }} {{ $solicitud->clientes->apellido_mater }}</b>
+                        Fecha de emision:<br>
+                        <b>{{ Carbon\Carbon::now() }}</b>
+                        Codigo solicitud:<br>
+                        <b>{{ $solicitud->codigo_solicitud }}</b>
+                    </pre>
+                </td>
+            </tr>
+        </table>
+
+        <table width="100%">
+            <thead style="background-color: lightgray;">
+            <tr>
+                <th>Responsable</th>
+                <th>Detalle</th>
+                <th>Observacion</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>{{ $solicitud->users->name }} {{ $solicitud->users->apellido_pater }}</td>
+                <td>{{ $solicitud->detalle }}</td>
+                <td>{{ $solicitud->observacion }}</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <br><hr><br>
+
+        @if(@$solicitud->tareas->first())
+            <h3>Requerimientos de la solicitud</h3>
+        @endif
+
+        @if(@$solicitud->tareas->first())
+            <table width="100%">
+                <thead style="background-color: lightgray;">
+                <tr>
+                    <th>N°</th>
+                    <th>Direccion</th>
+                    <th>Detalle</th>
+                </tr>
+                </thead>
+                @foreach (@$solicitud->tareas as $item)
+                    <tbody class="mt-3">
+                        <tr>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $item->direc_tarea }}</td>
+                            <td>{{ $item->detalle }}</td>
+                        </tr>
+                        
+                    </tbody>
+                @endforeach
+            </table>
+        @endif
+        <br><hr><br><br><br>
+
+        <pre>
+            <em> <br>Para mas informacion acerca de esta solicitud consulte la pagina web. </em>
+            <em> <br>La solicitud puede tener un periodo de 10 dias luego de su emision para recibir una respuesta sobre su aprobacion<br> o rechazo. </em>
+        </pre>
+    </body>
+</html>

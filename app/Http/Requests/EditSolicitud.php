@@ -26,7 +26,6 @@ class EditSolicitud extends FormRequest
         return [
             "detalle" => "string|max:500",
             "observacion" => "nullable|string|max:500",
-            "cedula" => "required|digits:10|exists:clientes,cedula",
             "fecha_inicio" => "nullable|date_format:Y-m-d",
             "fecha_fin" => 'nullable|required_with:fecha_inicio|date_format:Y-m-d|after_or_equal:fecha_inicio',
         ];

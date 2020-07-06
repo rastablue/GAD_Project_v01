@@ -25,7 +25,13 @@
         </button>
     @endif
     @if ($estado === 'Pendiente')
-        <button type="button" data-id="{{ $id }}" data-observacion="{{ $observacion }}" data-detalle="{{ $detalle }}" data-toggle="modal" data-target="#RevisaSolicitudModal" class="btn btn-warning btn-sm revisar" id="getActualizaId">
+        @if (!$fecha_inicio)
+            @php
+                $fecha_inicio = 'No se ha asignado una fecha de inicio a esta solicitud. Aprobarla provocara que se asigne como fecha de inicio la fecha de la aprobacion.'
+            @endphp
+        @endif
+        <button type="button" data-id="{{ $id }}" data-observacion="{{ $observacion }}" data-detalle="{{ $detalle }}" data-fecha_inicio="{{ $fecha_inicio }}"
+         data-toggle="modal" data-target="#RevisaSolicitudModal" class="btn btn-warning btn-sm revisar" id="getActualizaId">
             <i class="fas fa-fw fa-check-circle"></i>
             Revisar
         </button>

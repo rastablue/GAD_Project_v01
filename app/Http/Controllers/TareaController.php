@@ -222,7 +222,11 @@ class TareaController extends Controller
         if ($request->fecha_inicio >= $solicitud->fecha_emision) {
             Null;
         }else{
-            return back()->with('danger', 'Error, la fecha de inicio no puede ser anterior a la solicitud');
+            if (!$solicitud->fecha_inicio) {
+                NULL;
+            }else {
+                return back()->with('danger', 'Error, la fecha de inicio no puede ser anterior a la solicitud');
+            }
         }
 
         if ($request->fecha_fin > $solicitud->fecha_fin) {
@@ -248,7 +252,11 @@ class TareaController extends Controller
             $tarea->direc_tarea = $request->direccion;
             $tarea->detalle = $request->detalle;
             $tarea->observacion = $request->observacion;
-            $tarea->estado = $request->estado;
+            if ($request->estado) {
+                $tarea->estado = $request->estado;
+            }else {
+                $tarea->estado = $tarea->estado;
+            }
 
             $tarea->save();
 

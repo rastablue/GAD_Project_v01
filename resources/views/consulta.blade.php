@@ -19,7 +19,11 @@
                                         <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Solicitud</a>
                                         <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">Solicitante</i></a>
                                         <a class="nav-link" id="v-pills-cliente-tab" data-toggle="pill" href="#v-pills-cliente" role="tab" aria-controls="v-pills-cliente" aria-selected="true">Requerimientos</a>
-                                        <a href="javascript:history.back()" class="btn btn-dark mt-5">Realizar otra consulta..</a>
+                                        <a href="javascript:history.back()" class="btn btn-sm btn-dark mt-5">Realizar otra consulta</a>
+                                        <a href="{{ route('solicituds.pdf', Hashids::encode($solicitud->id)) }}" class="btn btn-sm btn-success mt-2" target="_blank">
+                                            <i class="fas fa-fw fa-file-alt"></i>
+                                            Descargar Archivo PDF
+                                        </a>
                                     </div>
         
         
@@ -30,7 +34,8 @@
                                     <div class="tab-content" id="v-pills-tabContent">
                                         {{-- Solicituds --}}
                                             <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
-    
+                                                <em>El tiempo estimado hasta la revision de su solicitud es de 10 dias apartir de la emision del documento</em>
+                                                <hr><br>
                                                 {{-- Codigo --}}
                                                     <div class="form-group row">
                                                         <label for="codigo" class="col-md-4 col-form-label text-md-right">Codigo</label>
@@ -52,6 +57,22 @@
                                                         <label for="codigo" class="col-md-4 col-form-label text-md-right">Fecha de Revision</label>
                                                         <div class="col-md-6">
                                                             <input id="codigo" type="text" class="form-control" disabled value=" {{ $solicitud->fecha_revision }} " name="codigo" required autocomplete="Codigo" autofocus>
+                                                        </div>
+                                                    </div>
+
+                                                {{-- Fecha Inicio --}}
+                                                    <div class="form-group row">
+                                                        <label for="codigo" class="col-md-4 col-form-label text-md-right">Fecha de Inicio</label>
+                                                        <div class="col-md-6">
+                                                            <input id="codigo" type="text" class="form-control" disabled value=" {{ $solicitud->fecha_inicio }} " name="codigo" required autocomplete="Codigo" autofocus>
+                                                        </div>
+                                                    </div>
+
+                                                {{-- Fecha Fin --}}
+                                                    <div class="form-group row">
+                                                        <label for="codigo" class="col-md-4 col-form-label text-md-right">Fecha de Fin</label>
+                                                        <div class="col-md-6">
+                                                            <input id="codigo" type="text" class="form-control" disabled value=" {{ $solicitud->fecha_fin }} " name="codigo" required autocomplete="Codigo" autofocus>
                                                         </div>
                                                     </div>
 
@@ -91,6 +112,9 @@
                                                             @endif
                                                             @if (@$solicitud->estado == 'Pendiente')
                                                                 <input id="codigo" type="text" class="form-control bg-info text-light" disabled value="{{ $solicitud->estado }}" name="codigo" required autocomplete="Codigo" autofocus>
+                                                            @endif
+                                                            @if (@$solicitud->estado == 'Finalizado')
+                                                                <input id="codigo" type="text" class="form-control bg-success text-light" disabled value="{{ $solicitud->estado }}" name="codigo" required autocomplete="Codigo" autofocus>
                                                             @endif
                                                         </div>
                                                     </div>
@@ -205,14 +229,6 @@
                                                                                         <label for="detalle" class="col-md-4 col-form-label text-md-right">Detalle</label>
                                                                                         <div class="col-md-6">
                                                                                             <textarea type="text" disabled class="form-control" required autocomplete="detalle" autofocus> {{ $item->detalle }} </textarea>
-                                                                                        </div>
-                                                                                    </div>
-
-                                                                                {{-- Observacion --}}
-                                                                                    <div class="form-group row">
-                                                                                        <label for="detalle" class="col-md-4 col-form-label text-md-right">Observacion</label>
-                                                                                        <div class="col-md-6">
-                                                                                            <textarea type="text" disabled class="form-control" required autocomplete="detalle" autofocus> {{ $item->observacion }} </textarea>
                                                                                         </div>
                                                                                     </div>
 

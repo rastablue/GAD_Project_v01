@@ -34,7 +34,7 @@
                                 </div>
                             </div>
 
-                        {{-- Cedula Solicitante --}}
+                        {{-- Cedula Solicitante
                             <div class="form-group row">
                                 <label for="user_id" class="col-md-4 col-form-label text-md-right">Cedula del Solicitante</label>
                                 <div class="col-md-6">
@@ -46,7 +46,7 @@
                                         </span>
                                     @enderror
                                 </div>
-                            </div>
+                            </div> --}}
                         @can ('agregar.fechas')
                         {{-- Fecha Inicio --}}
                             <div class="form-group row">

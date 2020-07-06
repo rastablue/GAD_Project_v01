@@ -33,34 +33,36 @@
                                     <input type="text" disabled value="{{ $tarea->fake_id }}" class="form-control" autofocus>
                                 </div>
                             </div>
-
-                        {{-- Fecha Inicio --}}
-                            <div class="form-group row">
-                                <label for="codigo" class="col-md-4 col-form-label text-md-right">Fecha de Inicio</label>
-                                <div class="col-md-6">
-                                    <input type="date" name="fecha_inicio" class="form-control @error('fecha_inicio') is-invalid @enderror" value="{{ $tarea->fecha_inicio ?? old('fecha_inicio') }}" autocomplete="Fecha inicio" autofocus>
-                                
-                                    @error('fecha_inicio')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
+                        
+                        @can('agregar.fechas')
+                            {{-- Fecha Inicio --}}
+                                <div class="form-group row">
+                                    <label for="codigo" class="col-md-4 col-form-label text-md-right">Fecha de Inicio</label>
+                                    <div class="col-md-6">
+                                        <input type="date" name="fecha_inicio" class="form-control @error('fecha_inicio') is-invalid @enderror" value="{{ $tarea->fecha_inicio ?? old('fecha_inicio') }}" autocomplete="Fecha inicio" autofocus>
+                                    
+                                        @error('fecha_inicio')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
                                 </div>
-                            </div>
 
-                        {{-- Fecha Fin --}}
-                            <div class="form-group row">
-                                <label for="codigo" class="col-md-4 col-form-label text-md-right">Fecha de Fin</label>
-                                <div class="col-md-6">
-                                    <input type="date" id="fecha_fin" name="fecha_fin" class="form-control @error('fecha_fin') is-invalid @enderror" value="{{ $tarea->fecha_fin ?? old('fecha_fin') }}" autocomplete="Fecha fin" autofocus>
-                                
-                                    @error('fecha_fin')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
+                            {{-- Fecha Fin --}}
+                                <div class="form-group row">
+                                    <label for="codigo" class="col-md-4 col-form-label text-md-right">Fecha de Fin</label>
+                                    <div class="col-md-6">
+                                        <input type="date" id="fecha_fin" name="fecha_fin" class="form-control @error('fecha_fin') is-invalid @enderror" value="{{ $tarea->fecha_fin ?? old('fecha_fin') }}" autocomplete="Fecha fin" autofocus>
+                                    
+                                        @error('fecha_fin')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
                                 </div>
-                            </div>
+                        @endcan
 
                         {{-- Direccion --}}
                             <div class="form-group row">
@@ -90,7 +92,7 @@
                                 </div>
                             </div>
 
-                        {{-- Observacion --}}
+                        {{-- Observacion
                             <div class="form-group row">
                                 <label for="observacion" class="col-md-4 col-form-label text-md-right">Observacion</label>
                                 <div class="col-md-6">
@@ -102,24 +104,27 @@
                                         </span>
                                     @enderror
                                 </div>
-                            </div>
+                            </div> --}}
 
-                        {{-- Estado --}}
-                            <div class="form-group row">
-                                <label for="tipo_contrato" class="col-md-4 col-form-label text-md-right">Estado</label>
+                        @can('tareas.revision')
+                            {{-- Estado --}}
+                                <div class="form-group row">
+                                    <label for="tipo_contrato" class="col-md-4 col-form-label text-md-right">Estado</label>
 
-                                <div class="col-md-6">
+                                    <div class="col-md-6">
 
-                                    <select class="form-control @error('estado') is-invalid @enderror" name="estado">
-                                        <option disabled>Seleccione un Estado</option>
-                                        <option selected='true'>{{ $tarea->estado }}</option>
-                                        @foreach(App\Tarea::getEnumValues('tareas', 'estado') as $estados)
-                                            <option value="{{ $estados }}">  {{ $estados }}  </option>
-                                        @endforeach
-                                    </select>
+                                        <select class="form-control @error('estado') is-invalid @enderror" name="estado">
+                                            <option disabled>Seleccione un Estado</option>
+                                            <option selected='true'>{{ $tarea->estado }}</option>
+                                            @foreach(App\Tarea::getEnumValues('tareas', 'estado') as $estados)
+                                                <option value="{{ $estados }}">  {{ $estados }}  </option>
+                                            @endforeach
+                                        </select>
 
+                                    </div>
                                 </div>
-                            </div>
+                        @endcan
+                        
 
                         {{-- btn--}}
                             <div class="form-group row mb-0">

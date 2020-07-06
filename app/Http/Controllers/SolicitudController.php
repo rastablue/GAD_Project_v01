@@ -46,7 +46,7 @@ class SolicitudController extends Controller
                                     ->select('solicituds.id', 'solicituds.codigo_solicitud', 'solicituds.fecha_emision',
                                             'solicituds.fecha_revision', 'clientes.name', 'solicituds.detalle',
                                             'clientes.apellido_pater', 'solicituds.estado', 'solicituds.observacion',
-                                            'solicituds.fecha_finalizacion')
+                                            'solicituds.fecha_inicio', 'solicituds.fecha_finalizacion')
                                     ->whereRaw("date(solicituds.fecha_emision) >= '" . $start_date . "' AND date(solicituds.fecha_emision) <= '" . $end_date . "'");
 
             return Datatables::of($solicitudes)
@@ -59,7 +59,7 @@ class SolicitudController extends Controller
                                 ->select('solicituds.id', 'solicituds.codigo_solicitud', 'solicituds.fecha_emision',
                                         'solicituds.fecha_revision', 'clientes.name', 'solicituds.detalle',
                                         'clientes.apellido_pater', 'solicituds.estado', 'solicituds.observacion',
-                                        'solicituds.fecha_finalizacion');
+                                        'solicituds.fecha_inicio', 'solicituds.fecha_finalizacion');
 
         return Datatables::of($solicitudes)
                 ->addColumn('btn', 'solicituds.actions')
@@ -347,67 +347,59 @@ class SolicitudController extends Controller
     {
         $date = Carbon::now();
 
-        if(!$cliente = Cliente::where('cedula', $request->cedula)->first()){
-            return back() ->with('danger', 'Error, El cliente no existe');
+        $cliente = Cliente::where('cedula', $request->cedula)->first();
 
+        $solicitud = Solicitud::findOrFail($id);
+
+        if ($request->fecha_inicio >= $solicitud->fecha_emision || $request->fecha_inicio === NULL) {
+            Null;
         }else{
+            return back()->with('danger', 'Error, la fecha de inicio no puede ser menor a la fecha de ingreso');
+        }
 
-            $cliente = Cliente::where('cedula', $request->cedula)->first();
+        $solicitud->detalle = $request->detalle;
+        $solicitud->observacion = $request->observacion;
+        $solicitud->fecha_inicio =  $request->fecha_inicio;
+        $solicitud->fecha_fin =  $request->fecha_fin;
 
-            $solicitud = Solicitud::findOrFail($id);
+        if ($solicitud->estado == 'Reprobado') {
 
-            if ($request->fecha_inicio >= $solicitud->fecha_emision || $request->fecha_inicio === NULL) {
-                Null;
-            }else{
-                return back()->with('danger', 'Error, la fecha de inicio no puede ser menor a la fecha de ingreso');
+            foreach ($solicitud->tareas->all() as $key) {
+                $key->estado = 'Abandonado';
+
+                $key->save();
             }
-
-            $solicitud->detalle = $request->detalle;
-            $solicitud->observacion = $request->observacion;
-            $solicitud->cliente_id = $cliente->id;
-            $solicitud->fecha_inicio =  $request->fecha_inicio;
-            $solicitud->fecha_fin =  $request->fecha_fin;
-
-            if ($solicitud->estado == 'Reprobado') {
-
-                foreach ($solicitud->tareas->all() as $key) {
-                    $key->estado = 'Abandonado';
-
-                    $key->save();
-                }
-
-            }
-
-            if ($solicitud->estado == 'Finalizado') {
-
-                foreach ($solicitud->tareas->all() as $key) {
-                
-                    if ($key->estado === 'En Proceso') {
-    
-                        $key->estado = 'Finalizada';
-                        $key->save();
-    
-                    }else{
-    
-                        $key->estado = 'Abandonado';
-                        $key->save();
-    
-                    }
-                }
-
-            }
-
-            if ($request->hasFile('file')) {
-                $image = $request->file->store('public');
-                $solicitud->path = $image;
-            }
-
-            $solicitud->save();
-
-            return redirect()->route('solicituds.show', Hashids::encode($solicitud->id))
-                    ->with('info', 'Solicitud actualizada');
 
         }
+
+        if ($solicitud->estado == 'Finalizado') {
+
+            foreach ($solicitud->tareas->all() as $key) {
+            
+                if ($key->estado === 'En Proceso') {
+
+                    $key->estado = 'Finalizada';
+                    $key->save();
+
+                }else{
+
+                    $key->estado = 'Abandonado';
+                    $key->save();
+
+                }
+            }
+
+        }
+
+        if ($request->hasFile('file')) {
+            $image = $request->file->store('public');
+            $solicitud->path = $image;
+        }
+
+        $solicitud->save();
+
+        return redirect()->route('solicituds.show', Hashids::encode($solicitud->id))
+                ->with('info', 'Solicitud actualizada');
 
     }
 
@@ -454,12 +446,22 @@ class SolicitudController extends Controller
             $solicitud->estado = 'Aprobado';
             $solicitud->fecha_revision = $date;
 
+            if (!$solicitud->fecha_inicio) {
+                $solicitud->fecha_inicio = $date;
+            }
+
             $solicitud->save();
 
             foreach ($solicitud->tareas->all() as $key) {
-                $key->estado = 'En Proceso';
 
-                $key->save();
+                if ($key->estado !== 'Abandonado' && $key->estado !== 'Finalizada') {
+                    
+                    $key->estado = 'En Proceso';
+
+                    $key->save();
+
+                }
+                
             }
 
         }
@@ -500,6 +502,10 @@ class SolicitudController extends Controller
             $solicitud->estado = 'Finalizado';
             $solicitud->fecha_finalizacion = $date;
 
+            if (!$solicitud->fecha_fin) {
+                $solicitud->fecha_fin = $date;
+            }
+
             $solicitud->save();
 
             foreach ($solicitud->tareas->all() as $key) {
@@ -509,7 +515,8 @@ class SolicitudController extends Controller
                     $key->estado = 'Finalizada';
                     $key->save();
 
-                }else{
+                }
+                if ($key->estado === 'Pendiente') {
 
                     $key->estado = 'Abandonado';
                     $key->save();

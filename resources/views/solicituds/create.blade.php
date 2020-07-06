@@ -95,6 +95,9 @@
 
                                 {{-- User ID --}}
                                     <input id="user_id" type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+
+                                <em>*Se recomienda Aprobar o rechazar una solicitud en un periodo de 10 (Diez)
+                                     dias apartir de ingresada la solicitud*</em>
                             </div>
                         </div>
                         <!-- Modal footer -->
