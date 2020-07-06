@@ -15,6 +15,7 @@ use App\Http\Requests\FechaInicioFin;
 use Carbon\Carbon;
 use Vinkla\Hashids\Facades\Hashids;
 use Barryvdh\DomPDF\Facade as PDF;
+use Redirect,Response,DB,Config;
 use Yajra\Datatables\Datatables;
 
 class SolicitudController extends Controller
@@ -33,6 +34,27 @@ class SolicitudController extends Controller
 
     public function solicitudData()
     {
+        $start_date = (!empty($_GET["start_date"])) ? ($_GET["start_date"]) : ('');
+        $end_date = (!empty($_GET["end_date"])) ? ($_GET["end_date"]) : ('');
+
+        if($start_date && $end_date){
+ 
+            $start_date = date('Y-m-d', strtotime($start_date));
+            $end_date = date('Y-m-d', strtotime($end_date));
+        
+            $solicitudes = Solicitud::join('clientes', 'clientes.id', '=', 'solicituds.cliente_id')
+                                    ->select('solicituds.id', 'solicituds.codigo_solicitud', 'solicituds.fecha_emision',
+                                            'solicituds.fecha_revision', 'clientes.name', 'solicituds.detalle',
+                                            'clientes.apellido_pater', 'solicituds.estado', 'solicituds.observacion',
+                                            'solicituds.fecha_finalizacion')
+                                    ->whereRaw("date(solicituds.fecha_emision) >= '" . $start_date . "' AND date(solicituds.fecha_emision) <= '" . $end_date . "'");
+
+            return Datatables::of($solicitudes)
+            ->addColumn('btn', 'solicituds.actions')
+            ->rawColumns(['btn'])
+            ->make(true);
+        }
+
         $solicitudes = Solicitud::join('clientes', 'clientes.id', '=', 'solicituds.cliente_id')
                                 ->select('solicituds.id', 'solicituds.codigo_solicitud', 'solicituds.fecha_emision',
                                         'solicituds.fecha_revision', 'clientes.name', 'solicituds.detalle',
@@ -44,6 +66,34 @@ class SolicitudController extends Controller
                 ->rawColumns(['btn'])
                 ->make(true);
     }
+
+    /*
+    public function solicitudData()
+    {
+        $solicitudesQuery = Solicitud::query();
+
+        $start_date = (!empty($_GET["start_date"])) ? ($_GET["start_date"]) : ('');
+        $end_date = (!empty($_GET["end_date"])) ? ($_GET["end_date"]) : ('');
+
+        if($start_date && $end_date){
+ 
+            $start_date = date('Y-m-d', strtotime($start_date));
+            $end_date = date('Y-m-d', strtotime($end_date));
+    
+            $solicitudesQuery->whereRaw("date(solicituds.fecha_emision) >= '" . $start_date . "' AND date(solicituds.fecha_emision) <= '" . $end_date . "'");
+        }
+
+        $solicitudes = $solicitudQuery::join('clientes', 'clientes.id', '=', 'solicituds.cliente_id')
+                                    ->select('solicituds.id', 'solicituds.codigo_solicitud', 'solicituds.fecha_emision',
+                                            'solicituds.fecha_revision', 'clientes.name', 'solicituds.detalle',
+                                            'clientes.apellido_pater', 'solicituds.estado', 'solicituds.observacion',
+                                            'solicituds.fecha_finalizacion');
+
+        return Datatables::of($solicitudes)
+                ->addColumn('btn', 'solicituds.actions')
+                ->rawColumns(['btn'])
+                ->make(true);
+    }*/
 
     //Reportes PDFs
         public function reportes()
