@@ -199,6 +199,9 @@ Route::middleware(['auth'])->group(function(){
         
         Route::get('get-solicituds', 'SolicitudController@solicitudData')->name('datatables.solicituds')
                         ->middleware('can:solicitudes.index');
+        //dataTables Filtro Pendientes
+        Route::get('get-solicitudfiltro', 'SolicitudController@solicitudFiltroData')->name('datatables.solicitudfiltro')
+                        ->middleware('can:solicitudes.index');
 
         Route::get('get-solicitudstarea/{id}', 'SolicitudController@solicitudDataTarea')->name('datatables.solicitudstareas')
                         ->middleware('can:solicitudes.index');

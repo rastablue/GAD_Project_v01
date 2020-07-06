@@ -26,8 +26,9 @@ class SolicitudController extends Controller
      */
     public function index()
     {
-        $solicituds = Solicitud::all();
-        return view('solicituds.index', compact('solicituds'));
+        $solicitud = Solicitud::where('estado', 'Pendiente')->get();
+        $requerimientos = Tarea::where('estado', 'Pendiente')->get();
+        return view('solicituds.index', compact('solicitud', 'requerimientos'));
     }
 
     public function solicitudData()
@@ -43,6 +44,7 @@ class SolicitudController extends Controller
                 ->rawColumns(['btn'])
                 ->make(true);
     }
+
     //Reportes PDFs
         public function reportes()
         {

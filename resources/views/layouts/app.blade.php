@@ -306,7 +306,7 @@
                                         </div>
                                     </div>
                                 @endif
-
+                                
                             <!-- Contenido interno de la pagina -->
                                 <div class="container-fluid">
 

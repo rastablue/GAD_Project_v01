@@ -1,6 +1,37 @@
 @extends('layouts.app')
 
 @section('table')
+
+@if ($solicitud->count() > 0)
+    <div class="row">
+        <div class="col-md-12 float-auto">
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                Parece que hay <strong>{{ $solicitud->count() }}</strong> solicitudes en estado pendiente.
+                <br>
+                Puede filtrarlas escribiendo <strong>"pendiente"</strong> en el cuadro de busqueda.
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+    </div>
+@endif
+@if ($requerimientos->count() > 0)
+    <div class="row">
+        <div class="col-md-12 float-auto">
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                Parece que hay <strong>{{ $requerimientos->count() }}</strong> requerimientos en estado pendiente.
+                <br>
+                Consulte la <a href="{{ route('tareas.index') }}" class="alert-link">lista de requerimientos</a> 
+                para revisar su estado.
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+    </div>
+@endif
+
 <!-- Tabla -->
     <div class="card shadow mb-4">
         <div class="card-header d-flex justify-content-between align-items-center">
@@ -26,6 +57,18 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td class="col-md-4 col-form-label text-md-right">Desde:</label></td>
+                            <td><input type="date" class="form-control" id="min" name="min"></td>
+
+                            <td class="col-md-4 col-form-label text-md-right">Hasta:</label></td>
+                            <td><input type="date" class="form-control" id="max" name="max"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
                 <table class="table table-bordered" id="solicitudes-table" width="100%" cellspacing="0">
                     <thead>
                         <tr>
@@ -235,6 +278,7 @@
 <!-- Bootstrap JavaScript -->
     <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
 <script>
+
     $(function() {
         $(document).ready(function(){
 
@@ -273,6 +317,10 @@
                         "infoFiltered": ""
                     }
                 });
+
+                $('#min, #max').keyup( function() {
+                    table.draw();
+                } );
 
             // modal reportes
                 $("#btnCrearSolicitud").click(function(e) {

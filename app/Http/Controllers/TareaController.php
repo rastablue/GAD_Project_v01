@@ -23,8 +23,8 @@ class TareaController extends Controller
      */
     public function index()
     {
-        $tareas = Tarea::all();
-        return view('tareas.index', compact('$tareas'));
+        $requerimientos = Tarea::where('estado', 'Pendiente')->get();
+        return view('tareas.index', compact('requerimientos'));
     }
 
     public function tareaData()
@@ -185,7 +185,7 @@ class TareaController extends Controller
         $id = Hashids::decode($tarea);
         $tarea = Tarea::findOrfail($id)->first();
         $solicitud = Solicitud::findOrFail($tarea->solicituds->id);
-        
+
         return view('solicituds.show', compact('solicitud'));
     }
 
