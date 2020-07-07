@@ -46,12 +46,14 @@
                     <div class="card shadow mb-4">
                         <!-- Card Header - Accordion -->
                             <a href="#collapseCardSolicitud" class="d-block card-header py-3 border-left-info" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardExample">
-                                <h6 class="font-weight-bold text-primary">
-                                    Datos de la Solicitud:
-                                    <h6 class="m-0 font-weight-bold text-dark">
-                                        {{ $solicitud->codigo_solicitud }}
+                                <div class="form-row">
+                                    <h6 class="font-weight-bold text-primary">
+                                        Datos de la Solicitud:
+                                        <h6 class="m-0 font-weight-bold text-dark">
+                                            &nbsp;&nbsp;{{ $solicitud->codigo_solicitud }}
+                                        </h6>
                                     </h6>
-                                </h6>
+                                </div>
                             </a>
                         <!-- Card Content - Collapse -->
                             <div class="collapse show" id="collapseCardSolicitud">
@@ -94,6 +96,10 @@
                                                 @if($solicitud->estado != 'Reprobado' && $solicitud->estado != 'Finalizado')
                                                     <div class="form-group row mb-0" style="margin-left: auto;">
                                                         <div class="col-md-12">
+                                                            <a href="{{ route('solicituds.index') }}" class="btn btn-sm btn-primary">
+                                                                <i class="far fa-arrow-alt-circle-left"></i>
+                                                                Volver
+                                                            </a>
                                                             @can('agregar.fechas')
                                                                 @if (!$solicitud->fecha_inicio)
 
@@ -122,6 +128,10 @@
                                                 @else
                                                     <div class="form-group row mb-0" style="margin-left: auto;">
                                                         <div class="col-md-12">
+                                                            <a href="{{ route('solicituds.index') }}" class="btn btn-sm btn-primary">
+                                                                <i class="far fa-arrow-alt-circle-left"></i>
+                                                                Volver
+                                                            </a>
                                                             @can('solicitudes.edit')
                                                                 <a href="{{ route('solicituds.pdf', Hashids::encode($solicitud->id)) }}" class="btn btn-sm btn-info" target="_blank">
                                                                     <i class="fas fa-fw fa-file-alt"></i>

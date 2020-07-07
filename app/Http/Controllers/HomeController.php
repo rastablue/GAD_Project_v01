@@ -124,10 +124,10 @@ class HomeController extends Controller
 
         }
         */
-        $pendientesChart->labels(['Solicitudes', 'Requerimientos', 'Mantenimientos', 'Trabajos']);
-        $pendientesChart->dataset('Pendientes', 'bar', [$solicitudp->count(), $tareap->count(), $mantenimientop->count(), $trabajop->count()])
+        $pendientesChart->labels(['Solicitudes', 'Requerimientos', 'Mantenimientos']);
+        $pendientesChart->dataset('Pendientes', 'bar', [$solicitudp->count(), $tareap->count(), $mantenimientop->count()])
             ->backgroundcolor($fillColorsp);
-        $pendientesChart->dataset('Total', 'bar', [$solicitud->count(), $tarea->count(), $mantenimiento->count(), $trabajo->count()])
+        $pendientesChart->dataset('Total', 'bar', [$solicitud->count(), $tarea->count(), $mantenimiento->count()])
             ->backgroundcolor($fillColors);
 
 

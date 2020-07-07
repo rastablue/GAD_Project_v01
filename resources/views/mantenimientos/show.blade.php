@@ -12,13 +12,16 @@
                     <div class="card shadow mb-4">
                         <!-- Card Header - Accordion -->
                             <a href="#collapseCardSolicitud" class="d-block card-header py-3 border-left-info" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardExample">
-                                <h6 class="font-weight-bold text-primary">
-                                    Datos del Mantenimiento:
-                                    <h6 class="m-0 font-weight-bold text-dark">
-                                        {{ $mantenimiento->codigo }}
+                                <div class="form-row">
+                                    <h6 class="font-weight-bold text-primary">
+                                        Datos del Mantenimiento:
+                                        <h6 class="m-0 font-weight-bold text-dark">
+                                            &nbsp;&nbsp;{{ $mantenimiento->codigo }}
+                                        </h6>
                                     </h6>
-                                </h6>
+                                </div>
                             </a>
+
                         <!-- Card Content - Collapse -->
                             <div class="collapse show" id="collapseCardSolicitud">
                                 <div class="card-body">
@@ -60,6 +63,10 @@
                                                 @if ($mantenimiento->estado != 'Finalizado')
                                                     <div class="form-group row mb-0" style="margin-left: auto;">
                                                         <div class="col-md-12">
+                                                            <a href="{{ route('mantenimientos.index') }}" class="btn btn-sm btn-primary">
+                                                                <i class="far fa-arrow-alt-circle-left"></i>
+                                                                Volver
+                                                            </a>
                                                             @can('mantenimientos.edit')
                                                                 <a href="{{ route('mantenimientos.pdf', Hashids::encode($mantenimiento->id)) }}" class="btn btn-sm btn-info">
                                                                     <i class="fas fa-fw fa-file-alt"></i>
@@ -77,6 +84,10 @@
                                                 @else
                                                     <div class="form-group row mb-0" style="margin-left: auto;">
                                                         <div class="col-md-12">
+                                                            <a href="{{ route('mantenimientos.index') }}" class="btn btn-sm btn-primary">
+                                                                <i class="far fa-arrow-alt-circle-left"></i>
+                                                                Volver
+                                                            </a>
                                                             @can('mantenimientos.edit')
                                                                 <a href="{{ route('mantenimientos.pdf', Hashids::encode($mantenimiento->id)) }}" class="btn btn-sm btn-info">
                                                                     <i class="fas fa-fw fa-file-alt"></i>

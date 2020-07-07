@@ -22,11 +22,22 @@
 
                                             <select name="maquinaria" class="form-control @error('maquinaria') is-invalid @enderror">
                                                 @foreach (@App\Maquinaria::all() as $item)
-                                                    @if ($item->mantenimientos->where('estado','!=','Activo')->count() >= 1
-                                                        && $item->mantenimientos->where('estado','!=','En espera')->count() >= 1
-                                                        || !$item->mantenimientos->first())
+
+                                                    @if ($item->mantenimientos->first())
+                                                        @if ($item->mantenimientos->where('estado','==','Activo')->count() >= 1 
+                                                            || $item->mantenimientos->where('estado','==','En espera')->count() >= 1)
+
+                                                            <option disabled>{{ $item->codigo_nro_gad }} | {{ $item->modelo }} | No disponible</option>
+                                                        
+                                                        @else
+
+                                                            <option value="{{ $item->id }}">{{ $item->codigo_nro_gad }} | {{ $item->modelo }}</option>
+                                                        
+                                                        @endif
+                                                    @else
                                                         <option value="{{ $item->id }}">{{ $item->codigo_nro_gad }} | {{ $item->modelo }}</option>
                                                     @endif
+
                                                 @endforeach
                                             </select>
 
