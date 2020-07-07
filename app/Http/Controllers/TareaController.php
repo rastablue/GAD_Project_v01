@@ -286,11 +286,16 @@ class TareaController extends Controller
     public function agregaFechaInicioFin(FechaInicioFin $request, $id)
     {
         $tarea = Tarea::findOrFail($id);
+        $solicitud = Solicitud::where('id', $tarea->solicitud_id)->first();
 
         if ($request->fecha_inicio >= $tarea->solicituds->fecha_emision) {
             Null;
         }else{
             return back()->with('warning', 'Error, la fecha de inicio no puede ser menor a la fecha de emision de la solicitud');
+        }
+
+        if ($request->fecha_fin >= $solicitud->fecha_fin) {
+            return back()->with('warning', 'Error, la fecha de fin de este requerimiento no puede ser mayor a la fecha de fin de la solicitud');
         }
 
         $tarea->fecha_inicio =  $request->fecha_inicio;

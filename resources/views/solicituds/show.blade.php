@@ -93,54 +93,54 @@
                                                 @endif
                                             
                                                 {{-- btns--}}
-                                                @if($solicitud->estado != 'Reprobado' && $solicitud->estado != 'Finalizado')
-                                                    <div class="form-group row mb-0" style="margin-left: auto;">
-                                                        <div class="col-md-12">
-                                                            <a href="{{ route('solicituds.index') }}" class="btn btn-sm btn-primary">
-                                                                <i class="far fa-arrow-alt-circle-left"></i>
-                                                                Volver
-                                                            </a>
-                                                            @can('agregar.fechas')
-                                                                @if (!$solicitud->fecha_inicio)
+                                                    @if($solicitud->estado != 'Reprobado' && $solicitud->estado != 'Finalizado')
+                                                        <div class="form-group row mb-0" style="margin-left: auto;">
+                                                            <div class="col-md-12">
+                                                                <a href="{{ route('solicituds.index') }}" class="btn btn-sm btn-primary">
+                                                                    <i class="far fa-arrow-alt-circle-left"></i>
+                                                                    Volver
+                                                                </a>
+                                                                @can('agregar.fechas')
+                                                                    @if (!$solicitud->fecha_inicio || !$solicitud->fecha_fin)
 
-                                                                    {{-- Boton calendario --}}
-                                                                        <a href="{{ route('solicituds.agregafechas', Hashids::encode($solicitud->id)) }}" class="btn btn-sm btn-success"
-                                                                            data-toggle="tooltip" data-placement="left" title="Haga clic para agregar una fecha de inicio y de fin a esta solicitud">
-                                                                            <i class="fas fa-fw fa-calendar-alt"></i>
-                                                                        </a>
+                                                                        {{-- Boton calendario --}}
+                                                                            <a href="{{ route('solicituds.agregafechas', Hashids::encode($solicitud->id)) }}" class="btn btn-sm btn-success"
+                                                                                data-toggle="tooltip" data-placement="left" title="Haga clic para agregar una fecha de inicio y de fin a esta solicitud">
+                                                                                <i class="fas fa-fw fa-calendar-alt"></i>
+                                                                            </a>
 
-                                                                @endif
-                                                            @endcan
-                                                            @can('solicitudes.edit')
-                                                                <a href="{{ route('solicituds.pdf', Hashids::encode($solicitud->id)) }}" class="btn btn-sm btn-info" target="_blank">
-                                                                    <i class="fas fa-fw fa-file-alt"></i>
-                                                                    PDF
-                                                                </a>
-                                                            @endcan
-                                                            @can('solicitudes.edit')
-                                                                <a href="{{ route('solicituds.edit', Hashids::encode($solicitud->id)) }}" class="btn btn-sm btn-warning">
-                                                                    <i class="fas fa-fw fa-pen"></i>
-                                                                    Editar
-                                                                </a>
-                                                            @endcan
+                                                                    @endif
+                                                                @endcan
+                                                                @can('solicitudes.edit')
+                                                                    <a href="{{ route('solicituds.pdf', Hashids::encode($solicitud->id)) }}" class="btn btn-sm btn-info" target="_blank">
+                                                                        <i class="fas fa-fw fa-file-alt"></i>
+                                                                        PDF
+                                                                    </a>
+                                                                @endcan
+                                                                @can('solicitudes.edit')
+                                                                    <a href="{{ route('solicituds.edit', Hashids::encode($solicitud->id)) }}" class="btn btn-sm btn-warning">
+                                                                        <i class="fas fa-fw fa-pen"></i>
+                                                                        Editar
+                                                                    </a>
+                                                                @endcan
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                @else
-                                                    <div class="form-group row mb-0" style="margin-left: auto;">
-                                                        <div class="col-md-12">
-                                                            <a href="{{ route('solicituds.index') }}" class="btn btn-sm btn-primary">
-                                                                <i class="far fa-arrow-alt-circle-left"></i>
-                                                                Volver
-                                                            </a>
-                                                            @can('solicitudes.edit')
-                                                                <a href="{{ route('solicituds.pdf', Hashids::encode($solicitud->id)) }}" class="btn btn-sm btn-info" target="_blank">
-                                                                    <i class="fas fa-fw fa-file-alt"></i>
-                                                                    PDF
+                                                    @else
+                                                        <div class="form-group row mb-0" style="margin-left: auto;">
+                                                            <div class="col-md-12">
+                                                                <a href="{{ route('solicituds.index') }}" class="btn btn-sm btn-primary">
+                                                                    <i class="far fa-arrow-alt-circle-left"></i>
+                                                                    Volver
                                                                 </a>
-                                                            @endcan
+                                                                @can('solicitudes.edit')
+                                                                    <a href="{{ route('solicituds.pdf', Hashids::encode($solicitud->id)) }}" class="btn btn-sm btn-info" target="_blank">
+                                                                        <i class="fas fa-fw fa-file-alt"></i>
+                                                                        PDF
+                                                                    </a>
+                                                                @endcan
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                @endif
+                                                    @endif
                                             </div>
                                         <br>
 
@@ -314,7 +314,9 @@
 
                                     {{-- Tarjetas de Requerimientos --}}
                                         @foreach (App\Solicitud::findOrFail($solicitud->id)->tareas as $item)
-                                        
+                                            @php
+                                                $mantenimientos = 0;
+                                            @endphp
                                             <div class="card mb-2 mt-2 shadow-lg">
 
                                                 {{-- Header boton para expandir requerimientos --}}

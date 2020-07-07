@@ -175,6 +175,34 @@ class MantenimientoController extends Controller
         return view('mantenimientos.createfrom', compact('vehiculo'));
     }
 
+    public function confirmaStore(Request $request)
+    {
+        $date = Carbon::now();
+        $total = Mantenimiento::all();
+        $codigo = rand(1000000, 9999999);
+
+        $mantenimiento = new Mantenimiento();
+        $mantenimiento->codigo = $codigo;
+        $mantenimiento->fecha_ingreso = $date;
+        $mantenimiento->observacion = $request->observacion;
+        $mantenimiento->diagnostico = $request->diagnostico;
+        $mantenimiento->valor_total = $request->valor_total;
+        $mantenimiento->estado = 'En espera';
+        $mantenimiento->maquinaria_id = $request->maquinaria;
+
+        if ($request->hasFile('foto')) {
+            $image = $request->foto->store('public');
+            $mantenimiento->path = $image;
+        }
+
+        $mantenimiento->save();
+
+        $mantenimiento = Mantenimiento::where('codigo', $codigo)->first();
+
+        return redirect()->route('mantenimientos.show', Hashids::encode($mantenimiento->id))
+                ->with('info', 'Mantenimiento agregado');
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -186,6 +214,20 @@ class MantenimientoController extends Controller
         $date = Carbon::now();
         $total = Mantenimiento::all();
         $codigo = rand(1000000, 9999999);
+        $maquinaria = Maquinaria::findOrFail($request->maquinaria);
+        $tareas_pendientes = 0;
+
+        if ($maquinaria->tareas->first()) {
+            foreach ($maquinaria->tareas as $item) {
+                if ($item->estado == 'Pendiente' || $item->estado == 'En Proceso') {
+                    $tareas_pendientes += 1;
+                }
+            }
+        }
+
+        if ($tareas_pendientes >= 1) {
+            return view('mantenimientos.confirmacion', compact('request', 'maquinaria'));
+        }
 
         $mantenimiento = new Mantenimiento();
         $mantenimiento->codigo = $codigo;

@@ -420,7 +420,7 @@ class SolicitudController extends Controller
         if ($request->fecha_inicio >= $solicitud->fecha_emision) {
             Null;
         }else{
-            return back()->with('danger', 'Error, la fecha de inicio no puede ser menor a la fecha de ingreso');
+            return back()->with('warning', 'Error, la fecha de inicio no puede ser menor a la fecha de ingreso');
         }
 
         $solicitud->fecha_inicio =  $request->fecha_inicio;

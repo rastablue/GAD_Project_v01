@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+@php
+    $tareas_pendientes = 0;
+@endphp
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-10">
@@ -16,6 +19,33 @@
                 <div class="card-body">
                     <form method="POST" action="{{ route('mantenimientos.storefrom') }}" enctype="multipart/form-data">
                         @csrf
+
+                        {{-- Notificacion de que el vehiculo esta en un requerimiento --}}
+                            @if (@$vehiculo->tareas->first())
+                                @foreach ($vehiculo->tareas as $item)
+                                    @if ($item->estado == 'Pendiente' || $item->estado == 'En Proceso')
+                                        @php
+                                            $tareas_pendientes += 1;
+                                        @endphp
+                                    @endif
+                                @endforeach
+                            @endif
+                            @if (@$tareas_pendientes >= 1)
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    <strong>Advertencia!.</strong> Este vehiculo esta actualmente asignado a uno o mas requerimientos, crear este 
+                                    mantenimiento provocara que no se encuentre disponible temporalmente.
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    @foreach ($vehiculo->tareas as $item)
+                                        @if ($item->estado == 'Pendiente' || $item->estado == 'En Proceso')
+                                            <br><a href="{{ route('solicituds.show', Hashids::encode($item->solicituds->id)) }}" target="_blank">
+                                                {{ $item->fake_id }}
+                                            </a>
+                                        @endif
+                                    @endforeach
+                                </div>
+                            @endif
 
                         {{-- Placa del vehiculo --}}
                             <input id="placa" type="hidden" name="placa" value="{{ $vehiculo->placa }}">
