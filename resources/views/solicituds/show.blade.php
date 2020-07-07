@@ -11,6 +11,7 @@
                     @php
                         $i = 0;
                         $date = date("Y-m-d");
+                        $mantenimientos = 0;
                         //resta los dias actuales menos los dias de la fecha final para obtener los dias restantes
                         $diff = abs(strtotime($date) - strtotime($solicitud->fecha_fin));
                         //convertir a años
@@ -345,6 +346,21 @@
                                                                         $notificaciones += 1;
                                                                     @endphp
                                                                 @endif
+                                                                {{-- Si el requerimiento tiene un asignado un vehiculo que entro en mantenimiento recientemente --}}
+                                                                @if(@$item->maquinarias->first())
+                                                                    @foreach (@App\Tarea::findOrFail($item->id)->maquinarias as $item2)
+                                                                    
+                                                                        @if (count($item2->mantenimientos->where('estado', 'Activo')) >= 1 
+                                                                        || count($item2->mantenimientos->where('estado', 'En espera')) >= 1 
+                                                                        || count($item2->mantenimientos->where('estado', 'Inactivo')) >= 1)
+                                                                            @php
+                                                                                $mantenimientos += 1;
+                                                                                $notificaciones +=1;
+                                                                            @endphp
+                                                                        @endif
+
+                                                                    @endforeach
+                                                                @endif
 
                                                             {{-- Mostrar notificaciones totales --}}
                                                                 @if ($item->estado !== 'Finalizada' && $item->estado !== 'Abandonado')
@@ -366,6 +382,19 @@
                                                 <!-- Card Content - Collapse -->
                                                     <div class="collapse hide" id="collapseCard{{ $loop->iteration }}">
                                                         <div class="card-body">
+
+                                                            {{--Notificacion en el requerimiento en caso de que un vehiculo asignado posea requerimiento activo--}}
+
+                                                                @if (@$mantenimientos >= 1 && $item->estado !== 'Finalizada' && $item->estado !== 'Abandonado')
+                                                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                                        <strong>Tenemos un problema!.</strong> Este requerimiento posee un vehiculo que ha entrado 
+                                                                        en mantenimiento recientemente, por lo que es posible que no se encuentre disponible hasta 
+                                                                        culminar con el proceso.
+                                                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                                            <span aria-hidden="true">&times;</span>
+                                                                        </button>
+                                                                    </div>
+                                                                @endif
 
                                                             {{-- Estados, Codigo y Botones del requerimiento --}}
                                                                 <div class="form-row">
