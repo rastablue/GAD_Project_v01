@@ -56,6 +56,18 @@
                                             </div>
                                         </div>
 
+                                    {{-- Role --}}
+                                        <div class="form-group row">
+                                            <label for="codigo" class="col-md-4 col-form-label text-md-right">Role Asignado</label>
+                                            <div class="col-md-6">
+                                                @if ($user->roles->first())
+                                                    <input id="codigo" type="text" pattern="{9}" class="form-control" disabled value="{{ $user->roles->first()->name }}" name="codigo" required autocomplete="Codigo" autofocus>
+                                                @else
+                                                <input id="codigo" type="text" pattern="{9}" class="form-control" disabled value="N/A" name="codigo" required autocomplete="Codigo" autofocus>
+                                                @endif
+                                            </div>
+                                        </div>
+
                                     {{-- Email --}}
                                         <div class="form-group row">
                                             <label for="email" class="col-md-4 col-form-label text-md-right">E-Mail Address</label>

@@ -1,4 +1,4 @@
-@can('trabajos.create')
+{{--@can('trabajos.create')
 @if ($estado != 'Finalizado')
     <a href="{{ route('trabajos.createfrom', Hashids::encode($id)) }}" class="btn btn-sm btn-success">
         <i class="fas fa-fw fa-plus"></i>
@@ -10,7 +10,7 @@
         Trabajo
     </button>
 @endif
-@endcan
+@endcan--}}
 @can('mantenimientos.show')
     <a href="{{ route('mantenimientos.show', Hashids::encode($id)) }}" class="btn btn-sm btn-info">
         <i class="fas fa-fw fa-eye"></i>

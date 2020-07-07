@@ -30,31 +30,47 @@
                             <div class="form-group row">
                                 <label for="codigo" class="col-md-4 col-form-label text-md-right">Codigo Mantenimiento</label>
                                 <div class="col-md-6">
-                                    <input type="input" id="codigo" name="codigo" disabled value="{{ $mantenimiento->codigo }}" placeholder="{{ $mantenimiento->codigo }}" class="form-control" required autocomplete="Fecha inicio" autofocus>
+                                    <input type="input" disabled value="{{ $mantenimiento->codigo }}" placeholder="{{ $mantenimiento->codigo }}" class="form-control" required autocomplete="Fecha inicio" autofocus>
                                 </div>
                             </div>
+                        
+                        @can('agregar.fechas')
+                            {{-- Fecha Ingreso --}}
+                                <div class="form-group row">
+                                    <label for="codigo" class="col-md-4 col-form-label text-md-right">{{ __('Fecha Ingreso') }}</label>
+                                    <div class="col-md-6">
+                                        <input type="date" name="fecha_ingreso" disabled value="{{ $mantenimiento->fecha_ingreso ?? old('fecha_ingreso') }}" class="form-control @error('fecha_ingreso') is-invalid @enderror" autocomplete="Fecha inicio" autofocus>
 
-                        {{-- Fecha Ingreso --}}
-                            <div class="form-group row">
-                                <label for="codigo" class="col-md-4 col-form-label text-md-right">{{ __('Fecha Ingreso') }}</label>
-                                <div class="col-md-6">
-                                    <input type="date" name="fecha_ingreso" value="{{ $fecha_ingreso ?? old('fecha_ingreso') }}" placeholder="{{ $mantenimiento->fecha_ingreso }}" class="form-control @error('fecha_ingreso') is-invalid @enderror" autocomplete="Fecha inicio" autofocus>
-
-                                    @error('fecha_ingreso')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
+                                        @error('fecha_ingreso')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
                                 </div>
-                            </div>
 
-                        {{-- Fecha Egreso --}}
+                            {{-- Fecha Egreso --}}
+                                <div class="form-group row">
+                                    <label for="codigo" class="col-md-4 col-form-label text-md-right">{{ __('Fecha Egreso') }}</label>
+                                    <div class="col-md-6">
+                                        <input type="date" name="fecha_egreso" value="{{ $mantenimiento->fecha_egreso ?? old('fecha_egreso') }}" class="form-control @error('fecha_egreso') is-invalid @enderror" autocomplete="Fecha inicio" autofocus>
+
+                                        @error('fecha_egreso')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                        @endcan
+
+                        {{-- Diagnostico --}}
                             <div class="form-group row">
-                                <label for="codigo" class="col-md-4 col-form-label text-md-right">{{ __('Fecha Egreso') }}</label>
+                                <label for="detalle" class="col-md-4 col-form-label text-md-right">{{ __('Diagnostico') }}</label>
                                 <div class="col-md-6">
-                                    <input type="date" name="fecha_egreso" value="{{ $fecha_egreso ?? old('fecha_egreso') }}" class="form-control @error('fecha_egreso') is-invalid @enderror" autocomplete="Fecha inicio" autofocus>
+                                    <textarea type="text" name="diagnostico" class="form-control @error('diagnostico') is-invalid @enderror" placeholder="{{ $mantenimiento->diagnostico }}" autocomplete="diagnostico" autofocus>{{ $mantenimiento->diagnostico ?? old('diagnostico') }}</textarea>
 
-                                    @error('fecha_egreso')
+                                    @error('diagnostico')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
@@ -76,46 +92,11 @@
                                 </div>
                             </div>
 
-                        {{-- Diagnostico --}}
-                            <div class="form-group row">
-                                <label for="detalle" class="col-md-4 col-form-label text-md-right">{{ __('Diagnostico') }}</label>
-                                <div class="col-md-6">
-                                    <textarea type="text" name="diagnostico" class="form-control @error('diagnostico') is-invalid @enderror" placeholder="{{ $mantenimiento->diagnostico }}" autocomplete="diagnostico" autofocus>{{ $mantenimiento->diagnostico ?? old('diagnostico') }}</textarea>
-
-                                    @error('diagnostico')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                        {{-- Estado --}}
-                            <div class="form-group row">
-                                <label for="estado" class="col-md-4 col-form-label text-md-right">{{ __('Estado del Mantenimiento') }}</label>
-
-                                <div class="col-md-6">
-
-                                    <select id="estado" class="form-control @error('estado') is-invalid @enderror" name="estado">
-                                        <option selected='true'>{{ $mantenimiento->estado }}</option>
-                                        @foreach(App\Trabajo::getEnumValues('mantenimientos', 'estado') as $estados)
-                                            <option value="{{ $estados }}">  {{ $estados}}  </option>
-                                        @endforeach
-                                    </select>
-
-                                    @error('estado')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-
                         {{-- Valor Total --}}
                             <div class="form-group row">
                                 <label for="codigo" class="col-md-4 col-form-label text-md-right">{{ __('Valor Total') }}</label>
                                 <div class="col-md-6">
-                                    <input type="text" disabled value="{{ $mantenimiento->valor_total }}" class="form-control @error('fecha_egreso') is-invalid @enderror" autocomplete="Fecha inicio" autofocus>
+                                    <input type="number" step="0.01" name="valor_total" value="{{ $mantenimiento->valor_total ?? old('valor_total') }}" class="form-control @error('valor_total') is-invalid @enderror" placeholder="{{ $mantenimiento->valor_total }}" autocomplete="valor_total" autofocus>
 
                                     @error('valor_total')
                                         <span class="invalid-feedback" role="alert">
@@ -125,7 +106,30 @@
                                 </div>
                             </div>
 
-                        {{-- Foto de la Ficha --}}
+                        {{-- Estado --}}
+                            @can('mantenimientos.revision')
+                                <div class="form-group row">
+                                    <label for="estado" class="col-md-4 col-form-label text-md-right">{{ __('Estado del Mantenimiento') }}</label>
+
+                                    <div class="col-md-6">
+
+                                        <select id="estado" class="form-control @error('estado') is-invalid @enderror" name="estado">
+                                            <option selected='true'>{{ $mantenimiento->estado }}</option>
+                                            @foreach(App\Trabajo::getEnumValues('mantenimientos', 'estado') as $estados)
+                                                <option value="{{ $estados }}">  {{ $estados}}  </option>
+                                            @endforeach
+                                        </select>
+
+                                        @error('estado')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                            @endcan
+
+                        {{-- Foto de la Ficha 
                             <div class="form-group" style="margin-left: 350px;">
                                 <label for="file-upload" class="custom-file-upload">
                                     <i class="fa fa-cloud-upload"></i> Agregar imagen de la ficha
@@ -138,7 +142,7 @@
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
-                            </div>
+                            </div> --}}
 
                         {{-- Botones --}}
                             <div class="text-center">

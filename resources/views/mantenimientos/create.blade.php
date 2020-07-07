@@ -15,41 +15,36 @@
                         <div class="collapse show">
                             <div class="card-body">
 
-                                {{-- Fecha Ingreso 
+                                {{-- Vehiculo --}}
                                     <div class="form-group row">
-                                        <label for="codigo" class="col-md-4 col-form-label text-md-right">{{ __('Fecha Ingreso') }}</label>
+                                        <label for="vehiculo" class="col-md-4 col-form-label text-md-right">{{ __('Vehiculo') }}</label>
                                         <div class="col-md-6">
-                                            <input type="date" name="fecha_ingreso" value="{{ old('fecha_ingreso') }}" class="form-control @error('fecha_ingreso') is-invalid @enderror" autocomplete="Fecha inicio" autofocus>
 
-                                            @error('fecha_ingreso')
+                                            <select name="maquinaria" class="form-control @error('maquinaria') is-invalid @enderror">
+                                                @foreach (@App\Maquinaria::all() as $item)
+                                                    @if ($item->mantenimientos->where('estado','!=','Activo')->count() >= 1
+                                                        && $item->mantenimientos->where('estado','!=','En espera')->count() >= 1
+                                                        || !$item->mantenimientos->first())
+                                                        <option value="{{ $item->id }}">{{ $item->codigo_nro_gad }} | {{ $item->modelo }}</option>
+                                                    @endif
+                                                @endforeach
+                                            </select>
+
+                                            @error('maquinaria')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
                                                 </span>
                                             @enderror
                                         </div>
-                                    </div>--}}
+                                    </div>
 
-                                {{-- Fecha Egreso
+                                {{-- Valor Total --}}
                                     <div class="form-group row">
-                                        <label for="codigo" class="col-md-4 col-form-label text-md-right">{{ __('Fecha Egreso') }}</label>
+                                        <label for="codigo" class="col-md-4 col-form-label text-md-right">{{ __('Valor Total') }}</label>
                                         <div class="col-md-6">
-                                            <input type="date" name="fecha_egreso" value="{{ old('fecha_egreso') }}" class="form-control @error('fecha_egreso') is-invalid @enderror" autocomplete="Fecha inicio" autofocus>
+                                            <input type="number" step="0.01" name="valor_total" value="{{ old('valor_total') }}" class="form-control @error('valor_total') is-invalid @enderror" autocomplete="valor_total" autofocus>
 
-                                            @error('fecha_egreso')
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                            @enderror
-                                        </div>
-                                    </div> --}}
-
-                                {{-- Observacion --}}
-                                    <div class="form-group row">
-                                        <label for="detalle" class="col-md-4 col-form-label text-md-right">{{ __('Observacion') }}</label>
-                                        <div class="col-md-6">
-                                            <textarea type="text" name="observacion" class="form-control @error('observacion') is-invalid @enderror" autocomplete="observacion" autofocus>{{ old('observacion') }}</textarea>
-
-                                            @error('observacion')
+                                            @error('valor_total')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
                                                 </span>
@@ -70,19 +65,14 @@
                                             @enderror
                                         </div>
                                     </div>
-
-                                {{-- Vehiculo --}}
+                                    
+                                {{-- Observacion --}}
                                     <div class="form-group row">
-                                        <label for="vehiculo" class="col-md-4 col-form-label text-md-right">{{ __('Vehiculo') }}</label>
+                                        <label for="detalle" class="col-md-4 col-form-label text-md-right">{{ __('Observacion') }}</label>
                                         <div class="col-md-6">
+                                            <textarea type="text" name="observacion" class="form-control @error('observacion') is-invalid @enderror" autocomplete="observacion" autofocus>{{ old('observacion') }}</textarea>
 
-                                            <select name="maquinaria" class="form-control @error('maquinaria') is-invalid @enderror">
-                                                @foreach (@App\Maquinaria::all() as $item)
-                                                    <option value="{{ $item->id }}">{{ $item->codigo_nro_gad }} | {{ $item->modelo }}</option>
-                                                @endforeach
-                                            </select>
-
-                                            @error('maquinaria')
+                                            @error('observacion')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
                                                 </span>

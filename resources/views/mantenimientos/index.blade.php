@@ -29,6 +29,27 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td class="col-md-4 col-form-label text-md-right">
+                                            <button type="text" id="btnLimpiar" class="btn btn-success btn-sm" title="Limpiar fechas"
+                                                    onclick="myFunction()">
+                                                <i class="fas fa-sync-alt"></i>
+                                            </button>
+                                            <button type="text" id="btnFiterSubmitSearch" class="btn btn-primary btn-sm">
+                                                <i class="fas fa-filter"></i>
+                                                Filtrar
+                                            </button></td>
+                                        <td class="col-md-4 col-form-label text-md-right">Desde:</label></td>
+                                        <td><input type="date" class="form-control datepicker-autoclose" name="start_date" id="start_date"></td>
+            
+                                        <td class="col-md-4 col-form-label text-md-right">Hasta:</label></td>
+                                        <td><input type="date" class="form-control datepicker-autoclose" name="end_date" id="end_date"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <br>
                             <table class="table table-bordered" id="mantenimientos-table" width="100%" cellspacing="0">
                                 <thead>
                                     <tr>
@@ -192,13 +213,28 @@
 <!-- Bootstrap JavaScript -->
     <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
 <script>
+
+    //Btn Limpiar fechas
+    function myFunction() {
+        document.getElementById("start_date").value = "";
+        document.getElementById("end_date").value = "";
+        $('#mantenimientos-table').DataTable().draw(true);
+    }
+
     $(function() {
         $(document).ready(function(){
             // initializing Datatable
                 var table = $("#mantenimientos-table").DataTable({
                     serverSide: true,
                     pageLength: 10,
-                    ajax: '{!! route('datatables.mantenimientos') !!}',
+                    ajax: {
+                        url: '{!! route('datatables.mantenimientos') !!}',
+                        type: 'GET',
+                        data: function (d) {
+                        d.start_date = $('#start_date').val();
+                        d.end_date = $('#end_date').val();
+                        }
+                    },
                     columns: [
                         { data: 'codigo', name: 'mantenimientos.codigo' },
                         { data: 'placa', name: 'maquinarias.placa' },
@@ -227,6 +263,11 @@
                         "infoEmpty": "",
                         "infoFiltered": ""
                     }
+                });
+
+            //Btn Filtrar y actualizar la DataTable
+                $('#btnFiterSubmitSearch').click(function(){
+                    $('#mantenimientos-table').DataTable().draw(true);
                 });
 
             // modal reportes

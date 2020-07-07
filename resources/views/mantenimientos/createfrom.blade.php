@@ -36,41 +36,13 @@
                                 </div>
                             </div>
 
-                        {{-- Fecha Ingreso
+                        {{-- Valor Total --}}
                             <div class="form-group row">
-                                <label for="codigo" class="col-md-4 col-form-label text-md-right">{{ __('Fecha Ingreso') }}</label>
+                                <label for="codigo" class="col-md-4 col-form-label text-md-right">{{ __('Valor Total') }}</label>
                                 <div class="col-md-6">
-                                    <input type="date" name="fecha_ingreso" value="{{ old('fecha_ingreso') }}" class="form-control @error('fecha_ingreso') is-invalid @enderror" autocomplete="Fecha inicio" autofocus>
+                                    <input type="number" step="0.01" name="valor_total" value="{{ old('valor_total') }}" class="form-control @error('valor_total') is-invalid @enderror" autocomplete="valor_total" autofocus>
 
-                                    @error('fecha_ingreso')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div> --}}
-
-                        {{-- Fecha Egreso
-                            <div class="form-group row">
-                                <label for="codigo" class="col-md-4 col-form-label text-md-right">{{ __('Fecha Egreso') }}</label>
-                                <div class="col-md-6">
-                                    <input type="date" name="fecha_egreso" value="{{ old('fecha_egreso') }}" class="form-control @error('fecha_egreso') is-invalid @enderror" autocomplete="Fecha inicio" autofocus>
-
-                                    @error('fecha_egreso')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div> --}}
-
-                        {{-- Observacion --}}
-                            <div class="form-group row">
-                                <label for="detalle" class="col-md-4 col-form-label text-md-right">{{ __('Observacion') }}</label>
-                                <div class="col-md-6">
-                                    <textarea type="text" name="observacion" class="form-control @error('observacion') is-invalid @enderror" autocomplete="observacion" autofocus>{{ old('observacion') }}</textarea>
-
-                                    @error('observacion')
+                                    @error('valor_total')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
@@ -85,6 +57,20 @@
                                     <textarea type="text" name="diagnostico" class="form-control @error('diagnostico') is-invalid @enderror" autocomplete="diagnostico" autofocus>{{ old('diagnostico') }}</textarea>
 
                                     @error('diagnostico')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+                            
+                        {{-- Observacion --}}
+                            <div class="form-group row">
+                                <label for="detalle" class="col-md-4 col-form-label text-md-right">{{ __('Observacion') }}</label>
+                                <div class="col-md-6">
+                                    <textarea type="text" name="observacion" class="form-control @error('observacion') is-invalid @enderror" autocomplete="observacion" autofocus>{{ old('observacion') }}</textarea>
+
+                                    @error('observacion')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>

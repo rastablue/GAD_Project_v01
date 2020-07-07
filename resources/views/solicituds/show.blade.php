@@ -106,7 +106,7 @@
                                                                 @endif
                                                             @endcan
                                                             @can('solicitudes.edit')
-                                                                <a href="{{ route('solicituds.pdf', Hashids::encode($solicitud->id)) }}" class="btn btn-sm btn-info">
+                                                                <a href="{{ route('solicituds.pdf', Hashids::encode($solicitud->id)) }}" class="btn btn-sm btn-info" target="_blank">
                                                                     <i class="fas fa-fw fa-file-alt"></i>
                                                                     PDF
                                                                 </a>
@@ -123,7 +123,7 @@
                                                     <div class="form-group row mb-0" style="margin-left: auto;">
                                                         <div class="col-md-12">
                                                             @can('solicitudes.edit')
-                                                                <a href="{{ route('solicituds.pdf', Hashids::encode($solicitud->id)) }}" class="btn btn-sm btn-info">
+                                                                <a href="{{ route('solicituds.pdf', Hashids::encode($solicitud->id)) }}" class="btn btn-sm btn-info" target="_blank">
                                                                     <i class="fas fa-fw fa-file-alt"></i>
                                                                     PDF
                                                                 </a>
@@ -154,7 +154,7 @@
                                                     <a href="{{ route('clientes.show', Hashids::encode($solicitud->clientes->id)) }}" 
                                                         class="boton text-dark" style="margin-top: 40px; background-color: #24bcf8;" 
                                                         data-toggle="tooltip" data-placement="top"
-                                                        title="Ver los datos del cliente">
+                                                        title="Ver los datos del cliente" target="_blank">
 
                                                         <i class="fas fa-fw fa-eye"></i>
                                                     </a>
@@ -389,7 +389,9 @@
                                                                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
                                                                         <strong>Tenemos un problema!.</strong> Este requerimiento posee un vehiculo que ha entrado 
                                                                         en mantenimiento recientemente, por lo que es posible que no se encuentre disponible hasta 
-                                                                        culminar con el proceso.
+                                                                        culminar con el proceso. Consulte las <strong><a data-toggle="modal" data-id="{{ $item->id }}" 
+                                                                            data-target="#MaquinariaModal{{ $loop->iteration }}" value="{{ $item->id }}">Maquinarias Asignadas</a></strong> para obtener 
+                                                                        mas informacion.
                                                                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                                                             <span aria-hidden="true">&times;</span>
                                                                         </button>
@@ -432,33 +434,35 @@
                                                                         
                                                                     {{-- btn--}}
                                                                         <div class="form-group row mb-0" style="margin-left: auto;">
-                                                                            @if($item->estado != 'Finalizada' && $item->estado != 'Abandonado')
-                                                                                <div class="col-md-12">
-                                                                                    @can('agregar.fechas')
-                                                                                        @if (!$item->fecha_inicio)
+                                                                            @if($solicitud->estado != 'Finalizado' && $solicitud->estado != 'Reprobado')
+                                                                                @if($item->estado != 'Finalizada' && $item->estado != 'Abandonado')
+                                                                                    <div class="col-md-12">
+                                                                                        @can('agregar.fechas')
+                                                                                            @if (!$item->fecha_inicio)
 
-                                                                                            {{-- Boton calendario --}}
-                                                                                                <a href="{{ route('tareas.agregafechas', Hashids::encode($item->id)) }}" class="btn btn-sm btn-success"
-                                                                                                    data-toggle="tooltip" data-placement="left" title="Haga clic para agregar una fecha de inicio y de fin a este requerimiento">
-                                                                                                    <i class="fas fa-fw fa-calendar-alt"></i>
-                                                                                                </a>
+                                                                                                {{-- Boton calendario --}}
+                                                                                                    <a href="{{ route('tareas.agregafechas', Hashids::encode($item->id)) }}" class="btn btn-sm btn-success"
+                                                                                                        data-toggle="tooltip" data-placement="left" title="Haga clic para agregar una fecha de inicio y de fin a este requerimiento">
+                                                                                                        <i class="fas fa-fw fa-calendar-alt"></i>
+                                                                                                    </a>
 
-                                                                                        @endif
-                                                                                    @endcan
-                                                                                    @can('tareas.show')
-                                                                                        <button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-id="{{ $item->id }}" 
-                                                                                            data-target="#MaquinariaModal{{ $loop->iteration }}" value="{{ $item->id }}">
-                                                                                            <i class="fas fa-fw fa-eye"></i>
-                                                                                            Maquinarias Asignadas
-                                                                                        </button>
-                                                                                    @endcan
-                                                                                    @can('tareas.edit')
-                                                                                        <a href="{{ route('tareas.edit', Hashids::encode($item->id)) }}" class="btn btn-sm btn-warning">
-                                                                                            <i class="fas fa-fw fa-pen"></i>
-                                                                                            Editar
-                                                                                        </a>
-                                                                                    @endcan
-                                                                                </div>
+                                                                                            @endif
+                                                                                        @endcan
+                                                                                        @can('tareas.show')
+                                                                                            <button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-id="{{ $item->id }}" 
+                                                                                                data-target="#MaquinariaModal{{ $loop->iteration }}" value="{{ $item->id }}">
+                                                                                                <i class="fas fa-fw fa-eye"></i>
+                                                                                                Maquinarias Asignadas
+                                                                                            </button>
+                                                                                        @endcan
+                                                                                        @can('tareas.edit')
+                                                                                            <a href="{{ route('tareas.edit', Hashids::encode($item->id)) }}" class="btn btn-sm btn-warning">
+                                                                                                <i class="fas fa-fw fa-pen"></i>
+                                                                                                Editar
+                                                                                            </a>
+                                                                                        @endcan
+                                                                                    </div>
+                                                                                @endif
                                                                             @else
                                                                                 <div class="col-md-12">
                                                                                     @can('tareas.show')

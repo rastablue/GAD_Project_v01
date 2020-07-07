@@ -23,11 +23,12 @@ class CreateMantenimiento extends FormRequest
      */
     public function rules()
     {
+
         return [
-            "diagnostico" => "required|string|max:500",
-            "observacion" => "string|max:500",
             "maquinaria" => "required|exists:maquinarias,id",
-            "foto" => "image|mimes:jpg,jpeg,png|max:3000",
+            "diagnostico" => "required|string|max:500",
+            "observacion" => "nullable|string|max:500",
+            "valor_total" => "required|between:0,9.99",
         ];
     }
 }

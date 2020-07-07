@@ -23,9 +23,14 @@ class EditMantenimiento extends FormRequest
      */
     public function rules()
     {
+        $hoy = date('Y-m-d');
+
         return [
             "diagnostico" => "required|string|max:500",
-            "observacion" => "string|max:500",
+            "observacion" => "nullable|string|max:500",
+            "fecha_egreso" => "nullable|date_format:Y-m-d|before_or_equal:".$hoy,
+            "valor_total" => "required|between:0,9.99",
+            "estado" => "nullable|in:Activo,Inactivo,Finalizado,En espera",
             "foto" => "image|mimes:jpg,jpeg,png|max:3000",
         ];
     }

@@ -29,6 +29,28 @@ class MantenimientoController extends Controller
 
     public function mantenimientoData()
     {
+
+        $start_date = (!empty($_GET["start_date"])) ? ($_GET["start_date"]) : ('');
+        $end_date = (!empty($_GET["end_date"])) ? ($_GET["end_date"]) : ('');
+
+        if($start_date && $end_date){
+ 
+            $start_date = date('Y-m-d', strtotime($start_date));
+            $end_date = date('Y-m-d', strtotime($end_date));
+
+            $mantenimientos = Mantenimiento::join('maquinarias', 'maquinarias.id', 'mantenimientos.maquinaria_id')
+                                            ->select('mantenimientos.codigo', 'mantenimientos.fecha_ingreso',
+                                                    'mantenimientos.estado', 'mantenimientos.id', 'maquinarias.placa',
+                                                    'mantenimientos.observacion', 'mantenimientos.diagnostico')
+                                            ->whereRaw("date(mantenimientos.fecha_ingreso) >= '" . $start_date . "' 
+                                                    AND date(mantenimientos.fecha_ingreso) <= '" . $end_date . "'");;
+
+            return Datatables::of($mantenimientos)
+                ->addColumn('btn', 'mantenimientos.actions')
+                ->rawColumns(['btn'])
+                ->make(true);
+        }
+
         $mantenimientos = Mantenimiento::join('maquinarias', 'maquinarias.id', 'mantenimientos.maquinaria_id')
                                         ->select('mantenimientos.codigo', 'mantenimientos.fecha_ingreso',
                                                 'mantenimientos.estado', 'mantenimientos.id', 'maquinarias.placa',
@@ -162,19 +184,15 @@ class MantenimientoController extends Controller
     public function store(CreateMantenimiento $request)
     {
         $date = Carbon::now();
-        $total = Mantenimiento::get()->last();
-
-        if ($total->codigo == 0 || $total->codigo == '0' || empty($total->codigo)) {
-            $codigo = '1000000';
-        } else {
-            $codigo = $total->codigo + 1;
-        }
+        $total = Mantenimiento::all();
+        $codigo = rand(1000000, 9999999);
 
         $mantenimiento = new Mantenimiento();
         $mantenimiento->codigo = $codigo;
         $mantenimiento->fecha_ingreso = $date;
         $mantenimiento->observacion = $request->observacion;
         $mantenimiento->diagnostico = $request->diagnostico;
+        $mantenimiento->valor_total = $request->valor_total;
         $mantenimiento->estado = 'En espera';
         $mantenimiento->maquinaria_id = $request->maquinaria;
 
@@ -197,17 +215,14 @@ class MantenimientoController extends Controller
         $total = Mantenimiento::get()->last();
         $maquinaria = Maquinaria::where('placa', $request->placa)->first();
 
-        if ($total->codigo == 0 || $total->codigo == '0' || empty($total->codigo)) {
-            $codigo = '1000000';
-        } else {
-            $codigo = $total->codigo + 1;
-        }
+        $codigo = rand(1000000, 9999999);
 
         $mantenimiento = new Mantenimiento();
         $mantenimiento->codigo = $codigo;
         $mantenimiento->fecha_ingreso = $date;
         $mantenimiento->observacion = $request->observacion;
         $mantenimiento->diagnostico = $request->diagnostico;
+        $mantenimiento->valor_total = $request->valor_total;
         $mantenimiento->estado = 'En espera';
         $mantenimiento->maquinaria_id = $maquinaria->id;
 
@@ -279,10 +294,11 @@ class MantenimientoController extends Controller
 
         if ($mantenimiento->estado != 'Finalizado') {
 
-            $mantenimiento->fecha_egreso = $date;
+            $mantenimiento->fecha_egreso = $request->fecha_egreso;
             $mantenimiento->observacion = $request->observacion;
             $mantenimiento->diagnostico = $request->diagnostico;
             $mantenimiento->estado = $request->estado;
+            $mantenimiento->valor_total = $request->valor_total;
 
             if ($request->estado == 'Finalizado') {
 

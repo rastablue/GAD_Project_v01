@@ -19,7 +19,8 @@
                                     <div class="form-group row">
                                         <label for="cedula" class="col-md-4 col-form-label text-md-right">{{ __('Cedula') }}</label>
                                         <div class="col-md-6">
-                                            <input type="input" name="cedula" value="{{ old('cedula') }}" class="form-control @error('cedula') is-invalid @enderror" autocomplete="cedula" autofocus>
+                                            <input type="input" id="cedula" name="cedula" value="{{ old('cedula') }}" class="form-control @error('cedula') is-invalid @enderror" autocomplete="cedula" onkeyup="validar(this);" autofocus>
+                                            <b><span id="salida" class="text-danger"></span></b>
 
                                             @error('cedula')
                                                 <span class="invalid-feedback" role="alert">
@@ -116,7 +117,7 @@
                                 {{-- btn--}}
                                     <div class="form-group row mb-0">
                                         <div class="col-md-6 offset-md-6">
-                                            <button type="submit" class="btn btn-primary">Agregar</button>
+                                            <button type="submit" id="submitBtn" class="btn btn-primary">Agregar</button>
                                         </div>
                                     </div>
 
@@ -130,6 +131,48 @@
     function mayus(e) {
         e.value = e.value.toUpperCase();
     }
+
+    function validar() {
+        var cad = document.getElementById("cedula").value.trim();
+        var total = 0;
+        var longitud = cad.length;
+        var longcheck = longitud - 1;
+
+        if (cad !== "" && longitud === 10){
+            for(i = 0; i < longcheck; i++){
+                if (i%2 === 0) {
+                    var aux = cad.charAt(i) * 2;
+                    if (aux > 9) aux -= 9;
+                    total += aux;
+                } else {
+                    total += parseInt(cad.charAt(i)); // parseInt o concatenará en lugar de sumar
+                }
+            }
+
+            total = total % 10 ? 10 - total % 10 : 0;
+
+            if (cad.charAt(longitud-1) == total) {
+                document.getElementById("salida").innerHTML = ("Cedula Válida");
+
+                $(function() {
+                    $(document).ready(function(){
+                        $('#submitBtn').show()
+                    });
+                });
+
+            }else{
+                document.getElementById("salida").innerHTML = ("Cedula Inválida");
+
+                $(function() {
+                    $(document).ready(function(){
+                        $('#submitBtn').hide()
+                    });
+                });
+
+            }
+        }
+    }
+
     $('#file-upload').bind('change', function() { var fileName = ''; fileName = $(this).val(); $('#file-selected').html(fileName); })
 </script>
 @endsection

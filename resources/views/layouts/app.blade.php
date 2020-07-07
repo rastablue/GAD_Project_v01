@@ -116,9 +116,9 @@
                                                     @can('actividades.mantenimientos.general.mantenimientos')
                                                         <a class="collapse-item" href="{{ route('mantenimientos.index') }}"><i class="fas fa-fw fa-ambulance"></i>  Mantenimientos</a>
                                                     @endcan
-                                                    @can('actividades.mantenimientos.general.trabajos')
+                                                    {{--@can('actividades.mantenimientos.general.trabajos')
                                                         <a class="collapse-item" href="{{ route('trabajos.index') }}"><i class="fas fa-fw fa-heart"></i>  Trabajos</a>
-                                                    @endcan
+                                                    @endcan--}}
                                                 @endcan
 
                                             </div>

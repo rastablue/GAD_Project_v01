@@ -47,7 +47,8 @@ class SolicitudController extends Controller
                                             'solicituds.fecha_revision', 'clientes.name', 'solicituds.detalle',
                                             'clientes.apellido_pater', 'solicituds.estado', 'solicituds.observacion',
                                             'solicituds.fecha_inicio', 'solicituds.fecha_finalizacion')
-                                    ->whereRaw("date(solicituds.fecha_emision) >= '" . $start_date . "' AND date(solicituds.fecha_emision) <= '" . $end_date . "'");
+                                    ->whereRaw("date(solicituds.fecha_emision) >= '" . $start_date . "' 
+                                            AND date(solicituds.fecha_emision) <= '" . $end_date . "'");
 
             return Datatables::of($solicitudes)
             ->addColumn('btn', 'solicituds.actions')
@@ -201,13 +202,14 @@ class SolicitudController extends Controller
     {
 
         $date = Carbon::now();
-        $total = Solicitud::get()->last();
+        $total = Solicitud::all();
+        $codigo = rand(1000000, 9999999);
 
-        if ($total->codigo_solicitud == 0 || $total->codigo_solicitud == '0' || empty($total->codigo_solicitud)) {
+        /*if ($total->codigo_solicitud == 0 || $total->codigo_solicitud == '0' || empty($total->codigo_solicitud)) {
             $codigo = '1000001';
         } else {
             $codigo = $total->codigo_solicitud + 1;
-        }
+        }*/
 
         if (Solicitud::where('codigo_solicitud', $codigo)->first()) {
             return back() ->with('danger', 'Error, La solicitud ya existe');
@@ -272,11 +274,7 @@ class SolicitudController extends Controller
 
         $total = Solicitud::get()->last();
 
-        if ($total->codigo_solicitud == 0 || $total->codigo_solicitud == '0' || empty($total->codigo_solicitud)) {
-            $codigo = '1000001';
-        } else {
-            $codigo = $total->codigo_solicitud + 1;
-        }
+        $codigo = rand(1000000, 9999999);
 
         $solicitud = new Solicitud();
         $solicitud->codigo_solicitud = $codigo;
