@@ -4,6 +4,7 @@
 
     @php
         $incrementa = 100;
+        $tareas_pendientes = 0;
     @endphp
     
     <div class="card shadow mb-4">
@@ -161,34 +162,52 @@
                                                         <div class="card-body">
                                                             {{-- Alerta en caso de tener una fecha asignada en otro requerimiento --}}
                                                                 @if (!$tarea->maquinarias->where('id', $item->id)->first())
-                                                                    @if ($item->tareas->first()->estado !== 'Finalizada' && $item->tareas->first()->estado !== 'Abandonado')
+                                                                    @foreach ($item->tareas as $item2)
+                                                                        @if ($item2->estado !== 'Finalizada' && $item2->estado !== 'Abandonado')
+                                                                            @php
+                                                                                $tareas_pendientes += 1;
+                                                                            @endphp
+                                                                        @endif
+                                                                    @endforeach
+                                                                    @if ($tareas_pendientes >= 1)
                                                                         <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                                                            <strong>Tenemos un problema!.</strong> Este vehiculo ya fue asignado a otro requerimiento 
-                                                                            <a href="{{ route('solicituds.show', Hashids::encode($item->tareas->first()->solicituds->id)) }}" target="_blank">
-                                                                                <strong><em>({{ $item->tareas->first()->fake_id }})</em></strong>
-                                                                            </a>, 
+                                                                            <strong>Tenemos un problema!.</strong> Este vehiculo ya fue asignado a otro requerimiento, 
                                                                             por favor, asegurese de que las fechas no coincidan y de que la maquinaria estara disponible en ese momento.
                                                                             <br><br>
-                                                                            <strong>Fecha de inicio: </strong> 
-                                                                                @if ($item->tareas->first()->fecha_inicio)
-                                                                                    {{ $item->tareas->first()->fecha_inicio }}
-                                                                                @else
-                                                                                    Aun no se ha asignado fecha de inicio a este requerimiento.
-                                                                                @endif
-                                                                            <br>
-                                                                            <strong>Fecha de fin: </strong> 
-                                                                                @if ($item->tareas->first()->fecha_fin)
-                                                                                    {{ $item->tareas->first()->fecha_fin }}
-                                                                                @else
-                                                                                    Aun no se ha asignado fecha de fin a este requerimiento.
-                                                                                @endif
-                                                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                                                                <span aria-hidden="true">&times;</span>
-                                                                            </button>
                                                                         </div>
                                                                     @endif
+                                                                    @foreach ($item->tareas as $item2)
+                                                                        @if ($item2->estado !== 'Finalizada' && $item2->estado !== 'Abandonado')
+                                                                            <!-- Default dropright button -->
+                                                                            <div class="btn-group dropright ml-3">
+                                                                                <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                                    {{ $item2->fake_id }}
+                                                                                </button>
+                                                                                <div class="dropdown-menu">
+                                                                                <!-- Dropdown menu links -->
+                                                                                    <a href="{{ route('solicituds.show', Hashids::encode($item2->solicituds->id)) }}" 
+                                                                                        class="dropdown-item" target="_blank">
+                                                                                        <i class="fas fa-fw fa-eye"></i>
+                                                                                        ver
+                                                                                    </a>
+                                                                                    <hr>
+                                                                                    <a class="dropdown-item">
+                                                                                        <i class="fas fa-fw fa-calendar-alt"></i>
+                                                                                        Inicio: &nbsp;<i class="text-right">{{ $item2->fecha_inicio }}</i>
+                                                                                    </a>
+                                                                                    <a class="dropdown-item">
+                                                                                        <i class="fas fa-fw fa-calendar-alt"></i>
+                                                                                        Fin: &nbsp;&nbsp;&nbsp;&nbsp;<i class="text-right">{{ $item2->fecha_fin }}</i>
+                                                                                    </a>
+                                                                                </div>
+                                                                            </div>
+                                                                        @endif
+                                                                    @endforeach
                                                                 @endif    
-
+                                                            
+                                                            @if ($tareas_pendientes >= 1)
+                                                                <br><hr><br>
+                                                            @endif
                                                             {{-- Codigo GAD --}}
                                                                 <div class="form-group row">
                                                                     <label for="codigo" class="col-md-4 col-form-label text-md-right">Codigo GAD</label>
