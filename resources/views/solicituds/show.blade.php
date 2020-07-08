@@ -220,8 +220,9 @@
                                                 
                                                 {{-- Cambia el color de la fecha fin en caso de estar cerca de la fecha final o en caso de haberla alcanzado --}}
                                                     @if ($solicitud->fecha_fin)
-                                                        @if ($solicitud->fecha_fin <= $date && $solicitud->fecha_fin > $solicitud->fecha_finalizacion
-                                                        || $solicitud->fecha_fin <= $date && $solicitud->fecha_finalizacion === NULL)
+                                                        @if ($solicitud->fecha_fin <= $date && $solicitud->estado != 'Finalizado' 
+                                                            && $solicitud->estado != 'Reprobado')
+
                                                             <div class="form-group col-md-6">
 
                                                                 <a href="#" class="boton text-light" data-toggle="tooltip" data-placement="top"
@@ -231,8 +232,9 @@
                                                                 <input id="codigo" type="text" class="form-control bg-warning" disabled value=" {{ $solicitud->fecha_fin }} " name="codigo" required autocomplete="Codigo" autofocus>
                                                             
                                                             </div>
+
                                                         @endif
-                                                        @if($solicitud->fecha_fin >= $date && $solicitud->estado != 'Finalizado' 
+                                                        @if($solicitud->fecha_fin > $date && $solicitud->estado != 'Finalizado' 
                                                             && $solicitud->estado != 'Reprobado')
                                                             <div class="form-group col-md-6">
 
