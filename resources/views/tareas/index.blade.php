@@ -1,19 +1,6 @@
 @extends('layouts.app')
 
 @section('table')
-@if ($requerimientos->count() > 0)
-    <div class="row">
-        <div class="col-md-12 float-auto">
-            <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                Parece que hay <strong>{{ $requerimientos->count() }}</strong> requerimientos en estado pendiente. 
-                Puede filtrarlas escribiendo <strong>"pendiente"</strong> en el cuadro de busqueda.
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-        </div>
-    </div>
-@endif
 
 <!-- Tabla -->
     <div class="card shadow mb-4">

@@ -39,6 +39,46 @@
     <!-- Page Wrapper -->
         <div id="wrapper">
 
+            <!-- Variables usadas para notificaciones, ejercicios etc -->
+                @php
+                    $notificaciones = 0;
+                @endphp
+                @if (isset($solicitud_notificacion))
+                    @if ($solicitud_notificacion->count() > 0)
+                        @php
+                            $notificaciones += 1;
+                        @endphp
+                    @endif
+                @else
+                    @php
+                        $solicitud_notificacion = 0;
+                    @endphp
+                @endif
+
+                @if (isset($solicitud_vencida))
+                    @if ($solicitud_vencida)
+                        @php
+                            $notificaciones += 1;
+                        @endphp
+                    @endif
+                @else
+                    @php
+                        $solicitud_vencida = 0;
+                    @endphp
+                @endif
+
+                @if (isset($requerimientos))
+                    @if ($requerimientos->count() > 0)
+                        @php
+                            $notificaciones += 1;
+                        @endphp
+                    @endif
+                @else
+                    @php
+                        $requerimientos = 0;
+                    @endphp
+                @endif
+
             <!-- Barra Lateral -->
                 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
@@ -232,6 +272,57 @@
                                     <!-- Topbar Navbar -->
                                         <ul class="navbar-nav ml-auto">
 
+                                            
+                                            <!-- Nav Item - Campana Notificaciones -->
+                                                <li class="nav-item dropdown no-arrow">
+                                                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        @if ($notificaciones >= 1)
+                                                            <span class="badge badge-danger">{{$notificaciones}}</span>
+                                                        @endif
+                                                        <i class="fas fa-bell fa-2x"></i>
+                                                    </a>
+
+                                                    <!-- Dropdown - Opciones Del Usuario -->
+                                                        @if ($notificaciones >= 1)
+                                                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                                                                @if (@$solicitud_notificacion !== 0)
+                                                                    @if ($solicitud_notificacion->count() > 0)
+                                                                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#pendientesModal">
+                                                                            <i class="fas fa-fw fa-folder"></i>
+                                                                            Hay <strong>{{$solicitud_notificacion->count()}}</strong> solicitudes pendientes de revision.
+                                                                        </a>
+                                                                        <div class="dropdown-divider"></div>
+                                                                    @endif
+                                                                @endif
+                                                                @if ($solicitud_vencida)
+                                                                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#vencerModal">
+                                                                        <i class="fas fa-fw fa-folder"></i>
+                                                                        Hay <strong>{{$solicitud_vencida}}</strong> solicitudes que se acercan a los 10<br>
+                                                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; dias desde su ingreso y aun estan en estado<br>
+                                                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pendiente.
+                                                                    </a>
+                                                                    <div class="dropdown-divider"></div>
+                                                                @endif
+                                                                @if (@$requerimientos !== 0)
+                                                                    @if (@$requerimientos->count() > 0)
+                                                                        <a class="dropdown-item" href="{{ route('tareas.index') }}" target="_blank">
+                                                                            <i class="fas fa-fw fa-file-alt"></i>
+                                                                            Hay <strong>{{$requerimientos->count()}}</strong> requerimientos en estado pendiente.<br>
+                                                                        </a>
+                                                                    @endif
+                                                                @endif
+                                                            </div>
+                                                        @else
+                                                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                                                                <a class="dropdown-item" href="#">
+                                                                    <i class="fas fa-check-circle"></i>
+                                                                    No hay notificaciones para mostrar.
+                                                                </a>
+                                                            </div>
+                                                        @endif
+                                                        
+                                                </li>
+
                                             <!-- Nav Item - Informacion Del usuario -->
                                                 <li class="nav-item dropdown no-arrow">
                                                     <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -355,12 +446,98 @@
             <i class="fas fa-angle-up"></i>
         </a>
 
+    <!-- Solicitudes Pendiente Modal-->
+        <div class="modal fade" id="pendientesModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Solicitudes Pendientes</h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body text-center">
+
+                        @if ($solicitud_notificacion !== 0)
+                            @foreach ($solicitud_notificacion as $item)
+                                <a href="{{ route('solicituds.show', Hashids::encode($item->id)) }}" class="btn btn-sm btn-info my-1" target="_blank">
+                                    <i class="fas fa-fw fa-eye"></i>
+                                    {{ $item->codigo_solicitud }}
+                                </a>
+                            @endforeach
+                        @endif
+
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <!-- Solicitudes por Vencer Modal-->
+        <div class="modal fade" id="vencerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Solicitudes mas Antiguas</h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body text-center">
+
+                        @php
+                            $hoy = date("Y-m-d");
+                        @endphp
+
+                        @if (@App\Solicitud::where('estado', 'Pendiente')->get()->count() >= 1)
+                            @php
+                                $solicitud_notificacion = App\Solicitud::where('estado', 'Pendiente')->get();
+                            @endphp
+                            @foreach ($solicitud_notificacion as $item)
+                                @php
+                                    //restar la fecha de hoy de la fecha de emision de la solicitud
+                                    $diff = abs(strtotime($hoy) - strtotime($item->fecha_emision));
+                                    //convertir a años
+                                    $years = floor($diff / (365*60*60*24));
+                                    //convertir a meses
+                                    $months = floor(($diff - $years * 365*60*60*24) / (30*60*60*24));
+                                    //convertir a dias
+                                    $days = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
+
+                                    //comprobar si han pasado 8 dias de la emision
+                                    $dias_pasados = floor($diff - $days);
+                                    //convertir a años
+                                    $years = floor($dias_pasados / (365*60*60*24));
+                                    //convertir a meses
+                                    $months = floor(($dias_pasados - $years * 365*60*60*24) / (30*60*60*24));
+                                    //convertir a dias
+                                    $dias_pasados = floor(($dias_pasados - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
+                                @endphp
+                                @if ($dias_pasados >= 8 || $months >= 1)
+                                    <a href="{{ route('solicituds.show', Hashids::encode($item->id)) }}" class="btn btn-sm btn-info my-1" target="_blank">
+                                        <i class="fas fa-fw fa-eye"></i>
+                                        {{ $item->codigo_solicitud }}
+                                    </a>
+                                @endif
+                            @endforeach
+                        @endif
+
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     <!-- Logout Modal-->
         <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Desea Salir?</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">¿Desea Salir?</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
@@ -376,12 +553,12 @@
             </div>
         </div>
 
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                    @csrf
-                </form>
+        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+            @csrf
+        </form>
 
-                <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 
     <!-- Scripts -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>

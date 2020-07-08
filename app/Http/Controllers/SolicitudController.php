@@ -27,9 +27,39 @@ class SolicitudController extends Controller
      */
     public function index()
     {
-        $solicitud = Solicitud::where('estado', 'Pendiente')->get();
+        $solicitud_vencida = 0;
+        $hoy = date("Y-m-d");
+
+        $solicitud_notificacion = Solicitud::where('estado', 'Pendiente')->get();
+
+        foreach ($solicitud_notificacion as $key) {
+
+            //restar la fecha de hoy de la fecha de emision de la solicitud
+            $diff = abs(strtotime($hoy) - strtotime($key->fecha_emision));
+            //convertir a años
+            $years = floor($diff / (365*60*60*24));
+            //convertir a meses
+            $months = floor(($diff - $years * 365*60*60*24) / (30*60*60*24));
+            //convertir a dias
+            $days = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
+
+            //comprobar si han pasado 8 dias de la emision
+            $dias_pasados = floor($diff - $days);
+            //convertir a años
+            $years = floor($dias_pasados / (365*60*60*24));
+            //convertir a meses
+            $months = floor(($dias_pasados - $years * 365*60*60*24) / (30*60*60*24));
+            //convertir a dias
+            $dias_pasados = floor(($dias_pasados - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
+
+            if ($dias_pasados >= 8 || $months >= 1) {
+                $solicitud_vencida += 1;
+            }
+
+        }
+
         $requerimientos = Tarea::where('estado', 'Pendiente')->get();
-        return view('solicituds.index', compact('solicitud', 'requerimientos'));
+        return view('solicituds.index', compact('solicitud_notificacion', 'requerimientos', 'solicitud_vencida'));
     }
 
     public function solicitudData()

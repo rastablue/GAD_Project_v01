@@ -2,35 +2,6 @@
 
 @section('table')
 
-<!-- Notificaciones -->
-    @if ($solicitud->count() > 0)
-        <div class="row">
-            <div class="col-md-12 float-auto">
-                <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                    Parece que hay <strong>{{ $solicitud->count() }}</strong> solicitudes en estado pendiente. 
-                    Puede filtrarlas escribiendo <strong>"pendiente"</strong> en el cuadro de busqueda.
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            </div>
-        </div>
-    @endif
-    @if ($requerimientos->count() > 0)
-        <div class="row">
-            <div class="col-md-12 float-auto">
-                <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                    Parece que hay <strong>{{ $requerimientos->count() }}</strong> requerimientos en estado pendiente. 
-                    Consulte la <a href="{{ route('tareas.index') }}" class="alert-link">lista de requerimientos</a> 
-                    para revisar su estado.
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            </div>
-        </div>
-    @endif
-
 <!-- Tabla -->
     <div class="card shadow mb-4">
         <div class="card-header d-flex justify-content-between align-items-center">
