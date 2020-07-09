@@ -78,20 +78,24 @@
                         <form id="formSolicitud" method="POST" action="{{ route('solicituds.store') }}">
                             @csrf
                             
+                            <a href="{{ route('solicituds.reporteselect') }}" class="btn btn-secondary mt-3" target="_blank">
+                                Desde - Hasta
+                            </a>
+                            <br>
+                            <a href="{{ route('solicituds.reportespendientes') }}" class="btn btn-warning text-light mt-3" target="_blank">
+                                Solicitudes Pendientes
+                            </a>
+                            <br>
                             <a href="{{ route('solicituds.reportesaprobado') }}" class="btn btn-success mt-3" target="_blank">
                                 Solicitudes Aprobadas
                             </a>
                             <br>
-                            <a href="{{ route('solicituds.reportespendientes') }}" class="btn btn-warning text-dark mt-3" target="_blank">
-                                Solicitudes pendientes
+                            <a href="{{ route('solicituds.reportesfinalizado') }}" class="btn btn-info text-light mt-3" target="_blank">
+                                Solicitudes Finalizadas
                             </a>
                             <br>
                             <a href="{{ route('solicituds.reportesreprobado') }}" class="btn btn-danger mt-3" target="_blank">
                                 Solicitudes Reprobadas
-                            </a>
-                            <br>
-                            <a href="{{ route('solicituds.reporteselect') }}" class="btn btn-primary mt-3" target="_blank">
-                                Desde - Hasta
                             </a>
                             <br>
                             <a href="{{ route('solicituds.reportes') }}" class="btn btn-primary mt-3" target="_blank">

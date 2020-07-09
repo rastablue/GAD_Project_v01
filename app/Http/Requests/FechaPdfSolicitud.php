@@ -26,7 +26,7 @@ class FechaPdfSolicitud extends FormRequest
         return [
             "fecha_inicio" => "required|date_format:Y-m-d",
             "fecha_fin" => "required|date_format:Y-m-d",
-            "customRadio" => "required|in:1,2,3,4",
+            "customRadio" => "required|in:1,2,3,4,5",
         ];
     }
 }

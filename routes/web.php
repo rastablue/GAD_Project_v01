@@ -168,13 +168,16 @@ Route::middleware(['auth'])->group(function(){
         Route::get('descargar-solicituds', 'SolicitudController@reportes')->name('solicituds.reportes')
                         ->middleware('can:solicitudes.show');
 
-        Route::get('descargar-solicituds/pendientes', 'SolicitudController@reportesPendientes')->name('solicituds.reportespendientes')
+        Route::get('descargar-solicituds/pendientesfiltro', 'SolicitudController@reportesPendientes')->name('solicituds.reportespendientes')
                         ->middleware('can:solicitudes.show');
 
-        Route::get('descargar-solicituds/reprobado', 'SolicitudController@reportesReprobado')->name('solicituds.reportesreprobado')
+        Route::get('descargar-solicituds/reprobadofiltro', 'SolicitudController@reportesReprobado')->name('solicituds.reportesreprobado')
                         ->middleware('can:solicitudes.show');
 
-        Route::get('descargar-solicituds/aprobado', 'SolicitudController@reportesAprobado')->name('solicituds.reportesaprobado')
+        Route::get('descargar-solicituds/aprobado/filtro', 'SolicitudController@reportesAprobado')->name('solicituds.reportesaprobado')
+                        ->middleware('can:solicitudes.show');
+
+        Route::get('descargar-solicituds/finalizado/filtro', 'SolicitudController@reportesFinalizado')->name('solicituds.reportesfinalizado')
                         ->middleware('can:solicitudes.show');
 
         Route::get('seleccionar-solicituds', 'SolicitudController@reportesSelect')->name('solicituds.reporteselect')

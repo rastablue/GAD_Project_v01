@@ -154,6 +154,15 @@ class SolicitudController extends Controller
             return $pdf->download('reporte-solicitudes.pdf');
         }
 
+        public function reportesFinalizado()
+        {
+            $solicitud = Solicitud::where('estado', 'Finalizado')->get();
+
+            $pdf = PDF::loadView('pdfs.reporte-solicitudes', compact('solicitud'));
+
+            return $pdf->download('reporte-solicitudes.pdf');
+        }
+
         public function reportesReprobado()
         {
             $solicitud = Solicitud::where('estado', 'Reprobado')->get();
@@ -189,6 +198,12 @@ class SolicitudController extends Controller
             if ($request->customRadio == 4) {
                 $solicitud = Solicitud::whereBetween('fecha_emision', [$request->fecha_inicio, $request->fecha_fin])
                                         ->where('estado', 'Reprobado')
+                                        ->get();
+            }
+
+            if ($request->customRadio == 5) {
+                $solicitud = Solicitud::whereBetween('fecha_emision', [$request->fecha_inicio, $request->fecha_fin])
+                                        ->where('estado', 'Finalizado')
                                         ->get();
             }
 

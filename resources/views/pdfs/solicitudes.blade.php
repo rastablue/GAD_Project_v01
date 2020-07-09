@@ -36,7 +36,7 @@
                     <h2>GAD MUNICIPAL LAS NAVES</h2>
                     <pre>
                         Emitido a nombre de:<br>
-                        <b>{{ $solicitud->clientes->name }} {{ $solicitud->clientes->apellido_pater }} {{ $solicitud->clientes->apellido_mater }}</b>
+                        <b>{{ $solicitud->clientes->name }} {{ $solicitud->clientes->apellido_pater }}</b>
                         Fecha de emision:<br>
                         <b>{{ Carbon\Carbon::now() }}</b>
                         Codigo solicitud:<br>
@@ -46,10 +46,12 @@
             </tr>
         </table>
 
-        <table width="100%">
+        <table>
             <thead style="background-color: lightgray;">
             <tr>
-                <th>Responsable</th>
+                <th width="130px">Responsable</th>
+                <th width="85px">Fecha Inicio</th>
+                <th width="85px">Fecha Fin</th>
                 <th>Detalle</th>
                 <th>Observacion</th>
             </tr>
@@ -57,6 +59,8 @@
             <tbody>
             <tr>
                 <td>{{ $solicitud->users->name }} {{ $solicitud->users->apellido_pater }}</td>
+                <td>{{ $solicitud->fecha_inicio }}</td>
+                <td>{{ $solicitud->fecha_fin }}</td>
                 <td>{{ $solicitud->detalle }}</td>
                 <td>{{ $solicitud->observacion }}</td>
             </tr>
@@ -70,27 +74,30 @@
         @endif
 
         @if(@$solicitud->tareas->first())
-            <table width="100%">
+            <table width="100%" class="table table-striped">
                 <thead style="background-color: lightgray;">
                 <tr>
-                    <th>N°</th>
-                    <th>Direccion</th>
-                    <th>Detalle</th>
+                    <th width="10px">N°</th>
+                    <th width="40px">Fecha Inicio</th>
+                    <th width="40px">Fecha Fin</th>
+                    <th width="130px">Direccion</th>
+                    <th width="130px">Detalle</th>
                 </tr>
                 </thead>
                 @foreach (@$solicitud->tareas as $item)
                     <tbody class="mt-3">
-                        <tr>
+                        <tr class="mt-3">
                             <td>{{ $loop->iteration }}</td>
+                            <td>{{ $item->fecha_inicio }}</td>
+                            <td>{{ $item->fecha_fin }}</td>
                             <td>{{ $item->direc_tarea }}</td>
                             <td>{{ $item->detalle }}</td>
                         </tr>
-                        
                     </tbody>
                 @endforeach
             </table>
         @endif
-        <br><hr><br><br><br>
+        <br><hr><br>
 
         <pre>
             <em> <br>Para mas informacion acerca de esta solicitud consulte la pagina web. </em>

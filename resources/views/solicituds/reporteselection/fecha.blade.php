@@ -48,6 +48,10 @@
                                             <label class="custom-control-label" for="customRadio3">Solicitudes pendientes</label>
                                         </div>
                                         <div class="custom-control custom-radio">
+                                            <input type="radio" id="customRadio5" name="customRadio" class="custom-control-input" value="5" required>
+                                            <label class="custom-control-label" for="customRadio5">Solicitudes finalizadas</label>
+                                        </div>
+                                        <div class="custom-control custom-radio">
                                             <input type="radio" id="customRadio4" name="customRadio" class="custom-control-input" value="4" required>
                                             <label class="custom-control-label" for="customRadio4">Solicitudes reprobadas</label>
                                         </div>
