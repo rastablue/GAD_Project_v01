@@ -269,7 +269,7 @@
         $('[data-toggle="tooltip"]').tooltip()
     })
 
-    //Btn Limpiar fechas
+    //Btn Limpiar fechas y actualizar tabla
     function myFunction() {
         document.getElementById("start_date").value = "";
         document.getElementById("end_date").value = "";

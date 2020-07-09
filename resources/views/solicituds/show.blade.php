@@ -148,7 +148,12 @@
                                             <div class="form-row">
                                                 <div class="form-group col-md-3">
                                                     <label for="inputEmail4"><strong>Codigo de la Solicitud:</strong></label>
-                                                    <input id="codigo" type="text" class="form-control" disabled value=" {{ $solicitud->codigo_solicitud }} " name="codigo" required autocomplete="Codigo" autofocus>
+                                                    <span id="pwd_spn" class="form-control">{{ $solicitud->codigo_solicitud }}</span>
+                                                </div>
+                                                <div class="form-group col-md-1">
+                                                    <button id="cp_btn" class="btn btn-sm btn-primary">
+                                                        <i class="fas fa-copy"></i>
+                                                    </button>
                                                 </div>
                                                 <div class="form-group col-md-3" style="margin-left: auto;">
                                                     <label for="inputEmail4"><strong>Funcionario Contribuyente:</strong></label>
@@ -855,6 +860,19 @@
 </form>
 
 <script>
+
+    document.getElementById("cp_btn").addEventListener("click", copy_password);
+
+    function copy_password() {
+        var copyText = document.getElementById("pwd_spn");
+        var textArea = document.createElement("textarea");
+        textArea.value = copyText.textContent;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand("Copy");
+        textArea.remove();
+    }
+
     $(function () {
         $('[data-toggle="tooltip"]').tooltip()
     })
